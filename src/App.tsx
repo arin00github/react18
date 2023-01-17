@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 
+import { ThemeProvider } from "styled-components";
+
+import { GlobalStyles } from "./style/global";
+import theme from "./style/theme";
 import Page01 from "./views/pages/Page01";
 
-const labels = ["check 1", "check 2", "check 3"];
+//const labels = ["check 1", "check 2", "check 3"];
 
 function App() {
     return (
-        <div>
+        <ThemeProvider theme={theme}>
+            <GlobalStyles />
             <Page01 />
-        </div>
+        </ThemeProvider>
     );
 }
 
