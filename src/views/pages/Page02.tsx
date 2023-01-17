@@ -12,23 +12,12 @@ type inputItemProp = {
 const Page02 = () => {
     const [isLogin, setIsLogin] = useState<boolean>(false);
 
-    const [isAllChecked, renderChecks] = useChecks(labels);
-
-    const [counts, setCounts] = useState<number>(0);
-    const [isSelected, setSelected] = useState<boolean>(false);
-
     const [inputItem, setInputItem] = useState<inputItemProp>({
         userid: "",
         email: "",
     });
 
     const [error, setError] = useState<string>();
-
-    const handleAddClick = () => {
-        setCounts((prev) => prev + 1);
-        setCounts((prev) => prev + 1);
-        setSelected((selection) => !selection);
-    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -82,11 +71,7 @@ const Page02 = () => {
 
     return (
         <div>
-            {/* {renderChecks()} */}
-            <p>
-                <button disabled={!isAllChecked}>다음</button>
-            </p>
-
+            <h3>You are on the page02</h3>
             {!isLogin && (
                 <form action="">
                     <div>

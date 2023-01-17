@@ -96,6 +96,7 @@ const Page01 = () => {
                     <button role="button">minus</button>
                 </div>
             </div> */}
+            <h3>You are home</h3>
             {!isLogin && (
                 <form action="">
                     <div>
