@@ -65,3 +65,19 @@ test("invalid userid case", async () => {
     await fireEvent.click(submitButton);
     expect(errorBox.textContent).toContain("invalid userid");
 });
+
+test("login success", async () => {
+    const { inputEmail, inputUserId, submitButton } = setup();
+    await fireEvent.change(inputUserId, { target: { value: "stellar" } });
+    expect(await inputUserId.getAttribute("value")).toBe("stellar");
+    await fireEvent.change(inputEmail, { target: { value: "stellar@naver.com" } });
+    expect(await inputEmail.getAttribute("value")).toBe("stellar@naver.com");
+    await fireEvent.click(submitButton);
+    server.use(
+        rest.post("/login", (req, res, ctx) => {
+            console.log("req", req);
+            return res(ctx.status(200));
+        })
+    );
+    await waitFor(() => expect(screen.getByText("login success")).toBeInTheDocument());
+});

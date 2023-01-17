@@ -57,7 +57,7 @@ const Page01 = () => {
     };
 
     const loginAPI = async () => {
-        await fetch("https://localhost:8080/login", { method: "POST" })
+        await fetch("https://localhost:8080/login", { method: "POST", body: inputItem })
             .then((res) => {
                 if (res.status === 200) {
                     //navigation.navigate('Main');
