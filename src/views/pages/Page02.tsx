@@ -9,7 +9,7 @@ type inputItemProp = {
     email: string;
 };
 
-const Page01 = () => {
+const Page02 = () => {
     const [isLogin, setIsLogin] = useState<boolean>(false);
 
     const [isAllChecked, renderChecks] = useChecks(labels);
@@ -86,26 +86,17 @@ const Page01 = () => {
             <p>
                 <button disabled={!isAllChecked}>다음</button>
             </p>
-            {/* <div>
-                <div>{isSelected ? "선택됨" : "선택안됨"}</div>
-                <div role="heading">{String(counts)}</div>
-                <div>
-                    <button role="button" onClick={handleAddClick}>
-                        plus
-                    </button>
-                    <button role="button">minus</button>
-                </div>
-            </div> */}
+
             {!isLogin && (
                 <form action="">
                     <div>
-                        <label htmlFor="basic-userid">userid</label>
+                        <label htmlFor="test-userid">userid</label>
                         <input
                             role="textbox"
                             className="input-box"
                             type="text"
-                            aria-label="basic-userid"
-                            id="basic-userid"
+                            aria-label="test-userid"
+                            id="test-userid"
                             name="userid"
                             placeholder="userid"
                             value={inputItem.userid}
@@ -113,20 +104,20 @@ const Page01 = () => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="basic-email">email</label>
+                        <label htmlFor="test-email">email</label>
                         <input
                             role="textbox"
                             className="input-box"
                             type="text"
-                            aria-label="basic-email"
-                            id="basic-email"
+                            aria-label="test-email"
+                            id="test-email"
                             name="email"
                             placeholder="email"
                             value={inputItem.email}
                             onChange={handleInputChange}
                         />
                     </div>
-                    <div aria-label="error-box">{error}</div>
+                    <div aria-label="error-box-2">{error}</div>
                     <button
                         aria-label="submit-btn"
                         role="button"
@@ -145,4 +136,4 @@ const Page01 = () => {
     );
 };
 
-export default Page01;
+export default Page02;
