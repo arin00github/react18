@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useChecks } from "../../service/hooks/UseCheck";
+import { PageTitle } from "../../layouts/PageTitle";
 
 const labels = ["check 1", "check 2", "check 3"];
 
@@ -71,7 +71,7 @@ const Page02 = () => {
 
     return (
         <div>
-            <h3>You are on the page02</h3>
+            <PageTitle title="Page02" />
             {!isLogin && (
                 <form action="">
                     <div>

@@ -1,10 +1,9 @@
 import React from "react";
 
-import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 
-import { server } from "../../mock/server";
-import { render, fireEvent, screen, waitFor } from "../../test-utils";
+import { server } from "../../../mock/server";
+import { render, fireEvent, screen, waitFor } from "../../../test-utils";
 
 import Page01 from "./Page01";
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { useChecks } from "../../service/hooks/UseCheck";
+import { useChecks } from "../../../service/hooks/UseCheck";
+import { PageTitle } from "../../layouts/PageTitle";
 
 const labels = ["check 1", "check 2", "check 3"];
 
@@ -82,6 +83,7 @@ const Page01 = () => {
 
     return (
         <div>
+            <PageTitle title="Home" />
             {/* {renderChecks()} */}
             <p>
                 <button disabled={!isAllChecked}>다음</button>

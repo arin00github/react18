@@ -1,16 +1,11 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
-import Page01 from "../pages/Page01";
-import Page02 from "../pages/Page02";
-
-export const LocationDisplay = () => {
-    const location = useLocation();
-
-    return <div data-testid="location-display">{location.pathname}</div>;
-};
+import { Layout } from "../layouts/Layout";
+import Page01 from "../pages/home/Page01";
+import Page02 from "../pages/page02/Page02";
+import Page03 from "../pages/page03/Page03";
 
 export const NoMatch = () => {
     return <h3>no match</h3>;
@@ -19,16 +14,14 @@ export const NoMatch = () => {
 const AppRouter = () => {
     return (
         <div>
-            <div>
-                <Link to="/">home</Link>
-                <Link to="/page02">page02</Link>
-            </div>
             <Routes>
-                <Route path="/" element={<Page01 />} />
-                <Route path="/page02" element={<Page02 />} />
-                <Route path="*" element={<NoMatch />} />
+                <Route path="/" element={<Layout />}>
+                    <Route path="/" element={<Page01 />} />
+                    <Route path="/page02" element={<Page02 />} />
+                    <Route path="/page03" element={<Page03 />} />
+                    <Route path="*" element={<NoMatch />} />
+                </Route>
             </Routes>
-            <LocationDisplay />
         </div>
     );
 };

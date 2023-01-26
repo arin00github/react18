@@ -1,18 +1,18 @@
 import React from "react";
 
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter, MemoryRouter } from "react-router-dom";
 
 import App from "./App";
-import { LocationDisplay } from "./views/routes/AppRouter";
+import { LocationDisplay } from "./views/layouts/LocationDisplay";
 
 test("full app rendering/navigating", async () => {
     render(<App />, { wrapper: BrowserRouter });
 
     // verify page content for expected route after navigating
-    await userEvent.click(screen.getByText("home"));
-    expect(screen.getByText(/you are home/i)).toBeInTheDocument();
+    await userEvent.click(screen.getByLabelText("menu-home"));
+    expect(screen.getByLabelText("page-title-Home")).toBeInTheDocument();
 });
 
 test("landing on a bad page", () => {

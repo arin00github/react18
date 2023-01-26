@@ -3,8 +3,8 @@ import React from "react";
 import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 
-import { server } from "../../mock/server";
-import { render, fireEvent, screen, waitFor } from "../../test-utils";
+import { server } from "../../../mock/server";
+import { render, fireEvent, screen, waitFor } from "../../../test-utils";
 
 import Page02 from "./Page02";
 
@@ -23,7 +23,7 @@ const setup = () => {
     };
 };
 
-describe("Page2", () => {
+describe("Page02", () => {
     it("input empty case", async () => {
         const { inputEmail, inputUserId, submitButton, errorBox } = setup();
         await fireEvent.change(inputUserId, { target: { value: "" } });
