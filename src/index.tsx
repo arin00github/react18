@@ -1,24 +1,29 @@
 import React from "react";
 
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import App from "./App";
+import { setupStore } from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 import { GlobalStyles } from "./style/global";
 import theme from "./style/theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const store = setupStore();
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-            <ThemeProvider theme={theme}>
-                <GlobalStyles />
-                <App />
-            </ThemeProvider>
+            <Provider store={store}>
+                <ThemeProvider theme={theme}>
+                    <GlobalStyles />
+                    <App />
+                </ThemeProvider>
+            </Provider>
         </BrowserRouter>
     </React.StrictMode>
 );

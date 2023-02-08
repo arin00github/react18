@@ -15,21 +15,12 @@ const Page01 = () => {
 
     const [isAllChecked, renderChecks] = useChecks(labels);
 
-    const [counts, setCounts] = useState<number>(0);
-    const [isSelected, setSelected] = useState<boolean>(false);
-
     const [inputItem, setInputItem] = useState<inputItemProp>({
         userid: "",
         email: "",
     });
 
     const [error, setError] = useState<string>();
-
-    const handleAddClick = () => {
-        setCounts((prev) => prev + 1);
-        setCounts((prev) => prev + 1);
-        setSelected((selection) => !selection);
-    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -70,17 +61,6 @@ const Page01 = () => {
             });
     };
 
-    // const handleAddClick2 = () => {
-    //     flushSync(() => {
-    //         setCounts((prev) => prev + 1);
-    //     });
-
-    //     flushSync(() => {
-    //         setCounts((prev) => prev + 1);
-    //         setSelected((selection) => !selection);
-    //     });
-    // };
-
     return (
         <div>
             <PageTitle title="Home" />
@@ -88,16 +68,7 @@ const Page01 = () => {
             <p>
                 <button disabled={!isAllChecked}>다음</button>
             </p>
-            {/* <div>
-                <div>{isSelected ? "선택됨" : "선택안됨"}</div>
-                <div role="heading">{String(counts)}</div>
-                <div>
-                    <button role="button" onClick={handleAddClick}>
-                        plus
-                    </button>
-                    <button role="button">minus</button>
-                </div>
-            </div> */}
+
             <h3>You are home</h3>
             {!isLogin && (
                 <form action="">
