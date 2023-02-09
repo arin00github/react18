@@ -23,7 +23,8 @@ export function setupStore(preloadedState?: PreloadedState<RootState>) {
     return configureStore({
         reducer: persistedReducer,
         preloadedState,
-        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware({ serializableCheck: false }).concat(apiSlice.middleware),
     });
 }
 

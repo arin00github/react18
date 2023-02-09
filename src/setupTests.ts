@@ -3,11 +3,16 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
-import { configure } from "@testing-library/react";
 
 import { server } from "./mock/server";
 
-beforeAll(() => server.listen());
+beforeAll(() =>
+    server.listen({
+        onUnhandledRequest(req) {
+            console.log("found unhandle request", req.url.href, req.method);
+        },
+    })
+);
 
 afterEach(() => server.resetHandlers());
 

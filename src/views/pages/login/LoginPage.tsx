@@ -2,6 +2,9 @@ import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import { updateIsLogin } from "../../../redux/account/account.slice";
+import { useAppDispatch } from "../../../redux/hook";
+import { useLocalStorage } from "../../../service/hooks/useLocalStorage";
 import { CustomButton, StyledLabel } from "../../../style";
 import { PageTitle } from "../../layouts/PageTitle";
 
@@ -12,6 +15,8 @@ type inputItemProp = {
 
 const LoginPage = () => {
     const navigator = useNavigate();
+
+    const dispatch = useAppDispatch();
 
     const [isLogin, setIsLogin] = useState<boolean>(false);
 
@@ -49,11 +54,21 @@ const LoginPage = () => {
     };
 
     const loginAPI = async () => {
-        await fetch("https://localhost:8080/login", { method: "POST", body: JSON.stringify(inputItem) })
+        console.log("loginAPI");
+        await fetch("https://localhost:8080/login", {
+            method: "POST",
+            body: JSON.stringify(inputItem),
+            // headers: {
+            //     "Access-Control-Allow-Origin": "*",
+            //     "Content-Type": "text/plain",
+            // },
+        })
             .then((res) => {
+                console.log("res", res);
                 if (res.status === 200) {
                     setIsLogin(true);
-                    navigator("/");
+                    dispatch(updateIsLogin(true));
+                    navigator("/page02");
                 }
             })
             .catch((err) => {

@@ -47,7 +47,13 @@ const Page02 = () => {
     };
 
     const loginAPI = async () => {
-        await fetch("https://localhost:8080/login", { method: "POST", body: JSON.stringify(inputItem) })
+        await fetch("https://localhost:8080/login", {
+            method: "POST",
+            body: JSON.stringify(inputItem),
+            headers: {
+                "Content-Type": "text/plain",
+            },
+        })
             .then((res) => {
                 if (res.status === 200) {
                     setIsLogin(true);

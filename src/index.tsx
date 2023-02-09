@@ -2,17 +2,21 @@ import React from "react";
 
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider } from "styled-components";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import App from "./App";
+import { worker } from "./mock/browser";
 import { persistor, setupStore } from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 import { GlobalStyles } from "./style/global";
 import theme from "./style/theme";
+
+if (process.env.NODE_ENV === "development") {
+    worker.start();
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 const store = setupStore();
