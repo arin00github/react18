@@ -1,14 +1,15 @@
 import React from "react";
 
 import { rest } from "msw";
+import { BrowserRouter } from "react-router-dom";
 
 import { server } from "../../../mock/server";
-import { render, fireEvent, screen, waitFor } from "../../../test-utils";
+import { render, fireEvent, screen, waitFor, renderWithProviders } from "../../../test-utils";
 
 import LoginPage from "./LoginPage";
 
 const setup = () => {
-    const utils = render(<LoginPage />);
+    const utils = renderWithProviders(<LoginPage />);
     const inputUserId = utils.getByPlaceholderText("userid");
     const inputEmail = utils.getByPlaceholderText("email");
     const errorBox = utils.getByLabelText("error-box");
@@ -78,5 +79,5 @@ test("login success", async () => {
             return res(ctx.status(200));
         })
     );
-    await waitFor(() => expect(screen.getByText("Page02")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText("login success in testing library")).toBeInTheDocument());
 });

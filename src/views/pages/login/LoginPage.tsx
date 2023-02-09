@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { updateIsLogin } from "../../../redux/account/account.slice";
-import { useAppDispatch } from "../../../redux/hook";
-import { useLocalStorage } from "../../../service/hooks/useLocalStorage";
+import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { CustomButton, StyledLabel } from "../../../style";
 import { PageTitle } from "../../layouts/PageTitle";
 
@@ -18,12 +17,12 @@ const LoginPage = () => {
 
     const dispatch = useAppDispatch();
 
-    const [isLogin, setIsLogin] = useState<boolean>(false);
-
     const [inputItem, setInputItem] = useState<inputItemProp>({
         userid: "",
         email: "",
     });
+
+    const storedIsLogin = useAppSelector((state) => state.account.isLogin);
 
     const [error, setError] = useState<string>();
 
@@ -50,7 +49,12 @@ const LoginPage = () => {
             setError("invalid email");
             return;
         }
-        loginAPI();
+        if (process.env.NODE_ENV === "development") {
+            dispatch(updateIsLogin(true));
+            navigator("/page02");
+        } else {
+            loginAPI();
+        }
     };
 
     const loginAPI = async () => {
@@ -64,11 +68,9 @@ const LoginPage = () => {
             // },
         })
             .then((res) => {
-                console.log("res", res);
                 if (res.status === 200) {
-                    setIsLogin(true);
                     dispatch(updateIsLogin(true));
-                    navigator("/page02");
+                    //navigator("/page02");
                 }
             })
             .catch((err) => {
@@ -80,51 +82,49 @@ const LoginPage = () => {
         <div>
             <PageTitle title="Login" />
 
-            {!isLogin && (
-                <form action="">
-                    <div>
-                        <StyledLabel htmlFor="basic-userid">userid</StyledLabel>
-                        <input
-                            role="textbox"
-                            className="input-box"
-                            type="text"
-                            aria-label="basic-userid"
-                            id="basic-userid"
-                            name="userid"
-                            placeholder="userid"
-                            value={inputItem.userid}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <StyledLabel htmlFor="basic-email">email</StyledLabel>
-                        <input
-                            role="textbox"
-                            className="input-box"
-                            type="text"
-                            aria-label="basic-email"
-                            id="basic-email"
-                            name="email"
-                            placeholder="email"
-                            value={inputItem.email}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div aria-label="error-box">{error}</div>
-                    <CustomButton
-                        aria-label="submit-btn"
-                        role="button"
-                        className="btn"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            onClickSubmitBtn();
-                        }}
-                    >
-                        submit
-                    </CustomButton>
-                </form>
-            )}
-            <div>{isLogin && "login success"}</div>
+            <form action="">
+                <div>
+                    <StyledLabel htmlFor="basic-userid">userid</StyledLabel>
+                    <input
+                        role="textbox"
+                        className="input-box"
+                        type="text"
+                        aria-label="basic-userid"
+                        id="basic-userid"
+                        name="userid"
+                        placeholder="userid"
+                        value={inputItem.userid}
+                        onChange={handleInputChange}
+                    />
+                </div>
+                <div>
+                    <StyledLabel htmlFor="basic-email">email</StyledLabel>
+                    <input
+                        role="textbox"
+                        className="input-box"
+                        type="text"
+                        aria-label="basic-email"
+                        id="basic-email"
+                        name="email"
+                        placeholder="email"
+                        value={inputItem.email}
+                        onChange={handleInputChange}
+                    />
+                </div>
+                <div aria-label="error-box">{error}</div>
+                <CustomButton
+                    aria-label="submit-btn"
+                    role="button"
+                    className="btn"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        onClickSubmitBtn();
+                    }}
+                >
+                    submit
+                </CustomButton>
+            </form>
+            <div>{storedIsLogin && <div>login success in testing library</div>}</div>
         </div>
     );
 };

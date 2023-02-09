@@ -3,6 +3,7 @@ import React from "react";
 import { configureStore } from "@reduxjs/toolkit";
 import { render, RenderOptions } from "@testing-library/react";
 import { Provider } from "react-redux";
+import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import { PreloadedState } from "redux";
 import { Persistor } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
@@ -16,6 +17,26 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
 }
 
 export function renderWithProviders(
+    ui: React.ReactElement,
+    {
+        preloadedState = {},
+        store = configureStore({ reducer: persistedReducer, preloadedState }),
+        persistor = PersistorSelf,
+    }: ExtendedRenderOptions = {}
+) {
+    function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
+        return (
+            <PersistGate persistor={persistor}>
+                <Provider store={store}>
+                    <MemoryRouter>{children}</MemoryRouter>
+                </Provider>
+            </PersistGate>
+        );
+    }
+    return { store, ...render(ui, { wrapper: Wrapper }) };
+}
+
+export function renderWithProvidersNoRouter(
     ui: React.ReactElement,
     {
         preloadedState = {},

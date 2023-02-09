@@ -15,6 +15,7 @@ import { GlobalStyles } from "./style/global";
 import theme from "./style/theme";
 
 if (process.env.NODE_ENV === "development") {
+    worker.printHandlers();
     worker.start();
 }
 

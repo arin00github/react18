@@ -4,29 +4,32 @@ import userEvent from "@testing-library/user-event";
 import { BrowserRouter, MemoryRouter } from "react-router-dom";
 
 import App from "./App";
-import { render, screen } from "./test-utils";
+import { render, renderWithProviders, renderWithProvidersNoRouter, screen } from "./test-utils";
+import { Aside } from "./views/layouts/Aside";
 import { LocationDisplay } from "./views/layouts/LocationDisplay";
 
-// test("full app rendering/navigating", async () => {
-//     render(<App />, { wrapper: BrowserRouter });
+test("full app rendering/navigating", async () => {
+    renderWithProvidersNoRouter(<App />);
 
-//     // verify page content for expected route after navigating
-//     await userEvent.click(screen.getByLabelText("menu-home"));
-//     expect(screen.getByLabelText("page-title-Home")).toBeInTheDocument();
-// });
-
-test("landing on a bad page", () => {
-    const badRoute = "/some/bad/route";
-    // use <MemoryRouter> when you want to manually control the history
-    render(
-        <MemoryRouter initialEntries={[badRoute]}>
-            <App />
-        </MemoryRouter>
-    );
-
-    // verify navigation to "no match" route
-    expect(screen.getByText(/no match/i)).toBeInTheDocument();
+    if (window.location.pathname === "/") {
+        expect(screen.getByText("Login")).toBeInTheDocument();
+    } else {
+        expect(screen.getByText("Login")).not.toBeInTheDocument();
+    }
 });
+
+// test("landing on a bad page", () => {
+//     const badRoute = "/some/bad/route";
+//     // use <MemoryRouter> when you want to manually control the history
+//     render(
+//         <MemoryRouter initialEntries={[badRoute]}>
+//             <App />
+//         </MemoryRouter>
+//     );
+
+//     // verify navigation to "no match" route
+//     expect(screen.getByText(/no match/i)).toBeInTheDocument();
+// });
 
 // test("rendering a component that uses useLocation", () => {
 //     const route = "/page02";

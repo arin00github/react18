@@ -17,7 +17,6 @@ const postData = [
 
 export const handlers = [
     rest.post(makeUrl("/login"), (req, res, ctx) => {
-        console.log("handler login");
         // Persist user's authentication in the session
         //sessionStorage.setItem("is-authenticated", "true");
         return res(

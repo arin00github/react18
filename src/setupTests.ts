@@ -8,9 +8,9 @@ import { server } from "./mock/server";
 
 beforeAll(() =>
     server.listen({
-        onUnhandledRequest(req) {
-            console.log("found unhandle request", req.url.href, req.method);
-        },
+        // onUnhandledRequest(req) {
+        //     console.log("found unhandle request", req.url.href, req.method);
+        // },
     })
 );
 
