@@ -14,8 +14,6 @@ type MenuProps = {
 };
 
 export const BasicMenu: MenuProps[] = [
-    { title: "home", href: "/", component: <Page02 /> },
-    { title: "page02", href: "/page02", component: <Page02 /> },
     { title: "page03", href: "/page03", component: <Page03 /> },
     { title: "page04", href: "/page04", component: <Page04 /> },
     { title: "shopping01", href: "/shopping01", component: <Shopping01 /> },

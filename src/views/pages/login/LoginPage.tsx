@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { Col, FormText } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import { updateIsLogin } from "../../../redux/account/account.slice";
@@ -51,26 +52,21 @@ const LoginPage = () => {
         }
         if (process.env.NODE_ENV === "development") {
             dispatch(updateIsLogin(true));
-            navigator("/page02");
+            navigator("/page03");
         } else {
             loginAPI();
         }
     };
 
     const loginAPI = async () => {
-        console.log("loginAPI");
         await fetch("https://localhost:8080/login", {
             method: "POST",
             body: JSON.stringify(inputItem),
-            // headers: {
-            //     "Access-Control-Allow-Origin": "*",
-            //     "Content-Type": "text/plain",
-            // },
         })
             .then((res) => {
                 if (res.status === 200) {
                     dispatch(updateIsLogin(true));
-                    //navigator("/page02");
+                    navigator("/page03");
                 }
             })
             .catch((err) => {
@@ -83,7 +79,7 @@ const LoginPage = () => {
             <PageTitle title="Login" />
 
             <form action="">
-                <div>
+                <Col sm="12" className="mb-4">
                     <StyledLabel htmlFor="basic-userid">userid</StyledLabel>
                     <input
                         role="textbox"
@@ -96,8 +92,8 @@ const LoginPage = () => {
                         value={inputItem.userid}
                         onChange={handleInputChange}
                     />
-                </div>
-                <div>
+                </Col>
+                <Col sm="12" className="mb-4">
                     <StyledLabel htmlFor="basic-email">email</StyledLabel>
                     <input
                         role="textbox"
@@ -110,12 +106,12 @@ const LoginPage = () => {
                         value={inputItem.email}
                         onChange={handleInputChange}
                     />
-                </div>
-                <div aria-label="error-box">{error}</div>
+                </Col>
+                <FormText aria-label="error-box">{error}</FormText>
                 <CustomButton
                     aria-label="submit-btn"
                     role="button"
-                    className="btn"
+                    className="btn w-100"
                     onClick={(e) => {
                         e.preventDefault();
                         onClickSubmitBtn();

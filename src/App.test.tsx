@@ -1,12 +1,9 @@
 import React from "react";
 
 import userEvent from "@testing-library/user-event";
-import { BrowserRouter, MemoryRouter } from "react-router-dom";
 
 import App from "./App";
-import { render, renderWithProviders, renderWithProvidersNoRouter, screen } from "./test-utils";
-import { Aside } from "./views/layouts/Aside";
-import { LocationDisplay } from "./views/layouts/LocationDisplay";
+import { renderWithProvidersNoRouter, screen } from "./test-utils";
 
 test("full app rendering/navigating", async () => {
     renderWithProvidersNoRouter(<App />);

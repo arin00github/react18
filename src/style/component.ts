@@ -37,6 +37,10 @@ export const CustomButton = styled.button`
         padding: 0.3rem 1rem;
         font-size: 13px;
     }
+
+    &.w-100 {
+        width: 100%;
+    }
 `;
 
 export const StyledBox = { StyledInput, StyledLabel, IconButton, CustomButton };

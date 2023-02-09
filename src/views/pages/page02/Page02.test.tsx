@@ -48,7 +48,6 @@ describe("Page02", () => {
         await fireEvent.click(submitButton);
         server.use(
             rest.post("https://localhost:8080/login", (req, res, ctx) => {
-                console.log("req", req);
                 return res(ctx.status(200));
             })
         );

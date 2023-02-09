@@ -6,6 +6,7 @@ const config: Config = {
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
     // setupFiles: ['<rootDir>/setupTests.js'],
     setupFilesAfterEnv: [
+        /***** 엄청중요. msw가 node에서 돌아가게 하려면 여기롤 꼭 설정해야 함 */
         // '@testing-library/jest-native/extend-expect',
         "<rootDir>/setupTests.js",
     ],

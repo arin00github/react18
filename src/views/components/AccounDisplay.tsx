@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { fetchPost } from "../../redux/post/post.slice";
+import { CustomButton } from "../../style";
 
 export const AccountDisplay = () => {
     const dispatch = useAppDispatch();
@@ -10,9 +11,15 @@ export const AccountDisplay = () => {
 
     return (
         <div>
-            <button role="button" name="Fetch Post" onClick={() => dispatch(fetchPost())}>
+            <CustomButton
+                role="button"
+                name="Fetch Post"
+                onClick={() => {
+                    dispatch(fetchPost());
+                }}
+            >
                 Fetch Post
-            </button>
+            </CustomButton>
             {storedPost.status === "loading" && <div>loading.....</div>}
             {storedPost.posts && (
                 <div aria-label="post-box">

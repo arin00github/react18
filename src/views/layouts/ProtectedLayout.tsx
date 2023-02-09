@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { Outlet, Navigate, useOutlet } from "react-router-dom";
+import { Outlet, Navigate, useOutlet, useNavigate } from "react-router-dom";
 
 import { useAppSelector } from "../../redux/hook";
 
@@ -12,14 +12,20 @@ export function ProtectedLayout() {
 
     const outlet = useOutlet();
 
-    if (!isAuthenticated) {
-        return <Navigate to="login" />;
-    }
+    const navigator = useNavigate();
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigator("/login");
+        }
+    }, [isAuthenticated, navigator]);
 
     return (
         <div id="layout">
             <Aside />
-            <MainBody>{outlet}</MainBody>
+            <MainBody>
+                <Outlet />
+            </MainBody>
         </div>
     );
 }

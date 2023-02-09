@@ -6,6 +6,8 @@ import {
     Route,
     RouterProvider,
     createMemoryRouter,
+    MemoryRouter,
+    Routes,
 } from "react-router-dom";
 
 import { BasicMenu } from "./views/layouts/menuRouter";
@@ -17,7 +19,7 @@ export const NoMatch = () => {
     return <h3>no match</h3>;
 };
 
-const routerFrame = createRoutesFromElements(
+export const routerFrame = createRoutesFromElements(
     <>
         <Route path="/" element={<ProtectedLayout />}>
             {BasicMenu.map((menu) => (
@@ -32,9 +34,30 @@ const routerFrame = createRoutesFromElements(
     </>
 );
 
-const router = process.env.NODE_ENV === "test" ? createMemoryRouter(routerFrame) : createBrowserRouter(routerFrame);
+export const RouterContainer = () => {
+    return (
+        <Routes>
+            <Route path="/" element={<ProtectedLayout />}>
+                {BasicMenu.map((menu) => (
+                    <Route path={menu.href} element={menu.component} key={`router_menu_${menu.title}`} />
+                ))}
+                <Route path="*" element={<NoMatch />} />
+            </Route>
+            <Route path="/" element={<OpenLayout />}>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="*" element={<NoMatch />} />
+            </Route>
+        </Routes>
+    );
+};
+
+const router =
+    process.env.NODE_ENV === "test"
+        ? createMemoryRouter(routerFrame, { initialEntries: ["/", "/login"] })
+        : createBrowserRouter(routerFrame);
 
 function App() {
     return <RouterProvider router={router} />;
 }
+
 export default App;

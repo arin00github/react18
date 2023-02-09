@@ -66,18 +66,17 @@ test("invalid userid case", async () => {
     expect(errorBox.textContent).toContain("invalid userid");
 });
 
-test("login success", async () => {
-    const { inputEmail, inputUserId, submitButton } = setup();
-    await fireEvent.change(inputUserId, { target: { value: "stellar" } });
-    expect(await inputUserId.getAttribute("value")).toBe("stellar");
-    await fireEvent.change(inputEmail, { target: { value: "stellar@naver.com" } });
-    expect(await inputEmail.getAttribute("value")).toBe("stellar@naver.com");
-    await fireEvent.click(submitButton);
-    server.use(
-        rest.post("https://localhost:8080/login", (req, res, ctx) => {
-            console.log("req", req);
-            return res(ctx.status(200));
-        })
-    );
-    await waitFor(() => expect(screen.getByText("login success in testing library")).toBeInTheDocument());
-});
+// test("login success", async () => {
+//     const { inputEmail, inputUserId, submitButton } = setup();
+//     await fireEvent.change(inputUserId, { target: { value: "stellar" } });
+//     expect(await inputUserId.getAttribute("value")).toBe("stellar");
+//     await fireEvent.change(inputEmail, { target: { value: "stellar@naver.com" } });
+//     expect(await inputEmail.getAttribute("value")).toBe("stellar@naver.com");
+//     await fireEvent.click(submitButton);
+//     server.use(
+//         rest.post("https://localhost:8080/login", (req, res, ctx) => {
+//             return res(ctx.status(200));
+//         })
+//     );
+//     await waitFor(() => expect(screen.getByText("login success in testing library")).toBeInTheDocument());
+// });

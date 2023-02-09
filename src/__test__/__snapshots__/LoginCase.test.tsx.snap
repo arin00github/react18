@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login Sinario 0. Initiat Project 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="sc-gKPRtg hALsVB"
+      >
+        <div>
+          <div
+            class="sc-eDvSVe dsxVKz"
+          >
+            <h2
+              aria-label="page-title-Login"
+            >
+              Login
+            </h2>
+          </div>
+          <form
+            action=""
+          >
+            <div
+              class="mb-4 col-sm-12"
+            >
+              <label
+                class="sc-bcXHqe eaQZiJ"
+                for="basic-userid"
+              >
+                userid
+              </label>
+              <input
+                aria-label="basic-userid"
+                class="input-box"
+                id="basic-userid"
+                name="userid"
+                placeholder="userid"
+                role="textbox"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="mb-4 col-sm-12"
+            >
+              <label
+                class="sc-bcXHqe eaQZiJ"
+                for="basic-email"
+              >
+                email
+              </label>
+              <input
+                aria-label="basic-email"
+                class="input-box"
+                id="basic-email"
+                name="email"
+                placeholder="email"
+                role="textbox"
+                type="text"
+                value=""
+              />
+            </div>
+            <small
+              aria-label="error-box"
+              class="form-text"
+            />
+            <button
+              aria-label="submit-btn"
+              class="sc-hLBbgP gVFxkb btn w-100"
+              role="button"
+            >
+              submit
+            </button>
+          </form>
+          <div />
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="sc-gKPRtg hALsVB"
+    >
+      <div>
+        <div
+          class="sc-eDvSVe dsxVKz"
+        >
+          <h2
+            aria-label="page-title-Login"
+          >
+            Login
+          </h2>
+        </div>
+        <form
+          action=""
+        >
+          <div
+            class="mb-4 col-sm-12"
+          >
+            <label
+              class="sc-bcXHqe eaQZiJ"
+              for="basic-userid"
+            >
+              userid
+            </label>
+            <input
+              aria-label="basic-userid"
+              class="input-box"
+              id="basic-userid"
+              name="userid"
+              placeholder="userid"
+              role="textbox"
+              type="text"
+              value=""
+            />
+          </div>
+          <div
+            class="mb-4 col-sm-12"
+          >
+            <label
+              class="sc-bcXHqe eaQZiJ"
+              for="basic-email"
+            >
+              email
+            </label>
+            <input
+              aria-label="basic-email"
+              class="input-box"
+              id="basic-email"
+              name="email"
+              placeholder="email"
+              role="textbox"
+              type="text"
+              value=""
+            />
+          </div>
+          <small
+            aria-label="error-box"
+            class="form-text"
+          />
+          <button
+            aria-label="submit-btn"
+            class="sc-hLBbgP gVFxkb btn w-100"
+            role="button"
+          >
+            submit
+          </button>
+        </form>
+        <div />
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "store": Object {
+    "@@observable": [Function],
+    "dispatch": [Function],
+    "getState": [Function],
+    "replaceReducer": [Function],
+    "subscribe": [Function],
+  },
+  "unmount": [Function],
+}
+`;

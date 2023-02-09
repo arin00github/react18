@@ -14,7 +14,7 @@ import reportWebVitals from "./reportWebVitals";
 import { GlobalStyles } from "./style/global";
 import theme from "./style/theme";
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "test") {
     worker.printHandlers();
     worker.start();
 }
