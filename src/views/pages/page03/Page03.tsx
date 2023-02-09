@@ -1,8 +1,7 @@
 import React from "react";
 
-import { Button } from "react-bootstrap";
-
 import { UseDiscloser } from "../../../service/hooks/UseDiscloser";
+import { CustomButton } from "../../../style";
 import { PageTitle } from "../../layouts/PageTitle";
 
 import CreateAccountModal from "./modal/CreateAccountModal";
@@ -16,9 +15,9 @@ const Page03 = () => {
                 <PageTitle title="Page03" />
                 <div>
                     <div className="mt-4">
-                        <Button onClick={openModal} aria-label="create-account-btn">
+                        <CustomButton onClick={openModal} aria-label="create-account-btn">
                             Create New Account
-                        </Button>
+                        </CustomButton>
                     </div>
                 </div>
             </div>

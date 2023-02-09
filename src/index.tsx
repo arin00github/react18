@@ -18,16 +18,14 @@ const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 const store = setupStore();
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <PersistGate persistor={persistor}>
-                <Provider store={store}>
-                    <ThemeProvider theme={theme}>
-                        <GlobalStyles />
-                        <App />
-                    </ThemeProvider>
-                </Provider>
-            </PersistGate>
-        </BrowserRouter>
+        <PersistGate persistor={persistor}>
+            <Provider store={store}>
+                <ThemeProvider theme={theme}>
+                    <GlobalStyles />
+                    <App />
+                </ThemeProvider>
+            </Provider>
+        </PersistGate>
     </React.StrictMode>
 );
 

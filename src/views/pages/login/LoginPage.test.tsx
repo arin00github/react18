@@ -5,10 +5,10 @@ import { rest } from "msw";
 import { server } from "../../../mock/server";
 import { render, fireEvent, screen, waitFor } from "../../../test-utils";
 
-import Page01 from "./Page01";
+import LoginPage from "./LoginPage";
 
 const setup = () => {
-    const utils = render(<Page01 />);
+    const utils = render(<LoginPage />);
     const inputUserId = utils.getByPlaceholderText("userid");
     const inputEmail = utils.getByPlaceholderText("email");
     const errorBox = utils.getByLabelText("error-box");
@@ -78,5 +78,5 @@ test("login success", async () => {
             return res(ctx.status(200));
         })
     );
-    await waitFor(() => expect(screen.getByText("login success")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText("Page02")).toBeInTheDocument());
 });

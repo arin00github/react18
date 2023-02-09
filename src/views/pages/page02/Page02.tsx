@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { CustomButton } from "../../../style";
 import { PageTitle } from "../../layouts/PageTitle";
 
 const labels = ["check 1", "check 2", "check 3"];
@@ -91,7 +92,7 @@ const Page02 = () => {
                         />
                     </div>
                     <div aria-label="error-box-2">{error}</div>
-                    <button
+                    <CustomButton
                         aria-label="submit-btn"
                         role="button"
                         className="btn"
@@ -101,7 +102,7 @@ const Page02 = () => {
                         }}
                     >
                         submit
-                    </button>
+                    </CustomButton>
                 </form>
             )}
             <div>{isLogin && "login success"}</div>

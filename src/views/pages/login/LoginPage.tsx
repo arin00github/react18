@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 
-import { useChecks } from "../../../service/hooks/UseCheck";
-import { PageTitle } from "../../layouts/PageTitle";
+import { useNavigate } from "react-router-dom";
 
-const labels = ["check 1", "check 2", "check 3"];
+import { CustomButton, StyledLabel } from "../../../style";
+import { PageTitle } from "../../layouts/PageTitle";
 
 type inputItemProp = {
     userid: string;
     email: string;
 };
 
-const Page01 = () => {
-    const [isLogin, setIsLogin] = useState<boolean>(false);
+const LoginPage = () => {
+    const navigator = useNavigate();
 
-    const [isAllChecked, renderChecks] = useChecks(labels);
+    const [isLogin, setIsLogin] = useState<boolean>(false);
 
     const [inputItem, setInputItem] = useState<inputItemProp>({
         userid: "",
@@ -53,27 +53,22 @@ const Page01 = () => {
             .then((res) => {
                 if (res.status === 200) {
                     setIsLogin(true);
-                    //navigation.navigate('Main');
+                    navigator("/");
                 }
             })
             .catch((err) => {
-                console.log("login err", err);
+                console.error(err);
             });
     };
 
     return (
         <div>
-            <PageTitle title="Home" />
-            {/* {renderChecks()} */}
-            <p>
-                <button disabled={!isAllChecked}>다음</button>
-            </p>
+            <PageTitle title="Login" />
 
-            <h3>You are home</h3>
             {!isLogin && (
                 <form action="">
                     <div>
-                        <label htmlFor="basic-userid">userid</label>
+                        <StyledLabel htmlFor="basic-userid">userid</StyledLabel>
                         <input
                             role="textbox"
                             className="input-box"
@@ -87,7 +82,7 @@ const Page01 = () => {
                         />
                     </div>
                     <div>
-                        <label htmlFor="basic-email">email</label>
+                        <StyledLabel htmlFor="basic-email">email</StyledLabel>
                         <input
                             role="textbox"
                             className="input-box"
@@ -101,7 +96,7 @@ const Page01 = () => {
                         />
                     </div>
                     <div aria-label="error-box">{error}</div>
-                    <button
+                    <CustomButton
                         aria-label="submit-btn"
                         role="button"
                         className="btn"
@@ -111,7 +106,7 @@ const Page01 = () => {
                         }}
                     >
                         submit
-                    </button>
+                    </CustomButton>
                 </form>
             )}
             <div>{isLogin && "login success"}</div>
@@ -119,4 +114,4 @@ const Page01 = () => {
     );
 };
 
-export default Page01;
+export default LoginPage;

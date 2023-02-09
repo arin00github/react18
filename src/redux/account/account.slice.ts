@@ -10,12 +10,14 @@ type AccountUserState = {
 
 export interface AccountState {
     account: AccountUserState;
+    isLogin: boolean;
     status: "idle" | "loading" | "complete";
     cart: CartState[];
 }
 
 const initialValue: AccountState = {
     account: { account_email: "", account_id: "", account_name: "" },
+    isLogin: false,
     status: "idle",
     cart: [],
 };
@@ -59,9 +61,13 @@ const accountSlice = createSlice({
 
             state.cart = newState;
         },
+        updateIsLogin: (state, action: PayloadAction<boolean>) => {
+            state.isLogin = action.payload;
+        },
     },
 });
 
-export const { updateAccount, updateAddCart, updateSubtractCart, updateRemoveCart } = accountSlice.actions;
+export const { updateAccount, updateAddCart, updateSubtractCart, updateRemoveCart, updateIsLogin } =
+    accountSlice.actions;
 
 export default accountSlice.reducer;

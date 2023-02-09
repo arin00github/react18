@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 
-import Page01 from "../pages/home/Page01";
 import Page02 from "../pages/page02/Page02";
 import Page03 from "../pages/page03/Page03";
 import Page04 from "../pages/page04/Page04";
@@ -15,7 +14,7 @@ type MenuProps = {
 };
 
 export const BasicMenu: MenuProps[] = [
-    { title: "home", href: "/", component: <Page01 /> },
+    { title: "home", href: "/", component: <Page02 /> },
     { title: "page02", href: "/page02", component: <Page02 /> },
     { title: "page03", href: "/page03", component: <Page03 /> },
     { title: "page04", href: "/page04", component: <Page04 /> },
