@@ -8,10 +8,6 @@ export const AccountDisplay = () => {
     const accountInfo = useAppSelector((state) => state.account);
     const storedPost = useAppSelector((state) => state.post);
 
-    // useEffect(() => {
-    //     dispatch(fetchPost());
-    // }, [dispatch]);
-
     return (
         <div>
             <button role="button" name="Fetch Post" onClick={() => dispatch(fetchPost())}>

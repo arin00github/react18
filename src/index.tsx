@@ -3,12 +3,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider } from "styled-components";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import App from "./App";
-import { setupStore } from "./redux/store";
+import { persistor, setupStore } from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 import { GlobalStyles } from "./style/global";
 import theme from "./style/theme";
@@ -18,12 +19,14 @@ const store = setupStore();
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-            <Provider store={store}>
-                <ThemeProvider theme={theme}>
-                    <GlobalStyles />
-                    <App />
-                </ThemeProvider>
-            </Provider>
+            <PersistGate persistor={persistor}>
+                <Provider store={store}>
+                    <ThemeProvider theme={theme}>
+                        <GlobalStyles />
+                        <App />
+                    </ThemeProvider>
+                </Provider>
+            </PersistGate>
         </BrowserRouter>
     </React.StrictMode>
 );

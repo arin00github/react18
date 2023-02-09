@@ -4,25 +4,31 @@ import { configureStore } from "@reduxjs/toolkit";
 import { render, RenderOptions } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { PreloadedState } from "redux";
-import { ThemeProvider } from "styled-components";
+import { Persistor } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 
-import { AppStore, rootReducer, RootState } from "./redux/store";
-import theme from "./style/theme";
+import { AppStore, persistedReducer, RootState, persistor as PersistorSelf } from "./redux/store";
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
     preloadedState?: PreloadedState<RootState>;
     store?: AppStore;
+    persistor?: Persistor;
 }
 
 export function renderWithProviders(
     ui: React.ReactElement,
     {
         preloadedState = {},
-        store = configureStore({ reducer: rootReducer, preloadedState }),
+        store = configureStore({ reducer: persistedReducer, preloadedState }),
+        persistor = PersistorSelf,
     }: ExtendedRenderOptions = {}
 ) {
     function Wrapper({ children }: { children: React.ReactNode }): JSX.Element {
-        return <Provider store={store}>{children}</Provider>;
+        return (
+            <PersistGate persistor={persistor}>
+                <Provider store={store}>{children}</Provider>
+            </PersistGate>
+        );
     }
     return { store, ...render(ui, { wrapper: Wrapper }) };
 }

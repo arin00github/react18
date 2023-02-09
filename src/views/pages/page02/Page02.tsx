@@ -50,24 +50,12 @@ const Page02 = () => {
             .then((res) => {
                 if (res.status === 200) {
                     setIsLogin(true);
-                    //navigation.navigate('Main');
                 }
             })
             .catch((err) => {
                 console.log("login err", err);
             });
     };
-
-    // const handleAddClick2 = () => {
-    //     flushSync(() => {
-    //         setCounts((prev) => prev + 1);
-    //     });
-
-    //     flushSync(() => {
-    //         setCounts((prev) => prev + 1);
-    //         setSelected((selection) => !selection);
-    //     });
-    // };
 
     return (
         <div>

@@ -1,28 +1,25 @@
-import React, { useState } from "react";
+import React, { MouseEvent } from "react";
 
 import styled from "styled-components";
 
 import { updateAddCart } from "../../redux/account/account.slice";
 import { useAppDispatch } from "../../redux/hook";
+import { CustomButton, StyledLabel } from "../../style";
 import { ProductState } from "../../types/shopping";
 
-const StyledInput = styled.input`
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-    text-align: center;
+interface IProductDisplay {
+    productGroup: ProductState[];
+}
+
+const StyledDiv = styled.div`
+    margin-bottom: 12px;
 `;
 
-export const ProductDisplay = (): JSX.Element => {
+export const ProductDisplay = ({ productGroup }: IProductDisplay): JSX.Element => {
     const dispatch = useAppDispatch();
 
-    const [productGroup, setProductGroup] = useState<ProductState[]>([
-        { product_id: "fruit_A001", product_name: "banana" },
-        { product_id: "fruit_A002", product_name: "apple" },
-        { product_id: "fruit_A003", product_name: "orange" },
-    ]);
-
-    const handleInputChange = (product: ProductState) => {
+    const handleAddClick = (product: ProductState, e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        e.preventDefault();
         dispatch(updateAddCart(product));
     };
 
@@ -30,16 +27,17 @@ export const ProductDisplay = (): JSX.Element => {
         <div>
             <form action="">
                 {productGroup.map((product) => (
-                    <div key={product.product_id}>
-                        <label htmlFor={product.product_id}>{product.product_name}</label>
-                        <StyledInput
-                            type="button"
+                    <StyledDiv key={product.product_id}>
+                        <StyledLabel htmlFor={product.product_id}>{product.product_name}</StyledLabel>
+                        <CustomButton
                             id={product.product_id}
                             name={product.product_name}
                             value={product.product_name}
-                            onClick={() => handleInputChange(product)}
-                        />
-                    </div>
+                            onClick={(e) => handleAddClick(product, e)}
+                        >
+                            담기
+                        </CustomButton>
+                    </StyledDiv>
                 ))}
             </form>
         </div>

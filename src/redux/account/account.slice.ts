@@ -42,6 +42,7 @@ const accountSlice = createSlice({
         },
         updateSubtractCart: (state, action: PayloadAction<ProductState>) => {
             let newState: CartState[] = state.cart;
+
             newState = state.cart.map((item) => {
                 return action.payload.product_id === item.product_id
                     ? { ...item, product_cnt: item.product_cnt - 1 }
@@ -49,9 +50,18 @@ const accountSlice = createSlice({
             });
             state.cart = newState;
         },
+        updateRemoveCart: (state, action: PayloadAction<ProductState>) => {
+            let newState: CartState[] = state.cart;
+
+            newState = state.cart.filter((item) => {
+                return action.payload.product_id !== item.product_id;
+            });
+
+            state.cart = newState;
+        },
     },
 });
 
-export const { updateAccount, updateAddCart, updateSubtractCart } = accountSlice.actions;
+export const { updateAccount, updateAddCart, updateSubtractCart, updateRemoveCart } = accountSlice.actions;
 
 export default accountSlice.reducer;
