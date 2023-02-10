@@ -7,7 +7,11 @@ import { useAppSelector } from "../../redux/hook";
 import { Aside } from "./Aside";
 import { MainBody } from "./MainBody";
 
-export function ProtectedLayout() {
+type ProtectedLayoutProps = {
+    userAuth?: boolean;
+};
+
+export function ProtectedLayout({ userAuth }: ProtectedLayoutProps) {
     const isAuthenticated = useAppSelector((state) => state.account.isLogin);
 
     const navigator = useNavigate();

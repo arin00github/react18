@@ -9,18 +9,11 @@ import { cleanup, fireEvent, renderWithProvidersNoRouter, screen, waitFor } from
 
 afterEach(cleanup);
 
-const mockedUsedNavigate = jest.fn();
-
-jest.mock("react-router-dom", () => ({
-    ...jest.requireActual("react-router-dom"),
-    useNavigate: () => mockedUsedNavigate,
-}));
-
 describe("Login Sinario", () => {
     it("1. Display login Page", async () => {
         renderWithProvidersNoRouter(
             <MemoryRouter initialEntries={["/login"]}>
-                <RouterContainer />
+                <RouterContainer userAuth={false} />
             </MemoryRouter>
         );
 
@@ -40,7 +33,7 @@ describe("Login Sinario", () => {
     it("2. Login Success", async () => {
         renderWithProvidersNoRouter(
             <MemoryRouter initialEntries={["/login"]}>
-                <RouterContainer />
+                <RouterContainer userAuth={false} />
             </MemoryRouter>
         );
 

@@ -17,3 +17,13 @@ export interface IProcessState {
     message: string;
     action: string;
 }
+
+export type FormInfoGroupProps = {
+    name: string;
+    required: boolean;
+    regex: string;
+    placeholder: string;
+    defaultValue: string;
+    type: "text" | "password" | "button" | "number" | "textarea";
+    testValue: string;
+};

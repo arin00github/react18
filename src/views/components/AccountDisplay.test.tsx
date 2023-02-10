@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 import { cleanup, fireEvent, renderWithProviders, screen, waitFor } from "../../test-utils";
 
@@ -6,17 +6,26 @@ import { AccountDisplay } from "./AccounDisplay";
 
 afterEach(cleanup);
 
-test("fetches & receives a user after clicking the fetch user button", async () => {
-    renderWithProviders(<AccountDisplay />);
+interface ITestModule {
+    ui: ReactElement;
+}
 
-    expect(screen.getByText("Fetch Post")).toBeInTheDocument();
+function TestModule({ ui }: ITestModule) {
+    //console.log("TestModule");
+    test("fetches & receives a user after clicking the fetch user button", async () => {
+        renderWithProviders(ui);
 
-    fireEvent.click(screen.getByRole("button", { name: "Fetch Post" }));
-    expect(screen.queryByText(/loading/i)).toBeInTheDocument();
+        expect(screen.getByText("Fetch Post")).toBeInTheDocument();
 
-    await waitFor(() => {
-        expect(screen.queryByLabelText("post-box")).toBeInTheDocument();
+        fireEvent.click(screen.getByRole("button", { name: "Fetch Post" }));
+        expect(screen.queryByText(/loading/i)).toBeInTheDocument();
+
+        await waitFor(() => {
+            expect(screen.queryByLabelText("post-box")).toBeInTheDocument();
+        });
+
+        expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
     });
+}
 
-    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
-});
+TestModule({ ui: <AccountDisplay /> });
