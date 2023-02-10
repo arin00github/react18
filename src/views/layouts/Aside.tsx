@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { updateIsLogin } from "../../redux/account/account.slice";
-import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { useAppDispatch } from "../../redux/hook";
 import { CustomButton } from "../../style";
 
 import { LocationDisplay } from "./LocationDisplay";

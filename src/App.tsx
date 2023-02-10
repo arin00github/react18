@@ -25,7 +25,10 @@ export const routerFrame = createRoutesFromElements(
     <>
         <Route path="/" element={<ProtectedLayout />}>
             {BasicMenu.map((menu) => (
-                <Route path={menu.href} element={menu.component} key={`router_menu_${menu.title}`} />
+                <Route path={menu.href} element={menu.component} key={`router_menu_${menu.title}`}>
+                    {menu.children &&
+                        menu.children.map((submenu) => <Route path={submenu.href} element={submenu.component} />)}
+                </Route>
             ))}
             <Route path="*" element={<NoMatch />} />
         </Route>

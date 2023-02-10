@@ -12,4 +12,5 @@ export const LightTheme: DefaultTheme = {
         light: "#9a9a9a",
         white: "#ffffff",
     },
+    main: "#53c8ff",
 };

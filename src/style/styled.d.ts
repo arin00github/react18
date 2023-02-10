@@ -20,5 +20,6 @@ declare module "styled-components" {
             op20: string;
             op10: string;
         };
+        main?: string;
     }
 }
