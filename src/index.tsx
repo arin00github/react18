@@ -12,7 +12,7 @@ import { worker } from "./mock/browser";
 import { persistor, setupStore } from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 import { GlobalStyles } from "./style/global";
-import theme from "./style/theme";
+import { LightTheme } from "./style/theme";
 
 if (process.env.NODE_ENV === "test") {
     worker.printHandlers();
@@ -25,7 +25,7 @@ root.render(
     <React.StrictMode>
         <PersistGate persistor={persistor}>
             <Provider store={store}>
-                <ThemeProvider theme={theme}>
+                <ThemeProvider theme={LightTheme}>
                     <GlobalStyles />
                     <App />
                 </ThemeProvider>

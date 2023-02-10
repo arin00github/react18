@@ -11,3 +11,9 @@ export type JsonPost = {
     title: string;
     body: string;
 };
+
+export interface IProcessState {
+    process: "init" | "input" | "progress" | "result" | "result-fail" | "confirm";
+    message: string;
+    action: string;
+}

@@ -18,6 +18,7 @@ const Page03 = () => {
                         <CustomButton onClick={openModal} aria-label="create-account-btn">
                             Create New Account
                         </CustomButton>
+                        <h2>Modal TDD</h2>
                     </div>
                 </div>
             </div>

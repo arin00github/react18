@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Outlet, Navigate, useOutlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import { useAppSelector } from "../../redux/hook";
 
@@ -9,8 +9,6 @@ import { MainBody } from "./MainBody";
 
 export function ProtectedLayout() {
     const isAuthenticated = useAppSelector((state) => state.account.isLogin);
-
-    const outlet = useOutlet();
 
     const navigator = useNavigate();
 

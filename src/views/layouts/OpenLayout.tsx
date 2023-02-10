@@ -17,7 +17,7 @@ export function OpenLayout() {
     const isAuthenticated = useAppSelector((state) => state.account.isLogin);
 
     if (isAuthenticated) {
-        return <Navigate to="page03" />;
+        return <Navigate to="main" />;
     }
 
     return (

@@ -52,7 +52,7 @@ const LoginPage = () => {
         }
         if (process.env.NODE_ENV === "development") {
             dispatch(updateIsLogin(true));
-            navigator("/page03");
+            navigator("/main");
         } else {
             loginAPI();
         }
@@ -66,7 +66,7 @@ const LoginPage = () => {
             .then((res) => {
                 if (res.status === 200) {
                     dispatch(updateIsLogin(true));
-                    navigator("/page03");
+                    navigator("/main");
                 }
             })
             .catch((err) => {

@@ -1,25 +1,15 @@
-import styled from "styled-components";
+import styled, { DefaultTheme } from "styled-components";
 
 // Define our button, but with the use of props.theme this time
-const Button = styled.button`
-    font-size: 1em;
-    margin: 1em;
-    padding: 0.25em 1em;
-    border-radius: 3px;
-    color: ${(props) => props.theme.main};
-    border: 2px solid ${(props) => props.theme.main};
-`;
-
-// We are passing a default theme for Buttons that arent wrapped in the ThemeProvider
-Button.defaultProps = {
-    theme: {
-        main: "palevioletred",
+export const LightTheme: DefaultTheme = {
+    bg: {
+        page: "#F9F9F9",
+    },
+    text: {
+        black: "#000000",
+        dark: "#171717",
+        mild: "#595959",
+        light: "#9a9a9a",
+        white: "#ffffff",
     },
 };
-
-// Define what props.theme will look like
-const theme = {
-    main: "mediumseagreen",
-};
-
-export default theme;
