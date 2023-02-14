@@ -12,6 +12,7 @@ import { executeRequest } from "./HttpService";
 
 export class DeplomacyHttp implements IDeplomacyApi {
     static readonly baseUrl = "http://apis.data.go.kr/1262000/OverviewKorRelationService/getOverviewKorRelationList";
+    static readonly generalUrl = "http://apis.data.go.kr/1262000/CountryGnrlInfoService2";
     static readonly economyUrl = "https://apis.data.go.kr/1262000/CountryEconomyService2/getCountryEconomyList2";
     static readonly mapUrl = "http://apis.data.go.kr/1262000/CountryMapService2/getCountryMapList2";
     static readonly environmentUrl =

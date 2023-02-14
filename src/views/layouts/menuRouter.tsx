@@ -19,21 +19,23 @@ type MenuProps = {
     title: string;
     href: string;
     component: ReactNode;
+    isLeftMenu: boolean;
     children?: subMenuProps[];
 };
 
 export const BasicMenu: MenuProps[] = [
-    { title: "main", href: "/main", component: <MainPage /> },
-    { title: "page03", href: "/page03", component: <Page03 /> },
-    { title: "page04", href: "/page04", component: <Page04 /> },
-    { title: "shopping01", href: "/shopping01", component: <Shopping01 /> },
-    { title: "shopping02", href: "/shopping02", component: <Shopping02 /> },
-    { title: "mycart", href: "/mycart", component: <MyCartPage /> },
+    { title: "main", href: "/main", component: <MainPage />, isLeftMenu: true },
+    { title: "page03", href: "/page03", component: <Page03 />, isLeftMenu: true },
+    { title: "page04", href: "/page04", component: <Page04 />, isLeftMenu: true },
+    { title: "shopping01", href: "/shopping01", component: <Shopping01 />, isLeftMenu: true },
+    { title: "shopping02", href: "/shopping02", component: <Shopping02 />, isLeftMenu: true },
+    { title: "mycart", href: "/mycart", component: <MyCartPage />, isLeftMenu: true },
+    { title: "deplomacy Detail", href: "/deplomacy/:detail", component: <DeplomacyDetail />, isLeftMenu: false },
     {
         title: "deplomacy",
         href: "/deplomacy",
         component: <DeplomacyListPage />,
-        children: [{ title: "deplomacy Detail", href: ":country_eng_nm", component: <DeplomacyDetail /> }],
+        isLeftMenu: true,
+        //children: [{ title: "deplomacy Detail", href: ":country_eng_nm", component: <DeplomacyDetail /> }],
     },
-    { title: "deplomacy Detail", href: "/deplomacy/:country_eng_nm", component: <DeplomacyDetail /> },
 ];

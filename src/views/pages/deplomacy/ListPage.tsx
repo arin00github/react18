@@ -83,7 +83,11 @@ const DeplomacyListPage = () => {
                         handleSort={() => {
                             console.log("handleSort");
                         }}
-                        handleRowClick={(row) => navigator(`/deplomacy/${row.country_eng_nm}`)}
+                        handleRowClick={(row) =>
+                            navigator(`/deplomacy/&name=${row.country_eng_nm}&iso=${row.country_iso_alp2}`, {
+                                state: { detail: `&name=${row.country_eng_nm}&iso=${row.country_iso_alp2}` },
+                            })
+                        }
                     />
                 )}
                 <div className="d-flex justify-content-center mt-5">

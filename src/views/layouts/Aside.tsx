@@ -14,10 +14,12 @@ export function Aside() {
 
     const dispatch = useAppDispatch();
 
+    const showArrayMenu = BasicMenu.filter((menu) => menu.isLeftMenu);
+
     return (
         <div id="aside">
             <ul>
-                {BasicMenu.map((menu) => {
+                {showArrayMenu.map((menu) => {
                     return (
                         <li key={`menu_${menu.title}`}>
                             <Link to={menu.href} aria-label={`menu-${menu.title}`}>
@@ -27,7 +29,7 @@ export function Aside() {
                     );
                 })}
             </ul>
-            <div>
+            <div className="p-4">
                 <CustomButton onClick={() => dispatch(updateIsLogin(false))}>로그아웃</CustomButton>
             </div>
             {/* <div>장바구니 상품 : {cartLength.length}</div> */}
