@@ -12,15 +12,15 @@ type ProtectedLayoutProps = {
 };
 
 export function ProtectedLayout({ userAuth }: ProtectedLayoutProps) {
-    const isAuthenticated = useAppSelector((state) => state.account.isLogin);
+    // const isAuthenticated = useAppSelector((state) => state.account.isLogin);
 
-    const navigator = useNavigate();
+    // const navigator = useNavigate();
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigator("/login");
-        }
-    }, [isAuthenticated, navigator]);
+    // useEffect(() => {
+    //     if (!isAuthenticated) {
+    //         navigator("/login");
+    //     }
+    // }, [isAuthenticated, navigator]);
 
     return (
         <div id="layout">

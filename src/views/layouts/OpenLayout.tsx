@@ -14,11 +14,11 @@ const LayoutContainer = styled.div`
 `;
 
 export function OpenLayout() {
-    const isAuthenticated = useAppSelector((state) => state.account.isLogin);
+    // const isAuthenticated = useAppSelector((state) => state.account.isLogin);
 
-    if (isAuthenticated) {
-        return <Navigate to="main" />;
-    }
+    // if (isAuthenticated) {
+    //     return <Navigate to="main" />;
+    // }
 
     return (
         <LayoutContainer>

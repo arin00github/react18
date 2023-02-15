@@ -24,10 +24,10 @@ export const routerFrame = createRoutesFromElements(
             ))}
             <Route path="*" element={<NoMatch />} />
         </Route>
-        <Route path="/" element={<OpenLayout />}>
+        {/* <Route path="/" element={<OpenLayout />}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="*" element={<NoMatch />} />
-        </Route>
+        </Route> */}
     </>
 );
 
