@@ -13,7 +13,7 @@ const DeplomacyDetail = () => {
 
     const [economicDetail, setEconomicDetail] = useState<ICountryEconomy>();
 
-    const getDetailCountryInfo = useCallback(async () => {
+    const CountryInfoAPI = useCallback(async () => {
         if (param.detail) {
             const name = param.detail?.split("&")[1].replace("name=", "");
             const iso = param.detail?.split("&")[2].replace("iso=", "");
@@ -22,16 +22,25 @@ const DeplomacyDetail = () => {
                 name: name,
                 iso: iso,
             });
+
             if (getResponse && getResponse.data) {
-                setEconomicDetail({ ...economicDetail, ...getResponse?.data[0] });
+                //setEconomicDetail({ ...economicDetail, ...getResponse?.data[0] });
+                return getResponse.data[0];
             }
         }
-    }, [economicDetail, param.detail]);
+    }, [param.detail]);
+
+    const updateDetailInfo = useCallback(async () => {
+        const newData = await CountryInfoAPI();
+        if (newData) {
+            setEconomicDetail({ ...economicDetail, ...newData });
+        }
+    }, [CountryInfoAPI, economicDetail]);
 
     useEffect(() => {
-        getDetailCountryInfo();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        //updateDetailInfo, CountryInfoAPI 둘을 합친 함수는 무한 루프에 빠짐
+        updateDetailInfo();
+    }, [updateDetailInfo]);
 
     return (
         <div>

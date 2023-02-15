@@ -17,31 +17,49 @@ export const DetailInfoBox = (props: DetailInfoBoxProps) => {
     const [imageUrl, setImageUrl] = useState<string>();
     const [mapImageUrl, setMapImageUrl] = useState<string>();
 
-    const getCountryFlags = useCallback(async () => {
+    const CountryFlagAPI = useCallback(async () => {
         const service = NewDeplomacyApi();
 
         const getResponseFlags = await service.GetCountryFlag({
             name: economicDetail.country_eng_nm,
             iso: economicDetail.country_iso_alp2,
         });
-        setImageUrl(getResponseFlags?.data[0].download_url);
+        if (getResponseFlags) {
+            return getResponseFlags?.data[0].download_url;
+        }
+        return undefined;
     }, [economicDetail.country_eng_nm, economicDetail.country_iso_alp2]);
 
-    const getCountryInfo = useCallback(async () => {
+    const updateFlag = useCallback(async () => {
+        const newFlag = await CountryFlagAPI();
+        if (newFlag) {
+            setImageUrl(newFlag);
+        }
+    }, [CountryFlagAPI]);
+
+    const CountryMapAPI = useCallback(async () => {
         const service = NewDeplomacyApi();
 
         const getResponseMap = await service.GetCountryMap({
             name: economicDetail.country_eng_nm,
             iso: economicDetail.country_iso_alp2,
         });
-        setMapImageUrl(getResponseMap?.data[0].download_url);
+        if (getResponseMap) {
+            return getResponseMap?.data[0].download_url;
+        }
     }, [economicDetail.country_eng_nm, economicDetail.country_iso_alp2]);
 
+    const updateMap = useCallback(async () => {
+        const newMap = await CountryMapAPI();
+        if (newMap) {
+            setMapImageUrl(newMap);
+        }
+    }, [CountryMapAPI]);
+
     useEffect(() => {
-        getCountryFlags();
-        getCountryInfo();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        updateFlag();
+        updateMap();
+    }, [updateFlag, updateMap]);
     return (
         <div>
             <div>
