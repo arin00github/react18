@@ -29,9 +29,6 @@ export function Aside() {
                     );
                 })}
             </ul>
-            <div className="p-4">
-                <CustomButton onClick={() => dispatch(updateIsLogin(false))}>로그아웃</CustomButton>
-            </div>
         </StyledAside>
     );
 }
@@ -40,7 +37,7 @@ const StyledAside = styled.div`
     width: 240px;
     height: calc(100vh - 80px);
     position: fixed;
-    top: 80px;
+    top: 40px;
     left: 0;
     background-color: #fff;
 

@@ -56,7 +56,7 @@ export interface ICountryEconomy {
     ext_debt: number;
     foreign_currency_reserve: string;
     gdp: string;
-    gdp_per_capital: string;
+    gdp_per_capita: string;
     gdp_src: string;
     infltn_rate: number;
     invt_sts_cn: string;

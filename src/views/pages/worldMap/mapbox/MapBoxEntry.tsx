@@ -1,9 +1,10 @@
 import React from "react";
 
 import { useAppSelector } from "../../../../redux/hook";
-import { CountryBox } from "../countryBox/CountryBox";
 
+import { CountryBox } from "./CountryBox";
 import { MapBox } from "./MapBox";
+import { NavigatorBar } from "./NavigatorBar";
 
 export const MapBoxEntry = () => {
     const storedWorld = useAppSelector((state) => state.world);
@@ -11,6 +12,7 @@ export const MapBoxEntry = () => {
     return (
         <div>
             <MapBox />
+            <NavigatorBar />
             {selectedCountry && <CountryBox selectedCountry={selectedCountry} />}
         </div>
     );

@@ -26,17 +26,17 @@ export const MapBox = () => {
     const featureClick = useMemo(() => {
         const selected = new Style({
             fill: new Fill({
-                color: "#eeeeee",
+                color: "#0460ff",
             }),
             stroke: new Stroke({
-                color: "#0460ff",
+                color: "#fff",
                 width: 2,
             }),
         });
         return new Select({
             condition: click,
             style: (feature) => {
-                const color = feature.get("COLOR") || "#eeeeee";
+                const color = feature.get("COLOR") || "#0460ff";
                 selected.getFill().setColor(color);
                 return selected;
             },
@@ -65,10 +65,8 @@ export const MapBox = () => {
             const features = event.map.getFeaturesAtPixel(event.pixel);
             if (features.length >= 1) {
                 overlay?.setPosition(coordinate);
-                //event.map.addOverlay(overlay);
             } else {
                 overlay?.setPosition(undefined);
-                //event.map.removeOverlay(overlay);
             }
 
             setSelectedFeature(features);
@@ -83,9 +81,19 @@ export const MapBox = () => {
             url: "https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_0_countries.geojson",
         });
 
+        const vectorLayerStyle = new Style({
+            fill: new Fill({
+                color: "#dddddd",
+            }),
+            stroke: new Stroke({
+                color: "#fff",
+            }),
+        });
+
         const vector = new VectorLayer({
             source: source,
             background: "white",
+            style: vectorLayerStyle,
         });
 
         if (popupDiv) {
@@ -129,7 +137,7 @@ export const MapBox = () => {
 
     return (
         <div>
-            <div id="world-map" style={{ width: "100%", height: "calc(100vh - 120px)" }}></div>
+            <div id="world-map" style={{ width: "100%", height: "100vh" }}></div>
             <StyledPopup id="popup">
                 <div>Country Name</div>
                 <div>ISO Name</div>

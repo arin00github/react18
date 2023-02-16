@@ -4,7 +4,7 @@ import { Image } from "react-bootstrap";
 import styled from "styled-components";
 
 import { NewDeplomacyApi } from "../../../../service/api/DeplomacyApi";
-import { IOneFilter } from "../../../../types/deplomacy-interface";
+import { ICountryEconomy, IDeplomacyList, IOneFilter } from "../../../../types/deplomacy-interface";
 
 interface ICountryBox {
     selectedCountry: IOneFilter;
@@ -13,8 +13,14 @@ interface ICountryBox {
 export const CountryBox = (props: ICountryBox) => {
     const { selectedCountry } = props;
 
+    const [detailEconomy, setDetailEconomy] = useState<ICountryEconomy>();
+
     const [imageUrl, setImageUrl] = useState<string>();
 
+    /**
+     * @name CountryFlagAPI
+     * @description 국기 이미지 url 정보주는 API
+     */
     const CountryFlagAPI = useCallback(async () => {
         const service = NewDeplomacyApi();
 
@@ -28,6 +34,22 @@ export const CountryBox = (props: ICountryBox) => {
         return undefined;
     }, [selectedCountry.iso, selectedCountry.name]);
 
+    const CountryDetailAPI = useCallback(async () => {
+        const service = NewDeplomacyApi();
+        const getResponse = await service.GetDetailEconomy({
+            name: selectedCountry.name,
+            iso: selectedCountry.iso,
+        });
+        if (getResponse) {
+            return getResponse.data[0];
+        }
+        return undefined;
+    }, [selectedCountry.iso, selectedCountry.name]);
+
+    /**
+     * @name updateFlag
+     * @description CountryFlagAPI 호출 후 state에 업데이트
+     */
     const updateFlag = useCallback(async () => {
         const newFlag = await CountryFlagAPI();
         if (newFlag) {
@@ -35,15 +57,37 @@ export const CountryBox = (props: ICountryBox) => {
         }
     }, [CountryFlagAPI]);
 
+    const updateCountryDetail = useCallback(async () => {
+        const detailInfo = await CountryDetailAPI();
+        if (detailInfo) {
+            setDetailEconomy(detailInfo);
+        }
+    }, [CountryDetailAPI]);
+
     useEffect(() => {
         updateFlag();
-    }, [updateFlag]);
+        updateCountryDetail();
+    }, [updateCountryDetail, updateFlag]);
+
+    console.log("detailInfo", detailEconomy);
 
     return (
         <StyledBoxWrap>
             <div className="inner">
                 {imageUrl && <Image src={imageUrl} width={180} />}
-                <div>CountryBox</div>
+                {detailEconomy && (
+                    <div>
+                        <h3>{detailEconomy.country_nm}</h3>
+                        <div>
+                            <div>총 GDP</div>
+                            <div>{detailEconomy.gdp}</div>
+                        </div>
+                        <div>
+                            <div>1인당 GDP</div>
+                            <div>{detailEconomy.gdp_per_capita}</div>
+                        </div>
+                    </div>
+                )}
             </div>
         </StyledBoxWrap>
     );
@@ -54,7 +98,7 @@ const StyledBoxWrap = styled.div`
     top: 80px;
     right: 30px;
     width: 400px;
-    height: 90vh;
+    height: 86vh;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0px 7px 18px rgba(0, 0, 0, 0.1);
