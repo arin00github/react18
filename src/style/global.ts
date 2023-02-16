@@ -49,14 +49,17 @@ export const GlobalStyles = createGlobalStyle<DefaultTheme>`
 
   #aside {
     width: 240px;
-    height: 100vh;
+    height: calc(100vh - 80px);
     position:fixed;
-    top:0;
+    top: 80px;
     left:0;
-    border-right: 1px solid;
-    border-right-color: #000;
+    background-color: #fff;
+    
+    box-shadow: 0px 7px 18px rgba(0, 0, 0, 0.1);
+    z-index: 100;
   }
   #aside ul {
+    
     padding:2rem 0;
   }
   #aside ul li {
@@ -69,11 +72,11 @@ export const GlobalStyles = createGlobalStyle<DefaultTheme>`
   }
 
   #main-body{
-    width: calc(100% - 240px);
-    margin-left: 240px;
+    width: 100%;
+    //margin-left: 240px;
   }
-  #main-body .body-inner {
+  /* #main-body .body-inner {
     padding: 0 3rem;
-  }
+  } */
 
 `;

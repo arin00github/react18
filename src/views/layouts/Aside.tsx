@@ -6,7 +6,6 @@ import { updateIsLogin } from "../../redux/account/account.slice";
 import { useAppDispatch } from "../../redux/hook";
 import { CustomButton } from "../../style";
 
-import { LocationDisplay } from "./LocationDisplay";
 import { BasicMenu } from "./menuRouter";
 
 export function Aside() {
@@ -32,8 +31,6 @@ export function Aside() {
             <div className="p-4">
                 <CustomButton onClick={() => dispatch(updateIsLogin(false))}>로그아웃</CustomButton>
             </div>
-            {/* <div>장바구니 상품 : {cartLength.length}</div> */}
-            <LocationDisplay />
         </div>
     );
 }

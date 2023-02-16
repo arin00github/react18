@@ -13,7 +13,12 @@ import Stroke from "ol/style/Stroke";
 import Style from "ol/style/Style";
 import styled from "styled-components";
 
+import { useAppDispatch } from "../../../../redux/hook";
+import { putSelectedCountry } from "../../../../redux/world/world.slice";
+
 export const MapBox = () => {
+    const dispatch = useAppDispatch();
+
     const [selectedFeature, setSelectedFeature] = useState<Feature[] | FeatureLike[]>([]);
     const [mapObject, setMapObject] = useState<Map | null>(null);
     const [overlay, setOverlay] = useState<Overlay | null>(null);
@@ -41,12 +46,18 @@ export const MapBox = () => {
     const handleFeatureclick = useCallback(() => {
         mapObject?.on("click", (event) => {
             const features = event.map.getFeaturesAtPixel(event.pixel);
-            // features.forEach((feature) => {
-            //     console.log("property", feature.getProperties());
-            // });
+            if (features.length <= 1 && features.length > 0) {
+                features.forEach((feature) => {
+                    dispatch(putSelectedCountry({ name: feature.get("name"), iso: feature.get("iso_a2") }));
+                });
+            } else if (features.length > 1) {
+                console.log("popup list display");
+            } else {
+                dispatch(putSelectedCountry(null));
+            }
             setSelectedFeature(features);
         });
-    }, [mapObject]);
+    }, [dispatch, mapObject]);
 
     const handleFeatureHover = useCallback(() => {
         mapObject?.on("pointermove", (event) => {
