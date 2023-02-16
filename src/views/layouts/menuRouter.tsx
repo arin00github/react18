@@ -9,6 +9,7 @@ import Page04 from "../pages/page04/Page04";
 import MyCartPage from "../pages/shopping/MyCart";
 import Shopping01 from "../pages/shopping/Shopping01";
 import Shopping02 from "../pages/shopping/Shopping02";
+import WorldPage from "../pages/worldMap/WorldIndex";
 
 type subMenuProps = {
     title: string;
@@ -27,6 +28,7 @@ type MenuProps = {
 export const BasicMenu: MenuProps[] = [
     { title: "main", href: "/main", component: <MainPage />, isLeftMenu: true },
     { title: "grid", href: "/grid-layout", component: <GridPage />, isLeftMenu: true },
+    { title: "world", href: "/world-map", component: <WorldPage />, isLeftMenu: true },
     { title: "deplomacy Detail", href: "/deplomacy/:detail", component: <DeplomacyDetail />, isLeftMenu: false },
     {
         title: "deplomacy",
