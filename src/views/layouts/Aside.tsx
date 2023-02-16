@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import { updateIsLogin } from "../../redux/account/account.slice";
 import { useAppDispatch } from "../../redux/hook";
@@ -16,7 +17,7 @@ export function Aside() {
     const showArrayMenu = BasicMenu.filter((menu) => menu.isLeftMenu);
 
     return (
-        <div id="aside">
+        <StyledAside id="aside">
             <ul>
                 {showArrayMenu.map((menu) => {
                     return (
@@ -31,6 +32,30 @@ export function Aside() {
             <div className="p-4">
                 <CustomButton onClick={() => dispatch(updateIsLogin(false))}>로그아웃</CustomButton>
             </div>
-        </div>
+        </StyledAside>
     );
 }
+
+const StyledAside = styled.div`
+    width: 240px;
+    height: calc(100vh - 80px);
+    position: fixed;
+    top: 80px;
+    left: 0;
+    background-color: #fff;
+
+    box-shadow: 0px 7px 18px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+
+    ul {
+        padding: 2rem 0;
+        li {
+            padding: 0 2rem;
+            height: 3rem;
+            line-height: 3rem;
+        }
+        li:hover {
+            background-color: #ebebeb;
+        }
+    }
+`;

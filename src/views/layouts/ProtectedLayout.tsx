@@ -14,13 +14,12 @@ type ProtectedLayoutProps = {
 export function ProtectedLayout({ userAuth }: ProtectedLayoutProps) {
     // const isAuthenticated = useAppSelector((state) => state.account.isLogin);
 
-    // const navigator = useNavigate();
+    const navigator = useNavigate();
 
-    // useEffect(() => {
-    //     if (!isAuthenticated) {
-    //         navigator("/login");
-    //     }
-    // }, [isAuthenticated, navigator]);
+    useEffect(() => {
+        navigator("/world-map");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div id="layout">

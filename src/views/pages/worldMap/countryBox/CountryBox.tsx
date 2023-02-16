@@ -58,8 +58,28 @@ const StyledBoxWrap = styled.div`
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0px 7px 18px rgba(0, 0, 0, 0.1);
+    animation: loadEffect3 0.6s ease-in forwards;
 
     .inner {
         padding: 24px;
+    }
+
+    @keyframes loadEffect3 {
+        0% {
+            //opacity: 0;
+            transform: scale(0.7);
+        }
+        65% {
+            //opacity: 0.65;
+            transform: scale(1.01);
+        }
+        85% {
+            //opacity: 0.85;
+            transform: scale(0.97);
+        }
+        100% {
+            //opacity: 1;
+            transform: scale(1);
+        }
     }
 `;

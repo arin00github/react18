@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 
+import axios from "axios";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes } from "react-router-dom";
 
 import { updateIsLogin } from "./redux/account/account.slice";
 import { useAppDispatch } from "./redux/hook";
+import { NewDeplomacyApi } from "./service/api/DeplomacyApi";
 import { BasicMenu } from "./views/layouts/menuRouter";
 import { OpenLayout } from "./views/layouts/OpenLayout";
 import { ProtectedLayout } from "./views/layouts/ProtectedLayout";
@@ -62,6 +64,19 @@ export const RouterContainer = ({ userAuth }: RouterConProps) => {
 const router = createBrowserRouter(routerFrame);
 
 function App() {
+    const dispatch = useAppDispatch();
+
+    const CountryListAPI = async () => {
+        await axios({
+            method: "GET",
+            url: "https://restcountries.com/v3.1/all",
+        });
+    };
+
+    useEffect(() => {
+        CountryListAPI();
+    }, []);
+
     return <RouterProvider router={router} />;
 }
 

@@ -26,8 +26,6 @@ type MenuProps = {
 };
 
 export const BasicMenu: MenuProps[] = [
-    { title: "main", href: "/main", component: <MainPage />, isLeftMenu: true },
-    { title: "grid", href: "/grid-layout", component: <GridPage />, isLeftMenu: true },
     { title: "world", href: "/world-map", component: <WorldPage />, isLeftMenu: true },
     { title: "deplomacy Detail", href: "/deplomacy/:detail", component: <DeplomacyDetail />, isLeftMenu: false },
     {
