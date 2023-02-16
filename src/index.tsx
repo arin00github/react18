@@ -14,6 +14,8 @@ import reportWebVitals from "./reportWebVitals";
 import { GlobalStyles } from "./style/global";
 import { LightTheme } from "./style/theme";
 
+import "react-grid-layout/css/styles.css";
+
 if (process.env.NODE_ENV === "test") {
     worker.printHandlers();
     worker.start();

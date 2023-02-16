@@ -17,17 +17,16 @@ export interface IGridLayout {
     items: number;
     rowHeight: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onChange: (layout: any) => void;
+    //onChange: (layout: any) => void;
     cols: number;
 }
 
 export const GridEntryBox = (): JSX.Element => {
     const [layoutObject, setLayoutObject] = useState<IGridLayout>({
         className: "layout",
-        items: 20,
+        items: 8,
         rowHeight: 60,
         cols: 12,
-        onChange: () => console.log("params"),
     });
 
     const [gridArray, setGridArray] = useState<IGridSetting[]>();
@@ -37,7 +36,7 @@ export const GridEntryBox = (): JSX.Element => {
         const newArray: IGridSetting[] = Array.from({ length: layoutObject.items }, (item, it) => {
             const y = Math.ceil(Math.random() * 4) + 1;
             return {
-                x: (it * 4) % 12,
+                x: (it * 2) % 12,
                 y: Math.floor(it / 6) * y,
                 w: 2,
                 h: y,
@@ -47,36 +46,37 @@ export const GridEntryBox = (): JSX.Element => {
         return newArray;
     };
 
-    const generateDom = () => {
-        console.log("generateDom");
-        const nodeArray = Array.from({ length: layoutObject.items }, (item, idx) => {
-            return (
-                <div style={{ backgroundColor: "#a3c5ff" }} key={`div_${idx}`}>
-                    {idx}
-                </div>
-            );
-        });
-        return nodeArray;
-    };
-
     console.log("gridArray", gridArray);
 
-    const handleChangeLayout = (layout: any) => {
-        layoutObject.onChange(layout);
+    const handleChangeLayout = (layout: RGL.Layout[]) => {
+        console.log("layout", layout);
+        setGridArray(layout);
     };
 
     useEffect(() => {
         if (!gridArray) {
             const createdArray = generateLayout();
+            console.log("createdArray", createdArray);
             setGridArray(createdArray);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gridArray]);
     return (
-        <div>
+        <div style={{ width: 1800, height: 700 }}>
             {gridArray && (
-                <ReactGridLayout layout={gridArray} onLayoutChange={handleChangeLayout} {...layoutObject}>
-                    {generateDom()}
+                <ReactGridLayout
+                    width={1000}
+                    isResizable={true}
+                    layout={gridArray}
+                    onLayoutChange={handleChangeLayout}
+                    {...layoutObject}
+                    rowHeight={90}
+                >
+                    {gridArray.map((box, idx) => (
+                        <div style={{ backgroundColor: "#a3c5ff" }} key={`div_${idx}`}>
+                            {idx}
+                        </div>
+                    ))}
                 </ReactGridLayout>
             )}
         </div>
