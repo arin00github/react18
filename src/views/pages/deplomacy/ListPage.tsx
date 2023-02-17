@@ -8,6 +8,7 @@ import usePagination from "../../../service/hooks/usePagination";
 import { IDeplomacyList, IResultCode } from "../../../types/deplomacy-interface";
 import { ITableColumn } from "../../../types/table-inteface";
 import { CustomTable, Pagination } from "../../components/table";
+import { FloatPageLayout } from "../../layouts/FloatPageLayout";
 import { PageTitle } from "../../layouts/PageTitle";
 
 const StyledSpan = styled.span`
@@ -72,7 +73,7 @@ const DeplomacyListPage = () => {
     }, [currentIndex]);
 
     return (
-        <div>
+        <FloatPageLayout>
             <PageTitle title="DeplomacyList" />
             <div className="mt-4">
                 {deplomacy && (
@@ -105,7 +106,7 @@ const DeplomacyListPage = () => {
                     )}
                 </div>
             </div>
-        </div>
+        </FloatPageLayout>
     );
 };
 

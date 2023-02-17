@@ -17,7 +17,7 @@ export function Aside() {
     const showArrayMenu = BasicMenu.filter((menu) => menu.isLeftMenu);
 
     return (
-        <StyledAside id="aside">
+        <StyledAside>
             <ul>
                 {showArrayMenu.map((menu) => {
                     return (
@@ -35,12 +35,13 @@ export function Aside() {
 
 const StyledAside = styled.div`
     width: 240px;
-    height: calc(100vh - 80px);
+    //height: calc(100vh - 80px);
     position: fixed;
     top: 40px;
     left: 0;
+    bottom: 40px;
     background-color: #fff;
-
+    border-radius: 0px 12px 12px 0px;
     box-shadow: 0px 7px 18px rgba(0, 0, 0, 0.1);
     z-index: 100;
 

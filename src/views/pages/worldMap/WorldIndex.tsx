@@ -1,14 +1,17 @@
-import React from "react";
-
-import { PageTitle } from "../../layouts/PageTitle";
+import React, { ReactNode } from "react";
 
 import { MapBoxEntry } from "./mapbox/MapBoxEntry";
 
-const WorldPage = () => {
+type WorldPageProps = {
+    children: ReactNode;
+};
+
+const WorldPage = ({ children }: WorldPageProps) => {
     return (
-        <div>
+        <>
             <MapBoxEntry />
-        </div>
+            {children}
+        </>
     );
 };
 

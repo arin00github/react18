@@ -6,11 +6,12 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, R
 import { updateIsLogin } from "./redux/account/account.slice";
 import { useAppDispatch } from "./redux/hook";
 import { putCountryList } from "./redux/world/world.slice";
-import { NewDeplomacyApi } from "./service/api/DeplomacyApi";
 import { ICountryList, ICountryObject } from "./types/deplomacy-interface";
-import { BasicMenu } from "./views/layouts/menuRouter";
+import { FloatPageLayout } from "./views/layouts/FloatPageLayout";
+import { LayoutWrap } from "./views/layouts/LayoutWrap";
 import { OpenLayout } from "./views/layouts/OpenLayout";
-import { ProtectedLayout } from "./views/layouts/ProtectedLayout";
+import DeplomacyDetail from "./views/pages/deplomacy/DetailPage";
+import DeplomacyListPage from "./views/pages/deplomacy/ListPage";
 import LoginPage from "./views/pages/login/LoginPage";
 
 export const NoMatch = () => {
@@ -19,19 +20,18 @@ export const NoMatch = () => {
 
 export const routerFrame = createRoutesFromElements(
     <>
-        <Route path="/" element={<ProtectedLayout />}>
-            {BasicMenu.map((menu) => (
+        <Route path="/" element={<LayoutWrap />}>
+            {/* {BasicMenu.map((menu) => (
                 <Route path={menu.href} element={menu.component} key={`router_menu_${menu.title}`}>
                     {menu.children &&
                         menu.children.map((submenu) => <Route path={submenu.href} element={submenu.component} />)}
                 </Route>
-            ))}
+            ))} */}
+            <Route path="deplomacy" element={<DeplomacyListPage />} />
+            <Route path="deplomacy/:detail" element={<DeplomacyDetail />} />
+
             <Route path="*" element={<NoMatch />} />
         </Route>
-        {/* <Route path="/" element={<OpenLayout />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<NoMatch />} />
-        </Route> */}
     </>
 );
 
@@ -49,10 +49,10 @@ export const RouterContainer = ({ userAuth }: RouterConProps) => {
     }, [dispatch, userAuth]);
     return (
         <Routes>
-            <Route path="/" element={<ProtectedLayout />}>
-                {BasicMenu.map((menu) => (
+            <Route path="/" element={<LayoutWrap />}>
+                {/* {BasicMenu.map((menu) => (
                     <Route path={menu.href} element={menu.component} key={`router_menu_${menu.title}`} />
-                ))}
+                ))} */}
                 <Route path="*" element={<NoMatch />} />
             </Route>
             <Route path="/" element={<OpenLayout />}>

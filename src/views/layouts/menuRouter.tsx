@@ -20,19 +20,17 @@ type subMenuProps = {
 type MenuProps = {
     title: string;
     href: string;
-    component: ReactNode;
+
     isLeftMenu: boolean;
     children?: subMenuProps[];
 };
 
 export const BasicMenu: MenuProps[] = [
-    { title: "world", href: "/world-map", component: <WorldPage />, isLeftMenu: true },
-    { title: "deplomacy Detail", href: "/deplomacy/:detail", component: <DeplomacyDetail />, isLeftMenu: false },
+    { title: "world", href: "/", isLeftMenu: true },
+    { title: "deplomacy Detail", href: "deplomacy/:detail", isLeftMenu: false },
     {
         title: "deplomacy",
-        href: "/deplomacy",
-        component: <DeplomacyListPage />,
+        href: "deplomacy",
         isLeftMenu: true,
-        //children: [{ title: "deplomacy Detail", href: ":country_eng_nm", component: <DeplomacyDetail /> }],
     },
 ];

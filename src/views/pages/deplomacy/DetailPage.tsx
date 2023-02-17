@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { NewDeplomacyApi } from "../../../service/api/DeplomacyApi";
 import { ICountryEconomy } from "../../../types/deplomacy-interface";
+import { FloatPageLayout } from "../../layouts/FloatPageLayout";
 import { PageTitle } from "../../layouts/PageTitle";
 
 import { DetailInfoBox } from "./detail/DetailInfoBox";
@@ -43,7 +44,7 @@ const DeplomacyDetail = () => {
     }, [updateDetailInfo]);
 
     return (
-        <div>
+        <FloatPageLayout>
             {economicDetail ? (
                 <div>
                     <PageTitle title={`${economicDetail.country_nm} (${economicDetail.country_eng_nm})`} />
@@ -52,7 +53,7 @@ const DeplomacyDetail = () => {
             ) : (
                 <div> DeplomacyDetail</div>
             )}
-        </div>
+        </FloatPageLayout>
     );
 };
 
