@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { ICountryObject, IOneFilter } from "../../types/deplomacy-interface";
+import { ICountryList, ICountryObject, IOneFilter } from "../../types/deplomacy-interface";
 
 export interface WorldState {
     selectedCountry: IOneFilter | null;
-    countryList: ICountryObject[];
+    countryList: ICountryList[];
 }
 
 const initialState: WorldState = {
@@ -20,7 +20,7 @@ export const worldSlice = createSlice({
             state.selectedCountry = action.payload;
         },
 
-        putCountryList: (state, action: PayloadAction<ICountryObject[]>) => {
+        putCountryList: (state, action: PayloadAction<ICountryList[]>) => {
             state.countryList = action.payload;
         },
     },

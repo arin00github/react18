@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { Image } from "react-bootstrap";
 
+import { useAppSelector } from "../../../../redux/hook";
 import { NewDeplomacyApi } from "../../../../service/api/DeplomacyApi";
 import { ICountryEconomy } from "../../../../types/deplomacy-interface";
 
@@ -13,6 +14,8 @@ interface DetailInfoBoxProps {
 
 export const DetailInfoBox = (props: DetailInfoBoxProps) => {
     const { economicDetail } = props;
+
+    const storedWorld = useAppSelector((state) => state.world);
 
     const [imageUrl, setImageUrl] = useState<string>();
     const [mapImageUrl, setMapImageUrl] = useState<string>();

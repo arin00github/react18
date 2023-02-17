@@ -7,7 +7,7 @@ import { updateIsLogin } from "./redux/account/account.slice";
 import { useAppDispatch } from "./redux/hook";
 import { putCountryList } from "./redux/world/world.slice";
 import { NewDeplomacyApi } from "./service/api/DeplomacyApi";
-import { ICountryObject } from "./types/deplomacy-interface";
+import { ICountryList, ICountryObject } from "./types/deplomacy-interface";
 import { BasicMenu } from "./views/layouts/menuRouter";
 import { OpenLayout } from "./views/layouts/OpenLayout";
 import { ProtectedLayout } from "./views/layouts/ProtectedLayout";
@@ -68,10 +68,10 @@ const router = createBrowserRouter(routerFrame);
 function App() {
     const dispatch = useAppDispatch();
 
-    const CountryListAPI = async (): Promise<ICountryObject[]> => {
+    const CountryListAPI = async (): Promise<ICountryList[]> => {
         const response = await axios({
             method: "GET",
-            url: "https://restcountries.com/v3.1/all",
+            url: "https://countriesnow.space/api/v0.1/countries/iso",
         });
         return new Promise((resolve, reject) => {
             if (response.status === 200) {

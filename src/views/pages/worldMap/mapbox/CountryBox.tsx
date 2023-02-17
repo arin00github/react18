@@ -3,8 +3,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Image } from "react-bootstrap";
 import styled from "styled-components";
 
+import { useAppSelector } from "../../../../redux/hook";
 import { NewDeplomacyApi } from "../../../../service/api/DeplomacyApi";
-import { ICountryEconomy, IDeplomacyList, IOneFilter } from "../../../../types/deplomacy-interface";
+import { ICountryEconomy, ICountryObject, IDeplomacyList, IOneFilter } from "../../../../types/deplomacy-interface";
 
 interface ICountryBox {
     selectedCountry: IOneFilter;
@@ -13,9 +14,14 @@ interface ICountryBox {
 export const CountryBox = (props: ICountryBox) => {
     const { selectedCountry } = props;
 
+    const storedWorld = useAppSelector((state) => state.world);
+    const { countryList } = storedWorld;
+
     const [detailEconomy, setDetailEconomy] = useState<ICountryEconomy>();
 
     const [imageUrl, setImageUrl] = useState<string>();
+
+    //const detailCommon = countryList.find((country) => country.name.common === selectedCountry.name);
 
     /**
      * @name CountryFlagAPI
@@ -64,17 +70,15 @@ export const CountryBox = (props: ICountryBox) => {
         }
     }, [CountryDetailAPI]);
 
-    useEffect(() => {
-        updateFlag();
-        updateCountryDetail();
-    }, [updateCountryDetail, updateFlag]);
-
-    console.log("detailInfo", detailEconomy);
+    // useEffect(() => {
+    //     updateFlag();
+    //     updateCountryDetail();
+    // }, [updateCountryDetail, updateFlag]);
 
     return (
         <StyledBoxWrap>
             <div className="inner">
-                {imageUrl && <Image src={imageUrl} width={180} />}
+                {/* {imageUrl && <Image src={imageUrl} width={180} />}
                 {detailEconomy && (
                     <div>
                         <h3>{detailEconomy.country_nm}</h3>
@@ -87,7 +91,7 @@ export const CountryBox = (props: ICountryBox) => {
                             <div>{detailEconomy.gdp_per_capita}</div>
                         </div>
                     </div>
-                )}
+                )} */}
             </div>
         </StyledBoxWrap>
     );
@@ -106,6 +110,19 @@ const StyledBoxWrap = styled.div`
 
     .inner {
         padding: 24px;
+    }
+
+    .row-data {
+        display: flex;
+        padding: 6px 0;
+        border-bottom: 1px solid #d3d3d3;
+
+        .row-key {
+            width: 110px;
+        }
+        .row-value {
+            width: calc(100% - 110px);
+        }
     }
 
     @keyframes loadEffect3 {

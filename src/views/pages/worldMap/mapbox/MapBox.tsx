@@ -65,6 +65,12 @@ export const MapBox = () => {
             const features = event.map.getFeaturesAtPixel(event.pixel);
             if (features.length >= 1) {
                 overlay?.setPosition(coordinate);
+                const popup = document.getElementById("popup");
+                features.forEach((feature) => {
+                    if (popup) {
+                        popup.innerHTML = `<div>${feature.get("name")} (${feature.get("iso_a2")})</div>`;
+                    }
+                });
             } else {
                 overlay?.setPosition(undefined);
             }
@@ -101,7 +107,7 @@ export const MapBox = () => {
                 element: popupDiv,
                 offset: [0, 0],
                 stopEvent: false,
-                positioning: "center-center",
+                positioning: "bottom-center",
             });
 
             setOverlay(OverlayInstance);

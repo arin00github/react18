@@ -103,6 +103,11 @@ export interface IResultCode<T> {
     resultMsg: string;
     totalCount: number;
 }
+export interface ICountryList {
+    name: string;
+    Iso2: string;
+    Iso3: string;
+}
 
 export interface ICountryObject {
     altSpellings: string[];

@@ -1,0 +1,74 @@
+import { MultiPolygon } from "ol/geom";
+
+export interface ICountrFlag {
+    name: string;
+    flag: string;
+    iso2: string;
+    iso3: string;
+}
+
+export interface ICountryProperty {
+    abbrev: string;
+    abbrev_len: number;
+    adm0_a3: string;
+    adm0_a3_is: string;
+    adm0_a3_un: number;
+    adm0_a3_us: string;
+    adm0_a3_wb: number;
+    adm0_dif: number;
+    admin: string;
+    brk_a3: string;
+    brk_diff: number;
+    brk_group: string | null;
+    brk_name: string;
+    continent: string;
+    economy: string;
+    featureclass: string;
+    fips_10: string | null;
+    formal_en: string;
+    formal_fr: string | null;
+    gdp_md_est: number;
+    gdp_year: number;
+    geometry: MultiPolygon;
+    geou_dif: number;
+    geounit: string;
+    gu_a3: string;
+    homepart: number;
+    imcome_grp: string;
+    iso_a2: string;
+    iso_a3: string;
+    iso_n3: string;
+    labelrank: number;
+    lastcensus: number;
+    level: number;
+    long_en: number;
+    mapcolor7: number;
+    mapcolor8: number;
+    mapcolor9: number;
+    mapcolor13: number;
+    name: string;
+    name_alt: string | null;
+    name_long: string;
+    name_sort: string;
+    note_adm0: string | null;
+    note_brk: string | null;
+    pop_est: number;
+    pop_year: number;
+    postal: string;
+    region_un: string;
+    region_wb: string;
+    scalerank: number;
+    sov_a3: number;
+    sovereignt: string;
+    su_a3: string;
+    su_dif: number;
+    subregion: string;
+    subunit: string;
+    tiny: number;
+    type: string;
+    un_a3: string;
+    wb_a2: string;
+    wb_a3: string;
+    wikipedia: number;
+    woe_id: number;
+}
