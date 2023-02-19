@@ -48,7 +48,8 @@ export const MapBox = () => {
             const features = event.map.getFeaturesAtPixel(event.pixel);
             if (features.length <= 1 && features.length > 0) {
                 features.forEach((feature) => {
-                    dispatch(putSelectedCountry({ name: feature.get("name"), iso: feature.get("iso_a2") }));
+                    dispatch(putSelectedCountry({ name: feature.get("admin"), iso: feature.get("iso_a2") }));
+                    console.log("feature", feature.getProperties());
                 });
             } else if (features.length > 1) {
                 console.log("popup list display");

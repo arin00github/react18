@@ -74,7 +74,7 @@ const DeplomacyListPage = () => {
 
     return (
         <FloatPageLayout>
-            <PageTitle title="DeplomacyList" />
+            <PageTitle title="세계 속 한국" />
             <div className="mt-4">
                 {deplomacy && (
                     <CustomTable

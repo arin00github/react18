@@ -4,7 +4,6 @@ import storage from "redux-persist/lib/storage";
 
 import accountReducer from "./account/account.slice";
 import { apiSlice } from "./api/api.slice";
-import postReducer from "./post/post.slice";
 import worldReducer from "./world/world.slice";
 
 const persistConfig = {
@@ -14,7 +13,6 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({
     account: accountReducer,
-    post: postReducer,
     world: worldReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
 });

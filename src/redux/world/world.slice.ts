@@ -4,7 +4,7 @@ import { ICountryList, ICountryObject, IOneFilter } from "../../types/deplomacy-
 
 export interface WorldState {
     selectedCountry: IOneFilter | null;
-    countryList: ICountryList[];
+    countryList: ICountryObject[];
 }
 
 const initialState: WorldState = {
@@ -20,7 +20,7 @@ export const worldSlice = createSlice({
             state.selectedCountry = action.payload;
         },
 
-        putCountryList: (state, action: PayloadAction<ICountryList[]>) => {
+        putCountryList: (state, action: PayloadAction<ICountryObject[]>) => {
             state.countryList = action.payload;
         },
     },

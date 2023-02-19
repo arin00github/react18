@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { Outlet, useNavigate } from "react-router-dom";
 
-import WorldPage from "../pages/worldMap/WorldIndex";
+import WorldPage from "../pages/worldMap/WorldPage";
 
 import { Aside } from "./Aside";
 

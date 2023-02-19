@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { useAppSelector } from "../../../../redux/hook";
 import { NewDeplomacyApi } from "../../../../service/api/DeplomacyApi";
 import { ICountryEconomy, ICountryObject, IDeplomacyList, IOneFilter } from "../../../../types/deplomacy-interface";
+import { RowData } from "../../../components";
 
 interface ICountryBox {
     selectedCountry: IOneFilter;
@@ -21,7 +22,8 @@ export const CountryBox = (props: ICountryBox) => {
 
     const [imageUrl, setImageUrl] = useState<string>();
 
-    //const detailCommon = countryList.find((country) => country.name.common === selectedCountry.name);
+    const detailCommon = countryList.find((country) => country.name.common === selectedCountry.name);
+    console.log("detailCommon", detailCommon);
 
     /**
      * @name CountryFlagAPI
@@ -92,6 +94,17 @@ export const CountryBox = (props: ICountryBox) => {
                         </div>
                     </div>
                 )} */}
+                {detailCommon && (
+                    <div>
+                        <Image width={180} src={detailCommon.flags.png} alt={detailCommon.flags.alt} />
+                        <h3 className="mb-2 mt-4">{detailCommon.name.common}</h3>
+                        <RowData keyData="공식이름" valueData={detailCommon.name.official} />
+                        <RowData keyData="면적" valueData={detailCommon.subregion} />
+                        <RowData keyData="인구" valueData={detailCommon.population} />
+                        <RowData keyData="지역" valueData={detailCommon.region} />
+                        <RowData keyData="수도" valueData={detailCommon.capital[0]} />
+                    </div>
+                )}
             </div>
         </StyledBoxWrap>
     );
@@ -110,19 +123,6 @@ const StyledBoxWrap = styled.div`
 
     .inner {
         padding: 24px;
-    }
-
-    .row-data {
-        display: flex;
-        padding: 6px 0;
-        border-bottom: 1px solid #d3d3d3;
-
-        .row-key {
-            width: 110px;
-        }
-        .row-value {
-            width: calc(100% - 110px);
-        }
     }
 
     @keyframes loadEffect3 {

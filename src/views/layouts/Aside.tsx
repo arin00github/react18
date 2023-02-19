@@ -3,17 +3,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { updateIsLogin } from "../../redux/account/account.slice";
-import { useAppDispatch } from "../../redux/hook";
-import { CustomButton } from "../../style";
+type MenuProps = {
+    title: string;
+    href: string;
+    isLeftMenu: boolean;
+};
 
-import { BasicMenu } from "./menuRouter";
+const BasicMenu: MenuProps[] = [
+    { title: "세계지도", href: "/", isLeftMenu: true },
+    { title: "", href: "deplomacy/:detail", isLeftMenu: false },
+    { title: "글로벌 한국", href: "deplomacy", isLeftMenu: true },
+    { title: "지식아카이브", href: "archive", isLeftMenu: true },
+];
 
 export function Aside() {
-    // const cartLength = useAppSelector((state) => state.account.cart);
-
-    const dispatch = useAppDispatch();
-
     const showArrayMenu = BasicMenu.filter((menu) => menu.isLeftMenu);
 
     return (
@@ -46,14 +49,15 @@ const StyledAside = styled.div`
     z-index: 100;
 
     ul {
-        padding: 2rem 0;
+        padding: 2rem 10px;
         li {
-            padding: 0 2rem;
+            padding: 0 18px;
             height: 3rem;
             line-height: 3rem;
         }
         li:hover {
             background-color: #ebebeb;
+            border-radius: 12px;
         }
     }
 `;
