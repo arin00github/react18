@@ -1,7 +1,6 @@
 import React from "react";
 
 import { GridEntryBox } from "./box/GridEntryBox";
-import { GridEntryBox2 } from "./box/GridEntryBox2";
 
 export type BoxUnit = {
     x: number;
@@ -41,7 +40,7 @@ const initialLayout = [unit01, unit02, unit03, unit04];
 const GridPage = (): JSX.Element => {
     return (
         <div>
-            <GridEntryBox2 initialLayout={initialLayout} />
+            <GridEntryBox initialLayout={initialLayout} />
         </div>
     );
 };
