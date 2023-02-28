@@ -3,43 +3,8 @@ import React, { useEffect, useRef } from "react";
 import { select, geoEquirectangular, geoPath, json, zoom, ZoomBehavior, Selection } from "d3";
 import styled from "styled-components";
 
+import { CountryData, CountryData2 } from "../../../../types/d3-interface";
 import { FeatureCollection } from "../D3Page";
-
-interface CountryData {
-    info: {
-        Area: number;
-        Capital: string;
-        Date_created: string;
-        DeputyGovernor: string;
-        Governor: string;
-        Latitude: string | number;
-        Longitude: string | number;
-        Number_of_LGAS: number;
-        Population: number;
-        Slogan: string;
-        Wegsite: string;
-        officialName: string;
-    };
-    Name: string;
-}
-
-interface CountryData2 {
-    info: {
-        Area: number;
-        Capital: string;
-        Date_created: string;
-        DeputyGovernor: string;
-        Governor: string;
-        Latitude: number;
-        Longitude: number;
-        Number_of_LGAS: number;
-        Population: number;
-        Slogan: string;
-        Wegsite: string;
-        officialName: string;
-    };
-    Name: string;
-}
 
 const DataOnMap = (): JSX.Element => {
     const svgMapRef = useRef<HTMLDivElement | null>(null);
