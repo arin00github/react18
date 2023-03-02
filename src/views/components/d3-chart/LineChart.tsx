@@ -106,12 +106,12 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
             // 마우스 이벤트 처리
             const mousemove = (thisReact: SVGRectElement) => {
                 const x0 = new Date(xRange.invert(d3.pointer(thisReact)[0]));
-                console.log("x0", x0);
+
                 const i = d3.bisector((d: any) => new Date(d.date)).left(data, x0, 1);
 
                 const d0 = data[i - 1];
                 const d1 = data[i];
-                console.log("d0", d0, d1);
+
                 const d =
                     x0.getTime() - new Date(d0.date).getTime() > new Date(d1.date).getTime() - x0.getTime() ? d1 : d0;
                 focus.attr(

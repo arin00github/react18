@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes } from "react-router-dom";
 
 import { updateIsLogin } from "./redux/account/account.slice";
 import { useAppDispatch } from "./redux/hook";
 import { BasicMenu } from "./views/layouts/menuRouter";
-import { OpenLayout } from "./views/layouts/OpenLayout";
 import { ProtectedLayout } from "./views/layouts/ProtectedLayout";
 
 export const NoMatch = () => {
