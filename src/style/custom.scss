@@ -1,1 +1,107 @@
-@import "../../node_modules/bootstrap/scss/bootstrap.scss"
+$primary: #0074d9;
+$danger: #ff4136;
+
+$theme-colors: (
+  "primary": $primary,
+  "danger": $danger
+);
+
+table.group-table {
+  width: 100%;
+  display: block;
+  thead {
+    width: 100%;
+    display: flex;
+    tr{
+      width: 100%;
+      display: flex;
+      th{
+        display: block;
+      }
+    }
+    
+  }
+
+  tbody {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 450px);
+    overflow-y: scroll;
+
+    tr {
+        display: flex;
+        width: 100%;
+        border-bottom: 1px solid #dfdfdf;
+        cursor: url("https://www.google.com/intl/en_ALL/mapfiles/openhand.cur"), all-scroll;
+        cursor: -webkit-grab;
+        cursor: -moz-grab;
+        cursor: -o-grab;
+        cursor: -ms-grab;
+        cursor: grab;
+
+        
+
+        td{
+          display: block;
+
+          &.centerbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          &.drag {
+            color: #fff;
+            &:hover {
+              color: #a9a9a9;
+            }
+          }
+          &.undrag {
+            color: #fff;
+          }
+          input.form-control {
+            font-size: 13px;
+            padding:  6px 10px;
+            border-radius: 4px;
+        }
+          
+        }
+      &.selected {
+        background-color: #b9d9e8;
+      }
+    }
+  }
+}
+
+@mixin icon-btn-style ($size){
+  width: $size;
+  height: $size;
+  line-height: $size;
+  border: 1px solid transparent;
+  color: #808080;
+  
+  &:hover, :focus {
+    border-color: #585858;
+    color: #585858;
+  }
+}
+
+.form{
+  .form-group {
+    .form-control {
+      font-size: 13px;
+      padding:  4px 8px;
+      border-radius: 4px;
+    }
+  }
+}
+
+
+
+
+.icon-btn-md {
+  @include icon-btn-style(32)
+}
+
+
+@import '~bootstrap/scss/bootstrap';

@@ -15,6 +15,7 @@ import { GlobalStyles } from "./style/global";
 import { LightTheme } from "./style/theme";
 
 import "react-grid-layout/css/styles.css";
+import "./style/custom.scss";
 
 if (process.env.NODE_ENV === "test") {
     worker.printHandlers();

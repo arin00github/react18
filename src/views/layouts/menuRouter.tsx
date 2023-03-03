@@ -3,9 +3,9 @@ import React, { ReactNode } from "react";
 import ChartJsIndexPage from "../pages/chartjs/IndexPage";
 import ChartIndexPage from "../pages/d3/ChartPage";
 import D3Page from "../pages/d3/D3Page";
+import FormikIndexPage from "../pages/formik/IndexPage";
 import GridPage from "../pages/grid/GridPage";
 import MainPage from "../pages/main/MainPage";
-
 type subMenuProps = {
     title: string;
     href: string;
@@ -26,4 +26,5 @@ export const BasicMenu: MenuProps[] = [
     { title: "d3-world", href: "/d3-world", component: <D3Page />, isLeftMenu: true },
     { title: "d3-chart", href: "/d3-chart", component: <ChartIndexPage />, isLeftMenu: true },
     { title: "chartjs", href: "/chartjs", component: <ChartJsIndexPage />, isLeftMenu: true },
+    { title: "formik", href: "/formik", component: <FormikIndexPage />, isLeftMenu: true },
 ];
