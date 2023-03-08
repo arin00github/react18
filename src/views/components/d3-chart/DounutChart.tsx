@@ -57,15 +57,13 @@ export const DounutChart = <T extends DataType>(props: BarChartProps<T>): JSX.El
             const color = d3
                 .scaleOrdinal()
                 .domain(data.map((d) => d.name))
-                .range(d3.schemeCategory10);
+                .range(["#FFC300", "#ff8419", "#FF5733", "#ff0202", "#c70056", "#900C3F", "#571845"]);
 
             const pieGenerator = d3.pie<T>().value((d) => Number(d.value));
 
             const data_ready = pieGenerator(data).filter((d) =>
                 Number(d.data.value) >= 10000000 ? Number(d.data.value) : 0
             );
-
-            console.log("data_ready", data_ready);
 
             const arcGenerator = d3.arc<unknown, d3.PieArcDatum<T>>().innerRadius(0).outerRadius(radius);
 
@@ -81,8 +79,7 @@ export const DounutChart = <T extends DataType>(props: BarChartProps<T>): JSX.El
                 .attr("d", arcGenerator)
                 .attr("fill", (d: d3.PieArcDatum<T>) => color(d.data.name) as string)
                 .attr("stroke", "white")
-                .style("stroke-width", "2px")
-                .style("opacity", 0.7);
+                .style("stroke-width", "2px");
 
             arcs.append("text")
                 .attr("transform", (d) => `translate(${arcGenerator.centroid(d)})`)

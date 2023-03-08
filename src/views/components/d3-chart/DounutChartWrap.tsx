@@ -14,7 +14,7 @@ export const DounutChartWrap = <T extends DataType>({ data, option, height }: Do
     const chartWrap = useRef<HTMLDivElement | null>(null);
 
     return (
-        <div style={{ width: "100%", height: height }} ref={chartWrap}>
+        <div style={{ width: "100%", height: height, position: "absolute" }} ref={chartWrap}>
             {chartWrap.current && data && (
                 <DounutChart
                     data={data}

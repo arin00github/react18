@@ -36,6 +36,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
     const { data, option } = props;
     const [svgBox, setSVGBox] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
     const svgRef = useRef<SVGSVGElement | null>(null);
+    const tooltipRef = useRef(null);
 
     useEffect(() => {
         if (!svgRef.current) return;
@@ -51,9 +52,13 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
             //svgRef.current에 값이 있으면 다 지우기
             d3.select(svgRef.current).selectAll("*").remove();
 
+            const tooltip = d3.select(tooltipRef.current);
+
             const svg = d3.select(svgRef.current).attr("width", boxWidth).attr("height", boxHeight);
 
             const barBox = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const overBox = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
             const grid = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -89,6 +94,41 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                     .tickFormat((d: NumberValue) => d.valueOf() / 1000000 + "백만")
             );
 
+            overBox
+                .selectAll("rect")
+                .data(data)
+                .join("rect")
+                .attr("x", (d) => x_scale(d.name) || "")
+                .attr("y", () => 0)
+                .attr("fill", "red")
+                .attr("opacity", "10%")
+                .attr("width", x_scale.bandwidth())
+                .attr("height", () => height)
+                .on("mouseover", (event: MouseEvent, d: T) => {
+                    console.log(d);
+                    tooltip
+                        .style("opacity", 1)
+                        .style("position", "absolute")
+                        .style("background", "#fff")
+                        .style("font-size", "12px")
+                        .style("left", event.offsetX + "px")
+                        .style("top", event.offsetY + "px")
+                        .html(`Name: ${d.name}<br/>Value: ${d.value}`);
+                })
+                .on("mousemove", (event: MouseEvent, d: T) => {
+                    tooltip
+                        .style("opacity", 1)
+                        .style("position", "absolute")
+                        .style("background", "#fff")
+                        .style("font-size", "12px")
+                        .style("left", event.offsetX + "px")
+                        .style("top", event.offsetY + "px")
+                        .html(`Name: ${d.name}<br/>Value: ${d.value}`);
+                })
+                .on("mouseout", () => {
+                    tooltip.style("opacity", 0);
+                });
+
             barBox
                 .selectAll("rect")
                 .data(data)
@@ -102,5 +142,10 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
         }
     }, [data, option?.barStyle?.barColor, option?.height, option?.width]);
 
-    return <svg ref={svgRef} width={svgBox.width} height={svgBox.height}></svg>;
+    return (
+        <>
+            <svg ref={svgRef} width={svgBox.width} height={svgBox.height}></svg>
+            <div ref={tooltipRef}></div>
+        </>
+    );
 };
