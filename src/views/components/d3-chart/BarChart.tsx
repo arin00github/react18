@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import * as d3 from "d3";
+import { NumberValue } from "d3";
 
-import { CountryData } from "../../../types/d3-interface";
-import { DataType } from "../../pages/d3/ChartPage";
+import { CountryData, DataType } from "../../../types/d3-interface";
 
 interface TooltipProps {
     x: number;
@@ -41,7 +41,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
         if (!svgRef.current) return;
 
         if (data.length > 0) {
-            const margin = { top: 20, right: 30, bottom: 30, left: 60 };
+            const margin = { top: 20, right: 30, bottom: 30, left: 80 };
             const boxWidth = option?.width ? option.width : svgRef.current.clientWidth;
             const boxHeight = option?.height ? option.height : svgRef.current.clientHeight;
             setSVGBox({ width: boxWidth, height: boxHeight });
@@ -70,8 +70,8 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
 
             //y축 설정
             const y_scale = d3.scaleLinear().range([height, 0]);
-            const yAxisGroup = d3.axisLeft(y_scale);
             y_scale.domain([0, d3.max(data, (d) => d.value) || 6800000]);
+            const yAxisGroup = d3.axisLeft(y_scale);
 
             //grid 그룹안에 x축 추가
             grid.append("g")
@@ -82,7 +82,12 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .attr("dy", "10px");
 
             //grid 그룹안에 y축 추가
-            grid.append("g").call(yAxisGroup);
+            grid.append("g").call(
+                yAxisGroup
+                    .ticks(8)
+                    .tickSizeOuter(0)
+                    .tickFormat((d: NumberValue) => d.valueOf() / 1000000 + "백만")
+            );
 
             barBox
                 .selectAll("rect")

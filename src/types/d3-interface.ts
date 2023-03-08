@@ -1,3 +1,9 @@
+export type DataType = {
+    date: string;
+    value: number;
+    name: string;
+};
+
 export interface CountryData {
     info: {
         Area: number;

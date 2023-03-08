@@ -22,7 +22,12 @@ table.group-table {
     
   }
 
+  .form-box {
+    margin-top: 30px;
+  }
+
   tbody {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -93,7 +98,12 @@ table.group-table {
       padding:  4px 8px;
       border-radius: 4px;
     }
+    
   }
+  
+}
+.form-text.error {
+  color: red;
 }
 
 

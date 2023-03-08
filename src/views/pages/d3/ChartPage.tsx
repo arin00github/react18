@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { CountryData } from "../../../types/d3-interface";
+import { CountryData, DataType } from "../../../types/d3-interface";
 import { BarChartWrap } from "../../components/d3-chart/BarChartWrap";
 import { LineChartWrap } from "../../components/d3-chart/LineChartWrap";
-
-export type DataType = {
-    date: string;
-    value: number;
-    name: string;
-};
 
 const ChartIndexPage = () => {
     const [data, setData] = useState<DataType[]>([]);
@@ -50,8 +44,8 @@ const ChartIndexPage = () => {
     return (
         <div>
             <div>ChartIndexPage</div>
-            <div>{barData && <BarChartWrap data={barData} option={{ barStyle: { barColor: "#ff00ff" } }} />}</div>
-            <div>{data && <LineChartWrap data={data} option={{ lineStyle: { lineColor: "#ff00ff" } }} />}</div>
+            {/* <div>{barData && <BarChartWrap data={barData} option={{ barStyle: { barColor: "#ff00ff" } }} />}</div> */}
+            {/* <div>{data && <LineChartWrap data={data} option={{ lineStyle: { lineColor: "#ff00ff" } }} />}</div> */}
         </div>
     );
 };

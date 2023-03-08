@@ -4,6 +4,7 @@ import { Formik, Form, Field, FormikProps, FieldProps } from "formik";
 import { Col, FormControl, FormGroup, FormLabel, FormText, Row } from "react-bootstrap";
 import * as Yup from "yup";
 
+import { ImageField } from "./ImageField";
 import { MemberTableForm } from "./MemberTableForm";
 
 export interface memberType {
@@ -50,11 +51,12 @@ export const FormBox = () => {
     };
 
     return (
-        <div>
+        <div className="form-box">
             <Formik initialValues={initialValue} onSubmit={handleSubmit} validationSchema={validationSchema}>
                 {({ values, setFieldValue }: FormikProps<FormValue>) => {
                     return (
                         <Form>
+                            <ImageField setFieldValue={setFieldValue} values={values} />
                             <Field name="group_name">
                                 {({ field, meta }: FieldProps) => (
                                     <FormGroup style={{ width: "450px", marginBottom: 12 }}>

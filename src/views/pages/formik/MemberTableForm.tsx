@@ -112,7 +112,7 @@ export const MemberTableForm = ({ values, setFieldValue }: MemberTableFormProps)
                                             {({ field, meta }: FieldProps) => (
                                                 <FormGroup>
                                                     <FormControl id={field.name} {...field}></FormControl>
-                                                    {meta.error && <FormText>{meta.error}</FormText>}
+                                                    {meta.error && <FormText className="error">{meta.error}</FormText>}
                                                 </FormGroup>
                                             )}
                                         </Field>
@@ -122,7 +122,7 @@ export const MemberTableForm = ({ values, setFieldValue }: MemberTableFormProps)
                                             {({ field, meta }: FieldProps) => (
                                                 <FormGroup>
                                                     <FormControl id={field.name} {...field}></FormControl>
-                                                    {meta.error && <FormText>{meta.error}</FormText>}
+                                                    {meta.error && <FormText className="error">{meta.error}</FormText>}
                                                 </FormGroup>
                                             )}
                                         </Field>
@@ -132,7 +132,7 @@ export const MemberTableForm = ({ values, setFieldValue }: MemberTableFormProps)
                                             {({ field, meta }: FieldProps) => (
                                                 <FormGroup>
                                                     <FormControl id={field.name} {...field}></FormControl>
-                                                    {meta.error && <FormText>{meta.error}</FormText>}
+                                                    {meta.error && <FormText className="error">{meta.error}</FormText>}
                                                 </FormGroup>
                                             )}
                                         </Field>
@@ -142,7 +142,7 @@ export const MemberTableForm = ({ values, setFieldValue }: MemberTableFormProps)
                                             {({ field, meta }: FieldProps) => (
                                                 <FormGroup>
                                                     <FormControl id={field.name} {...field}></FormControl>
-                                                    {meta.error && <FormText>{meta.error}</FormText>}
+                                                    {meta.error && <FormText className="error">{meta.error}</FormText>}
                                                 </FormGroup>
                                             )}
                                         </Field>

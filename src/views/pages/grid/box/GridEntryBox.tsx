@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import RGL, { WidthProvider } from "react-grid-layout";
 import styled from "styled-components";
@@ -33,11 +33,39 @@ export const GridEntryBox = (props: GridEntryProps) => {
         <div>
             {layout && (
                 <ReactGridLayout layout={layout} onLayoutChange={onLayoutChange} {...defaultSetting}>
-                    {layout.map((box, idx) => (
-                        <StyledGridBox key={`box_${idx}`}>
-                            <GridBoxItem />
-                        </StyledGridBox>
-                    ))}
+                    {layout.map((box, idx) => {
+                        if (idx === 0) {
+                            return (
+                                <StyledGridBox key={`box_${idx}`}>
+                                    <GridBoxItem
+                                        keyId="box_0"
+                                        chartType="line"
+                                        height={box.h * defaultSetting.rowHeight}
+                                    />
+                                </StyledGridBox>
+                            );
+                        } else if (idx === 2) {
+                            return (
+                                <StyledGridBox key={`box_${idx}`}>
+                                    <GridBoxItem
+                                        keyId={`box_${idx}`}
+                                        chartType="dounut"
+                                        height={box.h * defaultSetting.rowHeight}
+                                    />
+                                </StyledGridBox>
+                            );
+                        } else {
+                            return (
+                                <StyledGridBox key={`box_${idx}`}>
+                                    <GridBoxItem
+                                        keyId={`box_${idx}`}
+                                        chartType="bar"
+                                        height={box.h * defaultSetting.rowHeight}
+                                    />
+                                </StyledGridBox>
+                            );
+                        }
+                    })}
                 </ReactGridLayout>
             )}
         </div>

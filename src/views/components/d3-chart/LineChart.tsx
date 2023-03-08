@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import * as d3 from "d3";
 
-import { DataType } from "../../pages/d3/ChartPage";
+import { DataType } from "../../../types/d3-interface";
 
 interface TooltipProps {
     x: number;
@@ -125,6 +125,7 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
             svg.append("rect")
                 .attr("class", "overlay")
                 .attr("fill", "transparent")
+                .attr("transform", `translate(${margin.left},${margin.top})`)
                 .attr("x", 0)
                 .attr("y", 0)
                 .attr("width", width)
