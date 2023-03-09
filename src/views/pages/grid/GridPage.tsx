@@ -30,12 +30,13 @@ class Unit {
 /**
  * i 값이 Grid Box의 key 값 하고 일치해야 한다
  */
-const unit01 = new Unit(0, 0, 2, 2, "box_0").make();
-const unit02 = new Unit(2, 0, 2, 2, "box_1").make();
-const unit03 = new Unit(4, 0, 2, 3, "box_2").make();
-const unit04 = new Unit(0, 2, 2, 3, "box_3").make();
+const unit01 = new Unit(0, 0, 4, 3, "box_0&type=line").make();
+const unit02 = new Unit(4, 0, 4, 3, "box_1&type=bar").make();
+const unit03 = new Unit(8, 0, 4, 3, "box_2&type=dounut").make();
+const unit04 = new Unit(4, 3, 8, 4, "box_3&type=bar").make();
 
 const initialLayout = [unit01, unit02, unit03, unit04];
+console.log("initial", initialLayout);
 
 const GridPage = (): JSX.Element => {
     return (

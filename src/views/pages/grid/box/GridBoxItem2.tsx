@@ -8,6 +8,7 @@ import { IDeplomacyList } from "../../../../types/deplomacy-interface";
 import { BarChartWrap } from "../../../components/d3-chart/BarChartWrap";
 import { DounutChartWrap } from "../../../components/d3-chart/DounutChartWrap";
 import { LineChartWrap } from "../../../components/d3-chart/LineChartWrap";
+import { LineChart } from "../../../components/rechart/LineChart";
 
 interface GridBoxItemProps {
     keyId: string;
@@ -15,7 +16,7 @@ interface GridBoxItemProps {
     height: number;
 }
 
-export const GridBoxItem = (props: GridBoxItemProps): JSX.Element => {
+export const GridBoxItem2 = (props: GridBoxItemProps): JSX.Element => {
     const { keyId, chartType, height } = props;
 
     const [data, setData] = useState<DataType[]>([]);
@@ -82,11 +83,7 @@ export const GridBoxItem = (props: GridBoxItemProps): JSX.Element => {
     }, [chartType, height, updateBarData]);
 
     if (chartType === "line") {
-        return (
-            <>
-                {data && <LineChartWrap height={height} data={data} option={{ lineStyle: { lineColor: "#ff00ff" } }} />}
-            </>
-        );
+        return <>{data && <LineChart data={data} option={{ lineStyle: { lineColor: "#ff00ff" } }} />}</>;
     }
     if (chartType === "bar") {
         return <>{data && <BarChartWrap height={height} data={data} />}</>;

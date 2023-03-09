@@ -25,6 +25,20 @@ export interface BarChartProps<T extends DataType> {
             right: number;
             left: number;
         };
+        yAxis?: {
+            visible: boolean;
+            tickSize?: number;
+            formatter?: (value: T) => string;
+        };
+        xAxis?: {
+            visible: boolean;
+            tickSize?: number;
+            formatter?: (value: T) => string;
+        };
+        title?: {
+            text: string;
+            fontSize?: string;
+        };
         tooltip?: {
             formatter?: (value: number) => string;
             renderTooltip?: (props: TooltipProps) => JSX.Element;
@@ -42,7 +56,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
         if (!svgRef.current) return;
 
         if (data.length > 0) {
-            const margin = { top: 20, right: 30, bottom: 30, left: 80 };
+            const margin = { top: 20, right: 30, bottom: 30, left: 60 };
             const boxWidth = option?.width ? option.width : svgRef.current.clientWidth;
             const boxHeight = option?.height ? option.height : svgRef.current.clientHeight;
             setSVGBox({ width: boxWidth, height: boxHeight });
@@ -56,16 +70,6 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
 
             const svg = d3.select(svgRef.current).attr("width", boxWidth).attr("height", boxHeight);
 
-            const barBox = svg
-                .append("g")
-                .attr("transform", `translate(${margin.left},${margin.top})`)
-                .attr("aria-label", "bar-box");
-
-            const overBox = svg
-                .append("g")
-                .attr("transform", `translate(${margin.left},${margin.top})`)
-                .attr("aria-label", "mouse-over-box");
-
             const axisBox = svg
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`)
@@ -75,6 +79,16 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .append("g")
                 .attr("transform", `translate(${margin.left},${margin.top})`)
                 .attr("aria-label", "grid-box");
+
+            const barBox = svg
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`)
+                .attr("aria-label", "bar-box");
+
+            const overBox = svg
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`)
+                .attr("aria-label", "mouse-over-box");
 
             /*x축 설정
              * scaleBand() : 범주형 변수를 연속형 변수로 변환
@@ -140,13 +154,11 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .attr("x", (d) => x_scale(d.name) || "")
                 .attr("y", () => 0)
                 .attr("fill", "red")
-                .attr("opacity", "10%")
+                .attr("opacity", "5%")
                 .attr("width", x_scale.bandwidth())
                 .attr("height", () => height)
                 .on("mouseover", function (event: MouseEvent, d: T) {
-                    console.log("this", this);
                     d3.select(this).attr("opacity", "50%");
-
                     tooltip
                         .style("opacity", 1)
                         .style("position", "absolute")
@@ -167,7 +179,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                         .html(`Name: ${d.name}<br/>Value: ${d.value}`);
                 })
                 .on("mouseout", function () {
-                    d3.select(this).attr("opacity", "10%");
+                    d3.select(this).attr("opacity", "5%");
                     tooltip.style("opacity", 0);
                 });
 
