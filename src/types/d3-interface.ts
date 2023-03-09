@@ -1,3 +1,5 @@
+import geojson, { GeometryCollection, LineString, GeometryObject } from "geojson";
+
 export type DataType = {
     date: string;
     value: number;
@@ -38,4 +40,34 @@ export interface CountryData2 {
         officialName: string;
     };
     Name: string;
+}
+
+export type CoordinateData = number[];
+
+export interface topoData {
+    bbox: number[];
+    type: "Topology";
+    arcs?: LineString[][];
+    objects: {
+        countries: GeometryObject;
+        land: GeometryObject;
+        transform: {
+            scale: number[];
+            translate: number[];
+        };
+    };
+}
+
+export interface GeoData {
+    type: string;
+    features: {
+        type: string;
+        geometry: {
+            type: string;
+            coordinates: number[][];
+        };
+        properties: {
+            name: string;
+        };
+    }[];
 }
