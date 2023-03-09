@@ -94,7 +94,6 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
 
             // y 축 그리드선 추가
             grid.append("g")
-
                 .attr("class", "grid-x")
                 .attr("transform", `translate(0, 0)`)
                 .call(yAxisGroup.tickSize(-width).tickFormat(() => ""))
@@ -110,7 +109,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 //.style("stroke", "#ececec37")
                 .style("stroke-opacity", 0.1);
 
-            //grid 그룹안에 x축 추가
+            //axisBox 안에 x축 추가
             axisBox
                 .append("g")
                 .call(xAxisGroup)
@@ -119,7 +118,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .style("text-anchor", "middle")
                 .attr("dy", "10px");
 
-            //grid 그룹안에 y축 추가
+            //axisBox 안에 y축 추가
             axisBox
                 .append("g")
                 .attr("y", () => 0)
@@ -144,8 +143,10 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .attr("opacity", "10%")
                 .attr("width", x_scale.bandwidth())
                 .attr("height", () => height)
-                .on("mouseover", (event: MouseEvent, d: T) => {
-                    console.log(d);
+                .on("mouseover", function (event: MouseEvent, d: T) {
+                    console.log("this", this);
+                    d3.select(this).attr("opacity", "50%");
+
                     tooltip
                         .style("opacity", 1)
                         .style("position", "absolute")
@@ -165,7 +166,8 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                         .style("top", event.offsetY + "px")
                         .html(`Name: ${d.name}<br/>Value: ${d.value}`);
                 })
-                .on("mouseout", () => {
+                .on("mouseout", function () {
+                    d3.select(this).attr("opacity", "10%");
                     tooltip.style("opacity", 0);
                 });
 
