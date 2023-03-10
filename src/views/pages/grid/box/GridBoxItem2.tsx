@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import styled from "styled-components";
-
 import { NewDeplomacyApi } from "../../../../service/api/DeplomacyApi";
 import { DataType } from "../../../../types/d3-interface";
 import { IDeplomacyList } from "../../../../types/deplomacy-interface";
-import { BarChartWrap } from "../../../components/d3-chart/BarChartWrap";
-import { DounutChartWrap } from "../../../components/d3-chart/DounutChartWrap";
-import { LineChartWrap } from "../../../components/d3-chart/LineChartWrap";
+import { BarChart } from "../../../components/rechart/BarChart";
 import { LineChart } from "../../../components/rechart/LineChart";
+import { PieChart } from "../../../components/rechart/PieChart";
 
 interface GridBoxItemProps {
     keyId: string;
@@ -23,7 +20,7 @@ export const GridBoxItem2 = (props: GridBoxItemProps): JSX.Element => {
 
     const fetchData = async () => {
         const response = await fetch(
-            "https://api.coindesk.com/v1/bpi/historical/close.json?start=2022-01-01&end=2022-02-20"
+            "https://api.coindesk.com/v1/bpi/historical/close.json?start=2022-02-01&end=2022-03-01"
         );
         const result = await response.json();
         const parsedData = Object.entries(result.bpi).map((d) => ({
@@ -86,10 +83,10 @@ export const GridBoxItem2 = (props: GridBoxItemProps): JSX.Element => {
         return <>{data && <LineChart data={data} option={{ lineStyle: { lineColor: "#ff00ff" } }} />}</>;
     }
     if (chartType === "bar") {
-        return <>{data && <BarChartWrap height={height} data={data} />}</>;
+        return <>{data && <BarChart data={data} />}</>;
     }
     if (chartType === "dounut") {
-        return <>{data && <DounutChartWrap height={height} data={data} />}</>;
+        return <>{data && <PieChart data={data.filter((item) => item.value > 50000000)} />}</>;
     }
     return <></>;
 };

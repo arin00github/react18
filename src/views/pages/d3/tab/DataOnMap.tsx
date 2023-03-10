@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-import { select, geoEquirectangular, geoPath, json, zoom, ZoomBehavior, Selection } from "d3";
+import * as d3 from "d3";
 import styled from "styled-components";
 
 import { CountryData, CountryData2 } from "../../../../types/d3-interface";
@@ -15,14 +15,15 @@ const DataOnMap = (): JSX.Element => {
 
         const width = document.getElementById("map-wrap")?.clientWidth || 1200;
         const height = 500;
-        const svg = select<Element, unknown>("#map").attr("viewBox", [0, 0, width, height]);
+        const svg = d3.select<Element, unknown>("#map").attr("viewBox", [0, 0, width, height]);
 
-        const projection = geoEquirectangular().center([0, 0]);
-        const pathGenerator = geoPath().projection(projection);
+        const projection = d3.geoEquirectangular().center([0, 0]);
+        const pathGenerator = d3.geoPath().projection(projection);
+        d3.select(svgRef.current).selectAll("*").remove();
 
         Promise.all([
-            json("https://raw.githubusercontent.com/iamspruce/intro-d3/main/data/nigeria_state_boundaries.geojson"),
-            json("https://raw.githubusercontent.com/iamspruce/intro-d3/main/data/nigeria-states.json"),
+            d3.json("https://raw.githubusercontent.com/iamspruce/intro-d3/main/data/nigeria_state_boundaries.geojson"),
+            d3.json("https://raw.githubusercontent.com/iamspruce/intro-d3/main/data/nigeria-states.json"),
         ]).then(([response, response2]) => {
             const g = svg.append("g");
             const geoJSONdata = response as FeatureCollection;
@@ -38,8 +39,7 @@ const DataOnMap = (): JSX.Element => {
                     },
                 };
             });
-            console.log("geoJSONdata", geoJSONdata);
-            console.log("countryData", countryData);
+
             countryData.forEach((d) => {
                 d.info.Longitude = +d.info.Longitude;
                 d.info.Latitude = +d.info.Latitude;
@@ -90,7 +90,8 @@ const DataOnMap = (): JSX.Element => {
                 .style("text-decoration", "underline")
                 .text("Map of Nigeria and it's states ");
 
-            const zooming = zoom()
+            const zooming = d3
+                .zoom()
                 .scaleExtent([1, 8])
                 .on("zoom", (event) => {
                     console.log("event", event);

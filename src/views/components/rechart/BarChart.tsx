@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import * as d3 from "d3";
 import {
-    LineChart as LineCharGraph,
+    BarChart as BarChartGraph,
     Tooltip,
     Legend,
     ResponsiveContainer,
@@ -10,6 +9,7 @@ import {
     YAxis,
     Line,
     CartesianGrid,
+    Bar,
 } from "recharts";
 
 import { DataType } from "../../../types/d3-interface";
@@ -20,7 +20,7 @@ interface TooltipProps {
     content: string;
 }
 
-export interface LineChartProps<T extends DataType> {
+export interface BarChartProps<T extends DataType> {
     data: T[];
     option?: {
         width?: number;
@@ -42,30 +42,22 @@ export interface LineChartProps<T extends DataType> {
     };
 }
 
-export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Element => {
+export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Element => {
     const { data, option } = props;
 
     return (
         <ResponsiveContainer width={"100%"} height="100%">
-            <LineCharGraph
+            <BarChartGraph
                 data={data}
                 margin={option?.margin ? option.margin : { top: 20, left: 20, bottom: 20, right: 20 }}
             >
                 <CartesianGrid strokeDasharray="3 1" />
-                <XAxis
-                    dataKey="date"
-                    fontSize={10}
-                    tickSize={5}
-                    interval={7}
-                    tickFormatter={(value) => {
-                        return `${value.slice(5)}`;
-                    }}
-                />
-                <YAxis />
+                <XAxis dataKey="name" fontSize={10} />
+                <YAxis fontSize={10} tickFormatter={(data: number) => data.toString().replace("0000", "") + "만"} />
                 <Tooltip />
                 <Legend />
-                <Line dataKey="value" stroke="#2a1cc5" />
-            </LineCharGraph>
+                <Bar data={data} dataKey="value" fill="#290abc" />
+            </BarChartGraph>
         </ResponsiveContainer>
     );
 };
