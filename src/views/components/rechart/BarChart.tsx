@@ -51,12 +51,17 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 data={data}
                 margin={option?.margin ? option.margin : { top: 20, left: 20, bottom: 20, right: 20 }}
             >
-                <CartesianGrid strokeDasharray="3 1" />
-                <XAxis dataKey="name" fontSize={10} />
-                <YAxis fontSize={10} tickFormatter={(data: number) => data.toString().replace("0000", "") + "만"} />
+                <CartesianGrid strokeDasharray="3 1" opacity={0.4} />
+                <XAxis dataKey="name" fontSize={10} stroke="#ffffffb1" />
+                <YAxis
+                    fontSize={10}
+                    color="#fff"
+                    stroke="#ffffffb1"
+                    tickFormatter={(data: number) => data.toString().replace("0000", "") + "만"}
+                />
                 <Tooltip />
                 <Legend />
-                <Bar data={data} dataKey="value" fill="#290abc" />
+                <Bar data={data} dataKey="value" fill="#76b7ed" />
             </BarChartGraph>
         </ResponsiveContainer>
     );

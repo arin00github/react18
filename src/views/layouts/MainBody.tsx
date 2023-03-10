@@ -15,8 +15,10 @@ export function MainBody({ children }: MainBodyProps) {
 }
 
 const StyledMainBody = styled.div`
-    width: calc(100% - 240px);
-    margin-left: 240px;
+    width: calc(100% - 60px);
+    height: 100vh;
+    margin-left: 60px;
+    background-color: #35354c;
 
     .body-inner {
         padding: 0 3rem;

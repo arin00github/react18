@@ -30,31 +30,23 @@ export function Aside() {
                     );
                 })}
             </ul>
-            <div className="p-4">
-                <CustomButton onClick={() => dispatch(updateIsLogin(false))}>로그아웃</CustomButton>
-            </div>
-            {/* <div>장바구니 상품 : {cartLength.length}</div> */}
-            <LocationDisplay />
         </StyledAside>
     );
 }
 
 const StyledAside = styled.div`
-    width: 240px;
+    width: 60px;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    border-right: 1px solid;
-    border-right-color: #000;
+    background-color: #484864;
 
     ul {
-        padding: 2rem 0;
-
         li {
-            padding: 0 2rem;
-            height: 3rem;
-            line-height: 3rem;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
 
             &:hover {
                 background-color: #ebebeb;

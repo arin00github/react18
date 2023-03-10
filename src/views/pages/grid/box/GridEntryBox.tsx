@@ -26,8 +26,8 @@ export const GridEntryBox = (props: GridEntryProps) => {
     const defaultSetting = {
         className: "layout",
         item: 6,
-        rowHeight: 100,
-        cols: 12,
+        rowHeight: 50,
+        cols: 16,
     };
 
     const onLayoutChange = (layout: RGL.Layout[]) => {
@@ -57,7 +57,7 @@ export const GridEntryBox = (props: GridEntryProps) => {
 };
 
 const StyledGridBox = styled.div<StyledProps>`
-    background-color: #ffffff;
+    background-color: #ffffff16;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
     border-radius: 3px;
     ${({ style }) =>
