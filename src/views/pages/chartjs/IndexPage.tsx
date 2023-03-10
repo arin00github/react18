@@ -25,7 +25,6 @@ const IndexPage = () => {
             }));
         setData(parsedData);
     };
-    console.log("IndexPage data", data);
 
     useEffect(() => {
         fetchData2();

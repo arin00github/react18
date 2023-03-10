@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 
-import ChartJsIndexPage from "../pages/chartjs/IndexPage";
-import ChartIndexPage from "../pages/d3/ChartPage";
+// import ChartJsIndexPage from "../pages/chartjs/IndexPage";
+// import ChartIndexPage from "../pages/d3/ChartPage";
 import D3Page from "../pages/d3/D3Page";
 import D3WorldPage from "../pages/d3/WorldPage";
 import FormikIndexPage from "../pages/formik/IndexPage";

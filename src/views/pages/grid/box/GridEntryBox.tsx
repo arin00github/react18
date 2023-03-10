@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import RGL, { WidthProvider } from "react-grid-layout";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { BoxUnit } from "../GridPage";
 
@@ -13,6 +13,10 @@ const ReactGridLayout = WidthProvider(RGL);
 interface GridEntryProps {
     initialLayout: BoxUnit[];
 }
+
+type StyledProps = {
+    style?: Record<string, string>;
+};
 
 export const GridEntryBox = (props: GridEntryProps) => {
     const { initialLayout } = props;
@@ -52,8 +56,13 @@ export const GridEntryBox = (props: GridEntryProps) => {
     );
 };
 
-const StyledGridBox = styled.div`
+const StyledGridBox = styled.div<StyledProps>`
     background-color: #ffffff;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
     border-radius: 3px;
+    ${({ style }) =>
+        style &&
+        css`
+            ${Object.keys(style).map((key) => `${key}: ${style[key]};`)}
+        `}
 `;

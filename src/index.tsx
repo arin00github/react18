@@ -1,6 +1,7 @@
 import React from "react";
 
 import ReactDOM from "react-dom/client";
+import { QueryClientProvider, QueryClient } from "react-query";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ThemeProvider } from "styled-components";
@@ -24,14 +25,19 @@ if (process.env.NODE_ENV === "test") {
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 const store = setupStore();
+
+const queryClient = new QueryClient();
+
 root.render(
     <React.StrictMode>
         <PersistGate persistor={persistor}>
             <Provider store={store}>
-                <ThemeProvider theme={LightTheme}>
-                    <GlobalStyles />
-                    <App />
-                </ThemeProvider>
+                <QueryClientProvider client={queryClient}>
+                    <ThemeProvider theme={LightTheme}>
+                        <GlobalStyles />
+                        <App />
+                    </ThemeProvider>
+                </QueryClientProvider>
             </Provider>
         </PersistGate>
     </React.StrictMode>

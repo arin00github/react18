@@ -47,33 +47,5 @@ export const GlobalStyles = createGlobalStyle<DefaultTheme>`
   }
 
 
-  #aside {
-    width: 240px;
-    height: 100vh;
-    position:fixed;
-    top:0;
-    left:0;
-    border-right: 1px solid;
-    border-right-color: #000;
-  }
-  #aside ul {
-    padding:2rem 0;
-  }
-  #aside ul li {
-    padding:0 2rem;
-    height: 3rem;
-    line-height: 3rem;
-  }
-  #aside ul li:hover {
-    background-color: #ebebeb;
-  }
-
-  #main-body{
-    width: calc(100% - 240px);
-    margin-left: 240px;
-  }
-  #main-body .body-inner {
-    padding: 0 3rem;
-  }
-
+  
 `;

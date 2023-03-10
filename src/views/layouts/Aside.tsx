@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import { updateIsLogin } from "../../redux/account/account.slice";
 import { useAppDispatch } from "../../redux/hook";
@@ -17,7 +18,7 @@ export function Aside() {
     const showArrayMenu = BasicMenu.filter((menu) => menu.isLeftMenu);
 
     return (
-        <div id="aside">
+        <StyledAside>
             <ul>
                 {showArrayMenu.map((menu) => {
                     return (
@@ -34,6 +35,30 @@ export function Aside() {
             </div>
             {/* <div>장바구니 상품 : {cartLength.length}</div> */}
             <LocationDisplay />
-        </div>
+        </StyledAside>
     );
 }
+
+const StyledAside = styled.div`
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-right: 1px solid;
+    border-right-color: #000;
+
+    ul {
+        padding: 2rem 0;
+
+        li {
+            padding: 0 2rem;
+            height: 3rem;
+            line-height: 3rem;
+
+            &:hover {
+                background-color: #ebebeb;
+            }
+        }
+    }
+`;
