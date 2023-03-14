@@ -46,7 +46,6 @@ export const PieChart = <T extends DataType>(props: PieChartProps<T>) => {
     const { data } = props;
 
     const [activeIndex, setActiveIndex] = useState<number>(0);
-    console.log("pie data", data);
 
     const handleChangeActiveIndex = (index: number) => {
         setActiveIndex(index);

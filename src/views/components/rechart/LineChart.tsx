@@ -11,6 +11,7 @@ import {
     Line,
     CartesianGrid,
 } from "recharts";
+import styled from "styled-components";
 
 import { DataType } from "../../../types/d3-interface";
 
@@ -61,11 +62,24 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
                         return `${value.slice(5)}`;
                     }}
                 />
-                <YAxis />
-                <Tooltip />
+                <YAxis color="#fff" stroke="#ffffffb1" />
+                <Tooltip
+                    content={({ active, payload, label }) => {
+                        if (active) {
+                            return <StyledTooltip>tooltip</StyledTooltip>;
+                        }
+                        return null;
+                    }}
+                />
                 <Legend />
-                <Line dataKey="value" stroke="#2a1cc5" />
+                <Line dataKey="value" stroke="#e77bd1" strokeWidth={2} />
             </LineCharGraph>
         </ResponsiveContainer>
     );
 };
+
+const StyledTooltip = styled.div`
+    padding: 8px;
+    background-color: #fff;
+    border-radius: 4px;
+`;

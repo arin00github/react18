@@ -20,10 +20,13 @@ export const IconButton = styled.button`
     height: 32px;
     line-height: 32px;
     text-align: center;
-    background-color: #515be6;
+    background-color: transparent;
     outline: none;
     border: none;
     color: #fff;
+    &:hover {
+        background-color: #ffffff40;
+    }
 `;
 
 export const CustomButton = styled.button`

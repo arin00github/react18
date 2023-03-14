@@ -21,6 +21,6 @@ const StyledMainBody = styled.div`
     background-color: #35354c;
 
     .body-inner {
-        padding: 0 3rem;
+        //padding: 0 3rem;
     }
 `;

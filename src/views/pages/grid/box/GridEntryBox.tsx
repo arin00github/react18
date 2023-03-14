@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
-import RGL, { WidthProvider } from "react-grid-layout";
+import { Button } from "react-bootstrap";
+import RGL, { WidthProvider, Layout } from "react-grid-layout";
 import styled, { css } from "styled-components";
 
-import { BoxUnit } from "../GridPage";
+import { BoxUnit, Unit } from "../GridPage";
 
 import { GridBoxItem } from "./GridBoxItem";
 import { GridBoxItem2 } from "./GridBoxItem2";
@@ -26,19 +27,84 @@ export const GridEntryBox = (props: GridEntryProps) => {
     const defaultSetting = {
         className: "layout",
         item: 6,
-        rowHeight: 50,
+        rowHeight: 40,
         cols: 16,
     };
 
     const onLayoutChange = (layout: RGL.Layout[]) => {
-        console.log("layout", layout);
         setLayout(layout);
+    };
+
+    const handleAddBox = () => {
+        const newItem = handleAddNewBox(layout);
+        setLayout([...layout, newItem]);
+    };
+
+    function removeDuplicates(arr: number[]): number[] {
+        const uniqueArr = Array.from(new Set(arr));
+        uniqueArr.sort((a, b) => a - b);
+        return uniqueArr;
+    }
+
+    const handleAddNewBox = (layout: Layout[]) => {
+        console.log("layout", layout);
+        const ygroup = layout.map((val) => val.y);
+        const ySet = removeDuplicates(ygroup);
+
+        let xTargetValue = 0;
+        let yTargetValue = 0;
+        let totalH = 0;
+        for (let j = 0; j < ySet.length; j++) {
+            yTargetValue = ySet[j];
+            const yValueBoxes = layout.filter((val) => val.y === ySet[j]);
+            const xValueBoxes = layout.filter((val) => val.x === 0);
+
+            let totalValue = 0;
+            totalH = 0;
+            for (let k = 0; k < yValueBoxes.length; k++) {
+                totalH += xValueBoxes[k].h;
+            }
+            for (let i = 0; i < yValueBoxes.length; i++) {
+                totalValue += yValueBoxes[i].w;
+            }
+
+            xTargetValue = 16 - totalValue;
+
+            if (xTargetValue > 0) break;
+        }
+        xTargetValue = 16 - xTargetValue;
+
+        if (xTargetValue === 0) {
+            yTargetValue = totalH;
+            console.log("x is 0", yTargetValue);
+        } else {
+            const findBox = layout.find((val) => val.x === 12);
+            if (findBox) {
+                yTargetValue = findBox.h;
+                xTargetValue = findBox.h >= totalH ? 0 : xTargetValue;
+            }
+            console.log("x is not 0", yTargetValue);
+        }
+
+        console.log(`xTargetValue: ${xTargetValue} , yTargetValue: ${yTargetValue}`);
+
+        const newItem = new Unit(xTargetValue, yTargetValue, 4, 4, `box_${layout.length}type=box`).make();
+        return newItem;
     };
 
     return (
         <div>
+            <div>
+                <Button onClick={handleAddBox}>박스 추가</Button>
+            </div>
             {layout && (
-                <ReactGridLayout layout={layout} onLayoutChange={onLayoutChange} {...defaultSetting}>
+                <ReactGridLayout
+                    layout={layout}
+                    onLayoutChange={onLayoutChange}
+                    {...defaultSetting}
+                    compactType="horizontal"
+                    verticalCompact={true}
+                >
                     {layout.map((box) => {
                         return (
                             <StyledGridBox key={box.i}>
