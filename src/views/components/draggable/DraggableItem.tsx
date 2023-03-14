@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
-import { FaExpand } from "react-icons/fa";
+import { FaCog, FaExpand, FaFigma, FaToolbox, FaTrash } from "react-icons/fa";
 import { ResizableBox } from "react-resizable";
 import styled from "styled-components";
 
@@ -12,16 +12,15 @@ interface DraggableItemProps {
     onDragStop: (e: DraggableEvent, data: DraggableData, item: LayoutItem) => void;
     onResizeBox: (e: React.SyntheticEvent, item: LayoutItem) => void;
     selectedId?: string;
+    handleDelete: (id: string) => void;
 }
 
-export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId }: DraggableItemProps) => {
-    const [isDragging, setIsDragging] = useState(false);
-    const [size, setSize] = useState({ width: item.w, height: item.h });
+export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handleDelete }: DraggableItemProps) => {
+    //const [size, setSize] = useState({ width: item.w, height: item.h });
     const [position, setPosition] = useState<{ x: number; y: number }>({ x: item.x, y: item.y });
 
-    const handleResize = () => {
-        setIsDragging(false);
-    };
+    console.log("item", item);
+
     const handleResizeStop = (e: React.SyntheticEvent) => {
         const eventDiv = e.target as HTMLDivElement;
         let container = eventDiv.parentElement;
@@ -30,7 +29,7 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId }: Dra
                 container = container.parentElement;
             }
             if (!container) return;
-            console.log("eventDiv.parentElement", eventDiv.parentElement);
+
             const newWidth = Number(container.style.width.replace("px", ""));
 
             const newHeight = Number(container.style.height.replace("px", ""));
@@ -41,74 +40,92 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId }: Dra
                 h: Math.round(newHeight / 20) * 20,
             });
         }
-        setIsDragging(true);
     };
 
-    const handleResizeStart = () => {
-        setIsDragging(false);
-    };
     useEffect(() => {
         console.log("useEffect gridItembox");
-        setSize({ width: item.w, height: item.h });
         setPosition({ x: item.x, y: item.y });
-    }, [item]);
+    }, [item.x, item.y]);
 
     return (
-        <Draggable
-            defaultClassName={item.i}
-            key={item.i}
-            position={position}
-            grid={[20, 20]}
-            cancel="#handle"
-            onDrag={(e, data) => {
-                console.log("onDrag", e);
-                const event = e.target as HTMLDivElement;
-                if (event.id === "handle") {
-                    setIsDragging(true);
-                } else {
+        <>
+            <Draggable
+                defaultClassName={item.i}
+                key={item.i}
+                position={position}
+                grid={[20, 20]}
+                cancel="#handle"
+                onDrag={(e, data) => {
+                    const event = e.target as HTMLDivElement;
+                    if (event.id !== "handle") {
+                        onDragStop(e, data, item);
+                    }
+                }}
+                onStop={(e, data) => {
                     onDragStop(e, data, item);
-                    setIsDragging(false);
-                }
-            }}
-            onStop={(e, data) => {
-                onDragStop(e, data, item);
-            }}
-            onMouseDown={(e) => {
-                console.log(e.currentTarget);
-            }}
-        >
-            <ResizableBox
-                width={Math.round(item.w / 20) * 20}
-                height={Math.round(item.h / 20) * 20}
-                onResizeStart={handleResizeStart}
-                onResize={handleResize}
-                onResizeStop={handleResizeStop}
-                handle={
-                    <StyledHandle id="handle">
-                        <FaExpand />
-                    </StyledHandle>
-                }
+                }}
+                onMouseDown={(e) => {
+                    console.log(e.currentTarget);
+                }}
             >
-                <StyledBox
-                    aria-label={item.i}
-                    style={{
-                        background: !isDragging ? "red" : "white",
-                        boxShadow: selectedId === item.i ? "0px 0px 8px #ffff22" : "none",
-                        borderColor: selectedId === item.i ? "yallow" : "white",
-                        borderWidth: 2,
-                    }}
+                <ResizableBox
+                    width={Math.round(item.w / 20) * 20}
+                    height={Math.round(item.h / 20) * 20}
+                    onResizeStop={handleResizeStop}
+                    handle={
+                        <StyledHandle id="handle">
+                            <FaExpand />
+                        </StyledHandle>
+                    }
                 >
-                    box
-                </StyledBox>
-            </ResizableBox>
-        </Draggable>
+                    <StyledBox aria-label={item.i}>{selectedId === item.i ? "클릭" : ""}</StyledBox>
+                    {selectedId === item.i && (
+                        <StyleChartTool>
+                            <div className="tool-icon" onClick={() => handleDelete(item.i)}>
+                                <FaTrash />
+                            </div>
+                            <div className="tool-icon">
+                                <FaFigma />
+                            </div>
+                            <div className="tool-icon">
+                                <FaCog />
+                            </div>
+                        </StyleChartTool>
+                    )}
+                </ResizableBox>
+            </Draggable>
+        </>
     );
 };
+
+const StyleChartTool = styled.div`
+    position: absolute;
+    top: 0;
+    right: -54px;
+    width: 40px;
+    height: 160px;
+    z-index: 100;
+
+    .tool-icon {
+        width: 38px;
+        line-height: 38px;
+        height: 38px;
+        border: 1px solid #f9f9f9;
+        background-color: #adadad9d;
+        text-align: center;
+        color: #fff;
+        svg {
+            vertical-align: middle;
+        }
+    }
+`;
 
 const StyledBox = styled.div`
     width: 100%;
     height: 100%;
     background-color: #fff;
+    position: relative;
+    box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.1);
 `;
 const StyledHandle = styled.div`
     bottom: 0;
