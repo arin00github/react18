@@ -19,8 +19,6 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
     //const [size, setSize] = useState({ width: item.w, height: item.h });
     const [position, setPosition] = useState<{ x: number; y: number }>({ x: item.x, y: item.y });
 
-    console.log("item", item);
-
     const handleResizeStop = (e: React.SyntheticEvent) => {
         const eventDiv = e.target as HTMLDivElement;
         let container = eventDiv.parentElement;
@@ -29,9 +27,7 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
                 container = container.parentElement;
             }
             if (!container) return;
-
             const newWidth = Number(container.style.width.replace("px", ""));
-
             const newHeight = Number(container.style.height.replace("px", ""));
 
             onResizeBox(e, {
@@ -55,12 +51,6 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
                 position={position}
                 grid={[20, 20]}
                 cancel="#handle"
-                onDrag={(e, data) => {
-                    const event = e.target as HTMLDivElement;
-                    if (event.id !== "handle") {
-                        onDragStop(e, data, item);
-                    }
-                }}
                 onStop={(e, data) => {
                     onDragStop(e, data, item);
                 }}
@@ -73,7 +63,7 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
                     height={Math.round(item.h / 20) * 20}
                     onResizeStop={handleResizeStop}
                     handle={
-                        <StyledHandle id="handle">
+                        <StyledHandle id="handle" aria-label="handle">
                             <FaExpand />
                         </StyledHandle>
                     }

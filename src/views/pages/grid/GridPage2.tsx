@@ -62,20 +62,51 @@ const GridPage2 = (): JSX.Element => {
         setLayout(layout.filter((lay) => lay.i !== id));
     };
 
+    const gap = 20;
+
+    /***
+     * 가장 오른쪽, 가장 아래있는 요소
+     * row에서 마지막 박스는 width 값을 체크해야 함.
+     * 중간에 칸이 넗게 빌 수도 있음. (체크필요)
+     *
+     */
     const calculateXY = () => {
         const yCategory = removeDuplicates(layout.map((ly) => ly.y));
         const yMax = yCategory.reduce((a, b) => Math.max(a, b));
+
+        const arrangedArr: LayoutItem[][] = yCategory.map((yVal) => {
+            return layout.filter((ly) => ly.y === yVal).sort((a, b) => a.x - b.x);
+        });
+        const finalArr = arrangedArr.reduce((a, b) => a.concat(b));
+        console.log("finalArr", finalArr);
+
+        //중간에 칸 너비
+        if (finalArr.length >= 2) {
+            let findGap = 0;
+            let findIndex = 0;
+            for (let i = 0; i < finalArr.length - 1; i++) {
+                findGap = finalArr[i + 1].x - finalArr[i].x - finalArr[i].w - gap;
+                findIndex = i;
+                if (findGap >= 300) break;
+            }
+            console.log("findGap", findGap, "findIndex", findIndex);
+            if (findGap >= 300) {
+                return [finalArr[findIndex].x + finalArr[findIndex].w + 20, finalArr[findIndex].y];
+            }
+        }
         const filterArr = layout.filter((ly) => ly.y === yMax);
+
         const xArray = filterArr.map((ly) => ly.x);
-        const max = xArray.reduce(function (a, b) {
-            return Math.max(a, b);
-        }, -Infinity);
+        const max = xArray.reduce((a, b) => Math.max(a, b), -Infinity);
+        const findPrevX = filterArr.find((ly) => ly.x === max);
+        console.log("findPrevX", findPrevX);
         let returnX = 20;
         let returnY = yMax;
-        if (max + 340 <= 1400) {
-            returnX = max + 340;
+        const returnW = findPrevX ? findPrevX.w : 300;
+        if (max + 300 + gap <= 1400) {
+            returnX = max + returnW + gap;
         } else {
-            returnY = yMax + 340;
+            returnY = yMax + returnW + gap;
         }
         return [returnX, returnY];
     };
