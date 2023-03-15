@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
-import { FaCog, FaExpand, FaFigma, FaToolbox, FaTrash } from "react-icons/fa";
+import { FaCog, FaExpand, FaFigma, FaTrash } from "react-icons/fa";
 import { ResizableBox } from "react-resizable";
 import styled from "styled-components";
 
-import { LayoutItem } from "../../pages/grid/GridPage2";
+import { LayoutItem } from "../../../types/grid-interface";
 
 interface DraggableItemProps {
     item: { x: number; y: number; w: number; h: number; i: string };
@@ -23,7 +23,6 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
         const eventDiv = e.target as HTMLElement;
         let container = eventDiv.parentElement;
         if (container) {
-            console.log("😝 prev container", container);
             if (container.id === "handle") {
                 container = container.parentElement;
             }
@@ -31,14 +30,9 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
                 const container2 = container.parentElement;
                 container = container2?.parentElement || container;
             }
-            console.log("after container", container);
             if (!container) return;
-
-            console.log("w/h", container.style.width, container.style.height);
             const newWidth = Number(container.style.width.replace("px", ""));
             const newHeight = Number(container.style.height.replace("px", ""));
-            console.log(`newWidth: ${newWidth} // newHeight: ${newHeight}`);
-
             onResizeBox(e, {
                 ...item,
                 w: Math.round(newWidth / 20) * 20,
@@ -48,7 +42,6 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
     };
 
     useEffect(() => {
-        console.log("useEffect gridItembox");
         setPosition({ x: item.x, y: item.y });
     }, [item.x, item.y]);
 
@@ -97,6 +90,7 @@ const StyleChartTool = styled.div`
     position: absolute;
     top: 0;
     right: -54px;
+
     width: 40px;
     height: 160px;
     z-index: 100;

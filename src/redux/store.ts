@@ -3,8 +3,8 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import accountReducer from "./account/account.slice";
-import { apiSlice } from "./api/api.slice";
-import postReduducer from "./post/post.slice";
+import gridReducer from "./grid/grid.slice";
+import postReducer from "./post/post.slice";
 
 const persistConfig = {
     key: "root",
@@ -13,8 +13,8 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({
     account: accountReducer,
-    post: postReduducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
+    post: postReducer,
+    grid: gridReducer,
 });
 
 export const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -23,8 +23,7 @@ export function setupStore(preloadedState?: PreloadedState<RootState>) {
     return configureStore({
         reducer: persistedReducer,
         preloadedState,
-        middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware({ serializableCheck: false }).concat(apiSlice.middleware),
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
     });
 }
 

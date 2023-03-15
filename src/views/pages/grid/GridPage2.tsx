@@ -1,38 +1,52 @@
 import React, { useRef, useState } from "react";
 
-import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
-import { FaDrawPolygon, FaPlus } from "react-icons/fa";
+import { DraggableData, DraggableEvent } from "react-draggable";
+import { FaPlus } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
+import { setStoredGridLayout } from "../../../redux/grid/grid.slice";
+import { useAppSelector } from "../../../redux/hook";
 import { IconButton } from "../../../style";
+import { LayoutItem } from "../../../types/grid-interface";
 import { DraggableItem } from "../../components/draggable/DraggableItem";
 
-export type LayoutItem = {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-    i: string;
-};
-
 const GridPage2 = (): JSX.Element => {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const dispatch = useDispatch();
 
     const defaultWidth = 400;
-    const defaultHeight = 300;
 
-    const [startPos, setStartPos] = useState<{ x: number; y: number } | null>(null);
-    const [endPos, setEndPos] = useState({ x: 0, y: 0 });
-    const [drawedRect, setDrawedRect] = useState({ width: 0, height: 0 });
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
+    const storedGrid = useAppSelector((state) => state.grid);
+
+    const [startPos, setStartPos] = useState<{ x: number; y: number } | null>(null);
+
+    const [drawedRect, setDrawedRect] = useState({ width: 0, height: 0 });
+
     const [isCreating, setIsCreating] = useState<boolean>(false);
 
-    const [layout, setLayout] = useState<LayoutItem[]>([{ x: 20, y: 20, h: 300, w: defaultWidth, i: "box_01" }]);
+    const [layout, setLayout] = useState<LayoutItem[]>(storedGrid.layout);
 
     const [selectedId, setSelectedId] = useState<string>();
 
+    console.log("layout", layout);
+
+    // function removeDuplicates(arr: number[]): number[] {
+    //     const uniqueArr = Array.from(new Set(arr));
+    //     uniqueArr.sort((a, b) => a - b);
+    //     return uniqueArr;
+    // }
+
+    /**
+     * @name onDragStop
+     * @param {DraggableEvent} e 이벤트객체
+     * @param {DraggableData} data 이벤트관련 데이터
+     * @param {LayoutItem} item 박스 정보
+     * @description 드래그 stop시 실행하는 함수
+     */
     const onDragStop = (e: DraggableEvent, data: DraggableData, item: LayoutItem) => {
         const { x, y } = data;
         const container = containerRef.current;
@@ -41,9 +55,16 @@ const GridPage2 = (): JSX.Element => {
         const removedArray = layout.filter((ly) => ly.i !== item.i);
         const newItem = finedItem ? { ...finedItem, x: x, y: y } : { x: 20, y: 20, h: 300, w: defaultWidth, i: item.i };
         setLayout([...removedArray, newItem]);
+        dispatch(setStoredGridLayout([...removedArray, newItem]));
         setSelectedId(item.i);
     };
 
+    /**
+     * @name onResizeBox
+     * @param {DraggableEvent} e 이벤트객체
+     * @param {LayoutItem} item 박스 정보
+     * @description 박스 리사이징하는 함수
+     */
     const onResizeBox = (e: React.SyntheticEvent, item: LayoutItem) => {
         const finedItem = layout.find((ly) => ly.i === item.i);
         const removedArray = layout.filter((ly) => ly.i !== item.i);
@@ -51,8 +72,18 @@ const GridPage2 = (): JSX.Element => {
             ? { ...finedItem, w: item.w, h: item.h }
             : { x: 100, y: 100, h: 100, w: 100, i: item.i };
         setLayout([...removedArray, newItem]);
+        dispatch(setStoredGridLayout([...removedArray, newItem]));
     };
 
+    /**
+     * @name handleAddBox
+     * @description 그리드에 박스 추가하는 함수
+     * @param x 드래그 시작 포인트 x 값
+     * @param y 드래그 시작 포인트 y 값
+     * @param w 드래그 넓이
+     * @param h 드래고 높이
+     * @returns void
+     */
     const handleAddBox = (x: number, y: number, w: number, h: number) => {
         if (!containerRef.current) return;
         if (containerRef.current?.clientHeight < y + h) {
@@ -61,89 +92,43 @@ const GridPage2 = (): JSX.Element => {
         }
         const newBox = { x, y, w, h, i: `box_${Date.now().toString()}` };
         setLayout([...layout, newBox]);
+        dispatch(setStoredGridLayout([...layout, newBox]));
     };
 
-    function removeDuplicates(arr: number[]): number[] {
-        const uniqueArr = Array.from(new Set(arr));
-        uniqueArr.sort((a, b) => a - b);
-        return uniqueArr;
-    }
-
+    /**
+     * @name handleDeleteBox
+     * @param id 삭제할 박스의 id 값
+     * @description 선택한 박스 삭제하는 함수
+     */
     const handleDeleteBox = (id: string) => {
         setLayout(layout.filter((lay) => lay.i !== id));
+        dispatch(setStoredGridLayout(layout.filter((lay) => lay.i !== id)));
     };
 
-    const gap = 20;
-
-    /***
-     * 가장 오른쪽, 가장 아래있는 요소
-     * row에서 마지막 박스는 width 값을 체크해야 함.
-     * 중간에 칸이 넗게 빌 수도 있음. (체크필요)
-     *
+    /**
+     * @name handleMouseDown
+     * @param e 이벤트 객체
+     * @description mouseDown 시 실행하는 함수
      */
-    const calculateXY = () => {
-        const yCategory = removeDuplicates(layout.map((ly) => ly.y));
-        const yMax = yCategory.reduce((a, b) => Math.max(a, b));
-
-        const arrangedArr: LayoutItem[][] = yCategory.map((yVal) => {
-            return layout.filter((ly) => ly.y === yVal).sort((a, b) => a.x - b.x);
-        });
-        const finalArr = arrangedArr.reduce((a, b) => a.concat(b));
-
-        //중간에 가로값 칸 너비
-        if (finalArr.length >= 2) {
-            let findGap = 0;
-            let findIndex = 0;
-            for (let i = 0; i < finalArr.length - 1; i++) {
-                const coincidenceY = finalArr[i + 1].y === finalArr[i].y;
-                if (coincidenceY) {
-                    findGap = finalArr[i + 1].x - finalArr[i].x - finalArr[i].w - gap;
-                } else {
-                    findGap = finalArr[i + 1].x - gap;
-                }
-
-                findIndex = i;
-                if (findGap >= 300) {
-                    return [
-                        coincidenceY ? finalArr[findIndex].x + finalArr[findIndex].w + 20 : 20,
-                        coincidenceY ? finalArr[findIndex].y : finalArr[findIndex + 1].y,
-                    ];
-                    break;
-                }
-            }
-        }
-        const filterArr = layout.filter((ly) => ly.y === yMax);
-
-        const xArray = filterArr.map((ly) => ly.x);
-        const max = xArray.reduce((a, b) => Math.max(a, b), -Infinity);
-        const findPrevX = filterArr.find((ly) => ly.x === max);
-        let returnX = 20;
-        let returnY = yMax;
-        const returnW = findPrevX ? findPrevX.w : defaultWidth;
-        if (max + defaultWidth + gap <= 1400) {
-            returnX = max + returnW + gap;
-        } else {
-            returnY = yMax + defaultHeight + gap;
-        }
-        return [returnX, returnY];
-    };
-
     const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
         const target = e.currentTarget as HTMLElement;
-        console.log("target", target);
         const rect = target.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         setStartPos({ x: Math.round(x / 20) * 20, y: Math.round(y / 20) * 20 });
-        console.log("moseDown", Math.round(x / 20) * 20, Math.round(y / 20) * 20);
     };
 
+    /**
+     * @name handleMouseUp
+     * @param e 이벤트 객체
+     * @description mouseUp 시 실행하는 함수
+     */
     const handleMouseUp = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
         const target = e.currentTarget as HTMLElement;
         const rect = target.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        setEndPos({ x: x, y: y });
+
         if (startPos) {
             setDrawedRect({
                 width: x - startPos.x,
@@ -153,6 +138,24 @@ const GridPage2 = (): JSX.Element => {
         }
     };
 
+    /**
+     * @name handleClickCanvas
+     * @description 드래그로 박스를 그린 후 클릭 시 실행하는 함수
+     */
+    const handleClickCanvas = () => {
+        if (isCreating && startPos) {
+            handleAddBox(startPos.x, startPos.y, drawedRect.width, drawedRect.height);
+            setDrawedRect({ width: 0, height: 0 });
+            setStartPos(null);
+            setIsCreating(false);
+        }
+    };
+
+    /**
+     * @name drawRect
+     * @description 드래그로 사각형을 그려주는 함수
+     * @returns 함수 종료로 사용
+     */
     const drawRect = () => {
         console.log("drawReact");
         if (!canvasRef.current) return;
@@ -169,16 +172,28 @@ const GridPage2 = (): JSX.Element => {
         }
     };
 
+    /**
+     * @name handleClickBackGroud
+     * @description 배경 클릭 시 실행되는 함수. 박스 선택을 취소함.
+     * @param e 이벤트 객체
+     * @returns
+     */
+    const handleClickBackGroud = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const eventDiv = e.target as HTMLDivElement;
+        if (eventDiv.getAttribute("aria-label")) return;
+        if (!selectedId) return;
+        const childAr = Array.from(e.currentTarget.children);
+        const checkValid = childAr.some((child) => {
+            return selectedId && child.classList.contains(selectedId);
+        });
+        if (checkValid) {
+            setSelectedId(undefined);
+        }
+    };
+
     return (
         <StyledWrap>
             <StyledToolbar>
-                {/* <IconButton
-                    onClick={() => {
-                        handleAddBox(calculateXY()[0], calculateXY()[1], defaultWidth, defaultHeight);
-                    }}
-                >
-                    <FaPlus />
-                </IconButton> */}
                 <IconButton
                     onClick={() => {
                         setIsCreating(true);
@@ -200,35 +215,13 @@ const GridPage2 = (): JSX.Element => {
                 onMouseDown={(e) => handleMouseDown(e)}
                 onMouseMove={(e) => handleMouseUp(e)}
                 onMouseUp={(e) => drawRect()}
-                onClick={() => {
-                    if (isCreating && startPos) {
-                        handleAddBox(startPos.x, startPos.y, drawedRect.width, drawedRect.height);
-                        setDrawedRect({ width: 0, height: 0 });
-                        setStartPos(null);
-                        setIsCreating(false);
-                    }
-                }}
+                onClick={handleClickCanvas}
                 style={{ zIndex: isCreating ? 10 : -10, cursor: "crosshair" }}
             />
-            <StyledContainer
-                ref={containerRef}
-                // onMouseDown={(e) => handleMouseDown(e)}
-                // onMouseUp={(e) => handleMouseUp(e)}
-                onClick={(e) => {
-                    const eventDiv = e.target as HTMLDivElement;
-                    if (eventDiv.getAttribute("aria-label")) return;
-                    if (!selectedId) return;
-                    const childAr = Array.from(e.currentTarget.children);
-                    const checkValid = childAr.some((child) => {
-                        return selectedId && child.classList.contains(selectedId);
-                    });
-                    if (checkValid) {
-                        setSelectedId(undefined);
-                    }
-                }}
-            >
-                {layout.map((item) => (
+            <StyledContainer ref={containerRef} onClick={handleClickBackGroud}>
+                {layout.map((item, index) => (
                     <DraggableItem
+                        key={`${item.i}_${index}`}
                         selectedId={selectedId}
                         item={item}
                         onDragStop={onDragStop}
@@ -247,6 +240,7 @@ const StyledWrap = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
+    // overflow: hidden;
 `;
 
 const StyledToolbar = styled.div`
@@ -261,6 +255,7 @@ const StyledCanvas = styled.canvas`
     left: 0;
     width: 100%;
     height: calc(100vh - 60px);
+    overflow: hidden;
 `;
 
 const StyledContainer = styled.div`

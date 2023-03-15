@@ -7,7 +7,7 @@ type PageTitleProps = {
 };
 
 const PageTitleWrap = styled.div`
-    margin-top: 1rem;
+    padding-top: 1rem;
     margin-bottom: 1.5rem;
 `;
 
