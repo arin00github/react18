@@ -20,15 +20,24 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
     const [position, setPosition] = useState<{ x: number; y: number }>({ x: item.x, y: item.y });
 
     const handleResizeStop = (e: React.SyntheticEvent) => {
-        const eventDiv = e.target as HTMLDivElement;
+        const eventDiv = e.target as HTMLElement;
         let container = eventDiv.parentElement;
         if (container) {
+            console.log("😝 prev container", container);
             if (container.id === "handle") {
                 container = container.parentElement;
             }
+            if (container && container.tagName === "svg") {
+                const container2 = container.parentElement;
+                container = container2?.parentElement || container;
+            }
+            console.log("after container", container);
             if (!container) return;
+
+            console.log("w/h", container.style.width, container.style.height);
             const newWidth = Number(container.style.width.replace("px", ""));
             const newHeight = Number(container.style.height.replace("px", ""));
+            console.log(`newWidth: ${newWidth} // newHeight: ${newHeight}`);
 
             onResizeBox(e, {
                 ...item,
@@ -51,12 +60,8 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
                 position={position}
                 grid={[20, 20]}
                 cancel="#handle"
-                onStop={(e, data) => {
-                    onDragStop(e, data, item);
-                }}
-                onMouseDown={(e) => {
-                    console.log(e.currentTarget);
-                }}
+                onDrag={(e, data) => onDragStop(e, data, item)}
+                onStop={(e, data) => onDragStop(e, data, item)}
             >
                 <ResizableBox
                     width={Math.round(item.w / 20) * 20}
