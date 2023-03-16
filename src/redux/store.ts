@@ -3,8 +3,8 @@ import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import accountReducer from "./account/account.slice";
+import commonReducer from "./common/common.slice";
 import gridReducer from "./grid/grid.slice";
-import postReducer from "./post/post.slice";
 
 const persistConfig = {
     key: "root",
@@ -13,7 +13,7 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({
     account: accountReducer,
-    post: postReducer,
+    common: commonReducer,
     grid: gridReducer,
 });
 

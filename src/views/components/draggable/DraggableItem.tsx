@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import { FaCog, FaExpand, FaFigma, FaTrash } from "react-icons/fa";
@@ -13,11 +13,18 @@ interface DraggableItemProps {
     onResizeBox: (e: React.SyntheticEvent, item: LayoutItem) => void;
     selectedId?: string;
     handleDelete: (id: string) => void;
+    children: ReactNode;
 }
 
-export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handleDelete }: DraggableItemProps) => {
-    //const [size, setSize] = useState({ width: item.w, height: item.h });
-    const [position, setPosition] = useState<{ x: number; y: number }>({ x: item.x, y: item.y });
+export const DraggableItem = ({
+    item,
+    onDragStop,
+    onResizeBox,
+    selectedId,
+    handleDelete,
+    children,
+}: DraggableItemProps) => {
+    const dragBoxRef = React.createRef<Draggable>();
 
     const handleResizeStop = (e: React.SyntheticEvent) => {
         const eventDiv = e.target as HTMLElement;
@@ -41,19 +48,17 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
         }
     };
 
-    useEffect(() => {
-        setPosition({ x: item.x, y: item.y });
-    }, [item.x, item.y]);
-
     return (
         <>
             <Draggable
-                defaultClassName={item.i}
+                ref={dragBoxRef}
+                defaultClassName={`grid-item ${item.i}`}
+                //defaultClassNameDragging="active"
                 key={item.i}
-                position={position}
+                position={{ x: item.x, y: item.y }}
                 grid={[20, 20]}
                 cancel="#handle"
-                onDrag={(e, data) => onDragStop(e, data, item)}
+                ///onDrag={(e, data) => onDragStop(e, data, item)}
                 onStop={(e, data) => onDragStop(e, data, item)}
             >
                 <ResizableBox
@@ -66,7 +71,7 @@ export const DraggableItem = ({ item, onDragStop, onResizeBox, selectedId, handl
                         </StyledHandle>
                     }
                 >
-                    <StyledBox aria-label={item.i}>{selectedId === item.i ? "클릭" : ""}</StyledBox>
+                    <StyledBox aria-label={item.i}>{children}</StyledBox>
                     {selectedId === item.i && (
                         <StyleChartTool>
                             <div className="tool-icon" onClick={() => handleDelete(item.i)}>
@@ -112,7 +117,7 @@ const StyleChartTool = styled.div`
 const StyledBox = styled.div`
     width: 100%;
     height: 100%;
-    background-color: #fff;
+    background-color: #ffffff25;
     position: relative;
     box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.1);
 `;

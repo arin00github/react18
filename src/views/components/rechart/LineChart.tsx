@@ -10,6 +10,7 @@ import {
     YAxis,
     Line,
     CartesianGrid,
+    Text,
 } from "recharts";
 import styled from "styled-components";
 
@@ -49,6 +50,8 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
     return (
         <ResponsiveContainer width={"100%"} height="100%">
             <LineCharGraph
+                //style={{ cursor: "move" }}
+
                 data={data}
                 margin={option?.margin ? option.margin : { top: 20, left: 20, bottom: 20, right: 20 }}
             >
@@ -63,16 +66,17 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
                     }}
                 />
                 <YAxis color="#fff" stroke="#ffffffb1" />
-                <Tooltip
+                {/* <Tooltip
                     content={({ active, payload, label }) => {
                         if (active) {
                             return <StyledTooltip>tooltip</StyledTooltip>;
                         }
                         return null;
                     }}
-                />
+                /> */}
+
                 <Legend />
-                <Line dataKey="value" stroke="#e77bd1" strokeWidth={2} />
+                <Line dataKey="value" isAnimationActive={false} stroke="#e77bd1" strokeWidth={2} />
             </LineCharGraph>
         </ResponsiveContainer>
     );

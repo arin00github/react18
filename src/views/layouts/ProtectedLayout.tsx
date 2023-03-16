@@ -22,6 +22,8 @@ export function ProtectedLayout({ userAuth }: ProtectedLayoutProps) {
     //     }
     // }, [isAuthenticated, navigator]);
 
+    const storedCommon = useAppSelector((state) => state.common);
+
     return (
         <div id="layout">
             <Aside />

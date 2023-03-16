@@ -3,22 +3,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { updateIsLogin } from "../../redux/account/account.slice";
-import { useAppDispatch } from "../../redux/hook";
-import { CustomButton } from "../../style";
+import { useAppSelector } from "../../redux/hook";
 
-import { LocationDisplay } from "./LocationDisplay";
 import { BasicMenu } from "./menuRouter";
 
 export function Aside() {
-    // const cartLength = useAppSelector((state) => state.account.cart);
-
-    const dispatch = useAppDispatch();
-
+    const storedCommon = useAppSelector((state) => state.common);
     const showArrayMenu = BasicMenu.filter((menu) => menu.isLeftMenu);
 
     return (
-        <StyledAside>
+        <StyledAside isOpen={storedCommon.isOpenedAside}>
             <ul>
                 {showArrayMenu.map((menu) => {
                     return (
@@ -34,22 +28,24 @@ export function Aside() {
     );
 }
 
-const StyledAside = styled.div`
+const StyledAside = styled.div<{ isOpen: boolean }>`
     width: 60px;
     height: 100vh;
     position: fixed;
     top: 0;
-    left: 0;
-    background-color: #484864;
+    left: ${(props) => (props.isOpen ? "0px" : "-60px")};
+    background-color: #212147;
 
     ul {
         li {
             height: 60px;
             line-height: 60px;
             text-align: center;
+            color: #fff;
 
             &:hover {
                 background-color: #ebebeb;
+                color: #212147;
             }
         }
     }
