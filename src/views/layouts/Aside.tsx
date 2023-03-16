@@ -34,7 +34,7 @@ const StyledAside = styled.div<{ isOpen: boolean }>`
     position: fixed;
     top: 0;
     left: ${(props) => (props.isOpen ? "0px" : "-60px")};
-    background-color: #212147;
+    background-color: #2e2e2e;
 
     ul {
         li {

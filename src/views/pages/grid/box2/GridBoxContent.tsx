@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
+import { useAppSelector } from "../../../../redux/hook";
 import { NewDeplomacyApi } from "../../../../service/api/DeplomacyApi";
 import { DataType } from "../../../../types/d3-interface";
 import { IDeplomacyList } from "../../../../types/deplomacy-interface";
@@ -12,10 +13,18 @@ interface GridBoxItemProps {
     chartType: string;
 }
 
-export const GridBoxItem3 = (props: GridBoxItemProps): JSX.Element => {
+export const GridBoxContent = (props: GridBoxItemProps): JSX.Element => {
     const { keyId, chartType } = props;
 
     const [data, setData] = useState<DataType[]>([]);
+
+    const storedGrid = useAppSelector((state) => state.grid);
+    const { chartOptionArray } = storedGrid;
+
+    const targetOption = useMemo(() => {
+        const optionObject = chartOptionArray.find((option) => option.key === keyId);
+        return optionObject;
+    }, [chartOptionArray, keyId]);
 
     const fetchData = async () => {
         const response = await fetch(
@@ -68,7 +77,7 @@ export const GridBoxItem3 = (props: GridBoxItemProps): JSX.Element => {
             case "bar":
                 updateBarData();
                 break;
-            case "dounut":
+            case "pie":
                 updateBarData();
                 break;
             default:
@@ -77,12 +86,12 @@ export const GridBoxItem3 = (props: GridBoxItemProps): JSX.Element => {
     }, [chartType, updateBarData]);
 
     if (chartType === "line") {
-        return <>{data && <LineChart data={data} option={{ lineStyle: { lineColor: "#ff00ff" } }} />}</>;
+        return <>{data && <LineChart data={data} option={targetOption?.option} />}</>;
     }
     if (chartType === "bar") {
         return <>{data && <BarChart data={data} />}</>;
     }
-    if (chartType === "dounut") {
+    if (chartType === "pie") {
         return <>{data && <PieChart data={data.filter((item) => item.value > 50000000)} />}</>;
     }
     return <></>;

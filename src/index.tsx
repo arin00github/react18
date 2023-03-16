@@ -1,5 +1,6 @@
 import React from "react";
 
+import { ConfigProvider, theme } from "antd";
 import ReactDOM from "react-dom/client";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { Provider } from "react-redux";
@@ -33,10 +34,12 @@ root.render(
         <PersistGate persistor={persistor}>
             <Provider store={store}>
                 <QueryClientProvider client={queryClient}>
-                    <ThemeProvider theme={LightTheme}>
-                        <GlobalStyles />
-                        <App />
-                    </ThemeProvider>
+                    <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
+                        <ThemeProvider theme={LightTheme}>
+                            <GlobalStyles />
+                            <App />
+                        </ThemeProvider>
+                    </ConfigProvider>
                 </QueryClientProvider>
             </Provider>
         </PersistGate>

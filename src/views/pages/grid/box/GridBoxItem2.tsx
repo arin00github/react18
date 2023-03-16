@@ -80,7 +80,7 @@ export const GridBoxItem2 = (props: GridBoxItemProps): JSX.Element => {
     }, [chartType, height, updateBarData]);
 
     if (chartType === "line") {
-        return <>{data && <LineChart data={data} option={{ lineStyle: { lineColor: "#ff00ff" } }} />}</>;
+        return <>{data && <LineChart data={data} option={{ lineStyle: { strokeColor: "#ff00ff" } }} />}</>;
     }
     if (chartType === "bar") {
         return <>{data && <BarChart data={data} />}</>;

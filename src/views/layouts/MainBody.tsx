@@ -22,7 +22,7 @@ const StyledMainBody = styled.div<{ isOpen: boolean }>`
     width: ${(props) => (props.isOpen ? "calc(100% - 60px)" : "100%")};
     height: 100vh;
     margin-left: ${(props) => (props.isOpen ? "60px" : "0px")};
-    background-color: #111136;
+    background-color: #1f1f1f;
     .body-inner {
         //padding: 0 3rem;
     }

@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, { ReactNode } from "react";
 
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import { FaCog, FaExpand, FaFigma, FaTrash } from "react-icons/fa";
@@ -8,11 +8,13 @@ import styled from "styled-components";
 import { LayoutItem } from "../../../types/grid-interface";
 
 interface DraggableItemProps {
-    item: { x: number; y: number; w: number; h: number; i: string };
+    item: LayoutItem;
+    chartType: string;
     onDragStop: (e: DraggableEvent, data: DraggableData, item: LayoutItem) => void;
     onResizeBox: (e: React.SyntheticEvent, item: LayoutItem) => void;
     selectedId?: string;
     handleDelete: (id: string) => void;
+    handleSetting: (id: string) => void;
     children: ReactNode;
 }
 
@@ -23,6 +25,8 @@ export const DraggableItem = ({
     selectedId,
     handleDelete,
     children,
+    handleSetting,
+    chartType,
 }: DraggableItemProps) => {
     const dragBoxRef = React.createRef<Draggable>();
 
@@ -47,18 +51,20 @@ export const DraggableItem = ({
             });
         }
     };
+    React.Children.forEach(children, (child) => {
+        console.log(child);
+    });
+    console.log("children");
 
     return (
         <>
             <Draggable
                 ref={dragBoxRef}
                 defaultClassName={`grid-item ${item.i}`}
-                //defaultClassNameDragging="active"
                 key={item.i}
                 position={{ x: item.x, y: item.y }}
                 grid={[20, 20]}
                 cancel="#handle"
-                ///onDrag={(e, data) => onDragStop(e, data, item)}
                 onStop={(e, data) => onDragStop(e, data, item)}
             >
                 <ResizableBox
@@ -71,7 +77,9 @@ export const DraggableItem = ({
                         </StyledHandle>
                     }
                 >
-                    <StyledBox aria-label={item.i}>{children}</StyledBox>
+                    <StyledGridBox aria-label={item.i} chartType={chartType}>
+                        {children}
+                    </StyledGridBox>
                     {selectedId === item.i && (
                         <StyleChartTool>
                             <div className="tool-icon" onClick={() => handleDelete(item.i)}>
@@ -80,7 +88,7 @@ export const DraggableItem = ({
                             <div className="tool-icon">
                                 <FaFigma />
                             </div>
-                            <div className="tool-icon">
+                            <div className="tool-icon" onClick={() => handleSetting(item.i)}>
                                 <FaCog />
                             </div>
                         </StyleChartTool>
@@ -114,10 +122,10 @@ const StyleChartTool = styled.div`
     }
 `;
 
-const StyledBox = styled.div`
+const StyledGridBox = styled.div<{ chartType: string }>`
     width: 100%;
     height: 100%;
-    background-color: #ffffff25;
+    outline: ${(props) => (props.chartType ? "none" : "1px #ffffff3e dashed")};
     position: relative;
     box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.1);
 `;
@@ -127,4 +135,5 @@ const StyledHandle = styled.div`
     position: absolute;
     text-align: left;
     color: "white";
+    color: #fff;
 `;

@@ -11,10 +11,11 @@ import { useAppDispatch, useAppSelector } from "../../../../redux/hook";
 import { IconButton } from "../../../../style";
 import { LayoutItem } from "../../../../types/grid-interface";
 import { DraggableItem } from "../../../components/draggable/DraggableItem";
+import { ChartDetailDrawer } from "../drawer/ChartDetailDrawer";
 import { ChartDrawer } from "../drawer/ChartDrawer";
 import { BoxUnit, Unit } from "../GridPage";
 
-import { GridBoxItem3 } from "./GridBoxItem3";
+import { GridBoxContent } from "./GridBoxContent";
 
 interface GridEntryProps {
     initialLayout: BoxUnit[];
@@ -35,15 +36,20 @@ export const GridEntryBox = () => {
 
     const [startPos, setStartPos] = useState<{ x: number; y: number } | null>(null);
 
+    const [chartType, setChartType] = useState<string | undefined>(undefined);
+
     const [drawedRect, setDrawedRect] = useState({ width: 0, height: 0 });
 
     const [isCreating, setIsCreating] = useState<boolean>(false);
 
     const [layout, setLayout] = useState<LayoutItem[]>(storedGrid.layout);
+    console.log("layout", layout);
 
     const [selectedId, setSelectedId] = useState<string>();
 
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+
+    const [detailDrawerOpen, setDetailDrawerOpen] = useState<boolean>(false);
 
     // function removeDuplicates(arr: number[]): number[] {
     //     const uniqueArr = Array.from(new Set(arr));
@@ -64,7 +70,9 @@ export const GridEntryBox = () => {
         if (!container) return;
         const finedItem = layout.find((ly) => ly.i === item.i);
         const removedArray = layout.filter((ly) => ly.i !== item.i);
-        const newItem = finedItem ? { ...finedItem, x: x, y: y } : { x: 20, y: 20, h: 300, w: defaultWidth, i: item.i };
+        const newItem = finedItem
+            ? { ...finedItem, x: x, y: y }
+            : { x: 20, y: 20, h: 300, w: defaultWidth, i: item.i, type: "" };
         setLayout([...removedArray, newItem]);
         dispatch(setStoredGridLayout([...removedArray, newItem]));
         setSelectedId(item.i);
@@ -81,7 +89,7 @@ export const GridEntryBox = () => {
         const removedArray = layout.filter((ly) => ly.i !== item.i);
         const newItem = finedItem
             ? { ...finedItem, w: item.w, h: item.h }
-            : { x: 100, y: 100, h: 100, w: 100, i: item.i };
+            : { x: 100, y: 100, h: 100, w: 100, i: item.i, type: "" };
         setLayout([...removedArray, newItem]);
         dispatch(setStoredGridLayout([...removedArray, newItem]));
     };
@@ -101,7 +109,7 @@ export const GridEntryBox = () => {
             alert("더 이상 추가 할 수 없습니다.");
             return;
         }
-        const newBox = { x, y, w, h, i: `box_${Date.now().toString()}` };
+        const newBox = { x, y, w, h, i: `box_${Date.now().toString()}`, type: chartType ? chartType : "" };
         setLayout([...layout, newBox]);
         dispatch(setStoredGridLayout([...layout, newBox]));
     };
@@ -159,6 +167,7 @@ export const GridEntryBox = () => {
             setDrawedRect({ width: 0, height: 0 });
             setStartPos(null);
             setIsCreating(false);
+            setChartType(undefined);
         }
     };
 
@@ -249,14 +258,18 @@ export const GridEntryBox = () => {
                 >
                     {layout.map((item, index) => (
                         <DraggableItem
+                            chartType={item.type}
                             key={`${item.i}_${index}`}
                             selectedId={selectedId}
                             item={item}
                             onDragStop={onDragStop}
                             onResizeBox={onResizeBox}
                             handleDelete={handleDeleteBox}
+                            handleSetting={() => {
+                                setDetailDrawerOpen(true);
+                            }}
                         >
-                            <GridBoxItem3 keyId={item.i} chartType="line" />
+                            <GridBoxContent keyId={item.i} chartType={item.type} />
                         </DraggableItem>
                     ))}
                 </StyledContainer>
@@ -265,10 +278,16 @@ export const GridEntryBox = () => {
                 title="Chart Category"
                 isOpen={drawerOpen}
                 onClose={() => setDrawerOpen(false)}
-                handleChartClick={() => {
+                handleChartClick={(type: string) => {
                     setDrawerOpen(false);
                     handleClickAddBtn();
+                    setChartType(type);
                 }}
+            />
+            <ChartDetailDrawer
+                isOpen={detailDrawerOpen}
+                onClose={() => setDetailDrawerOpen(false)}
+                title="차트 상세 설정"
             />
         </>
     );
