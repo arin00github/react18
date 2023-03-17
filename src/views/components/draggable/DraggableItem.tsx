@@ -9,24 +9,24 @@ import { LayoutItem } from "../../../types/grid-interface";
 
 interface DraggableItemProps {
     item: LayoutItem;
+    selectedId?: string;
+    children: ReactNode;
     chartType: string;
     onDragStop: (e: DraggableEvent, data: DraggableData, item: LayoutItem) => void;
     onResizeBox: (e: React.SyntheticEvent, item: LayoutItem) => void;
-    selectedId?: string;
     handleDelete: (id: string) => void;
     handleSetting: (id: string) => void;
-    children: ReactNode;
 }
 
 export const DraggableItem = ({
     item,
+    selectedId,
+    children,
+    chartType,
     onDragStop,
     onResizeBox,
-    selectedId,
     handleDelete,
-    children,
     handleSetting,
-    chartType,
 }: DraggableItemProps) => {
     const dragBoxRef = React.createRef<Draggable>();
 
@@ -51,10 +51,6 @@ export const DraggableItem = ({
             });
         }
     };
-    React.Children.forEach(children, (child) => {
-        console.log(child);
-    });
-    console.log("children");
 
     return (
         <>

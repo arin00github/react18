@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import { Drawer } from "antd";
 import { DraggableData, DraggableEvent } from "react-draggable";
-import { FaChevronLeft, FaChevronRight, FaCog, FaPlus } from "react-icons/fa";
-import styled, { css } from "styled-components";
+import { FaChevronLeft, FaCog, FaPlus } from "react-icons/fa";
+import styled from "styled-components";
 
 import { setStoredCommonAsideOpend } from "../../../../redux/common/common.slice";
 import { setStoredGridLayout } from "../../../../redux/grid/grid.slice";
@@ -13,13 +12,8 @@ import { LayoutItem } from "../../../../types/grid-interface";
 import { DraggableItem } from "../../../components/draggable/DraggableItem";
 import { ChartDetailDrawer } from "../drawer/ChartDetailDrawer";
 import { ChartDrawer } from "../drawer/ChartDrawer";
-import { BoxUnit, Unit } from "../GridPage";
 
 import { GridBoxContent } from "./GridBoxContent";
-
-interface GridEntryProps {
-    initialLayout: BoxUnit[];
-}
 
 export const GridEntryBox = () => {
     const dispatch = useAppDispatch();
@@ -29,8 +23,6 @@ export const GridEntryBox = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    const storedGrid = useAppSelector((state) => state.grid);
 
     const storedCommon = useAppSelector((state) => state.common);
 
@@ -42,8 +34,12 @@ export const GridEntryBox = () => {
 
     const [isCreating, setIsCreating] = useState<boolean>(false);
 
-    const [layout, setLayout] = useState<LayoutItem[]>(storedGrid.layout);
-    console.log("layout", layout);
+    const storedGridLayout = useAppSelector(
+        (state) => state.grid.layout,
+        (prev, curr) => prev === curr
+    );
+
+    const [layout, setLayout] = useState<LayoutItem[]>(storedGridLayout);
 
     const [selectedId, setSelectedId] = useState<string>();
 
@@ -222,10 +218,12 @@ export const GridEntryBox = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
     };
+    console.log("GridEntryBox layout", layout);
 
-    const handleMouseOver = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        console.log(e.currentTarget);
-    };
+    useEffect(() => {
+        console.log("useEffect GrinEntry", storedGridLayout);
+        setLayout(storedGridLayout);
+    }, [storedGridLayout]);
 
     return (
         <>
@@ -255,6 +253,7 @@ export const GridEntryBox = () => {
                     ref={containerRef}
                     //onClick={handleClickBackGroud}
                     //onMouseOver={(e) => handleMouseOver(e)}
+                    //onMouseUp={(e) => console.log("onMouseUp", e)}
                 >
                     {layout.map((item, index) => (
                         <DraggableItem
@@ -272,23 +271,23 @@ export const GridEntryBox = () => {
                             <GridBoxContent keyId={item.i} chartType={item.type} />
                         </DraggableItem>
                     ))}
+                    <ChartDrawer
+                        title="Chart Category"
+                        isOpen={drawerOpen}
+                        onClose={() => setDrawerOpen(false)}
+                        handleChartClick={(type: string) => {
+                            setDrawerOpen(false);
+                            handleClickAddBtn();
+                            setChartType(type);
+                        }}
+                    />
+                    <ChartDetailDrawer
+                        isOpen={detailDrawerOpen}
+                        onClose={() => setDetailDrawerOpen(false)}
+                        title="차트 상세 설정"
+                    />
                 </StyledContainer>
             </StyledWrap>
-            <ChartDrawer
-                title="Chart Category"
-                isOpen={drawerOpen}
-                onClose={() => setDrawerOpen(false)}
-                handleChartClick={(type: string) => {
-                    setDrawerOpen(false);
-                    handleClickAddBtn();
-                    setChartType(type);
-                }}
-            />
-            <ChartDetailDrawer
-                isOpen={detailDrawerOpen}
-                onClose={() => setDetailDrawerOpen(false)}
-                title="차트 상세 설정"
-            />
         </>
     );
 };
@@ -321,6 +320,7 @@ const StyledContainer = styled.div`
     left: 0;
     width: 100%;
     height: calc(100vh - 48px);
+    overflow: hidden;
 
     .grid-item {
         position: absolute;

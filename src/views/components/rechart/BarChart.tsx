@@ -11,58 +11,46 @@ import {
     CartesianGrid,
     Bar,
 } from "recharts";
+import styled from "styled-components";
 
 import { DataType } from "../../../types/d3-interface";
-
-interface TooltipProps {
-    x: number;
-    y: number;
-    content: string;
-}
-
-export interface BarChartProps<T extends DataType> {
-    data: T[];
-    option?: {
-        width?: number;
-        height?: number;
-        lineStyle?: {
-            lineColor?: string;
-            strokeWidth?: number;
-        };
-        margin?: {
-            top: number;
-            bottom: number;
-            right: number;
-            left: number;
-        };
-        tooltip?: {
-            formatter?: (value: number) => string;
-            renderTooltip?: (props: TooltipProps) => JSX.Element;
-        };
-    };
-}
+import { BarChartProps } from "../../../types/grid-interface";
 
 export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Element => {
     const { data, option } = props;
 
     return (
-        <ResponsiveContainer width={"100%"} height="100%">
-            <BarChartGraph
-                data={data}
-                margin={option?.margin ? option.margin : { top: 20, left: 20, bottom: 20, right: 20 }}
-            >
-                <CartesianGrid strokeDasharray="3 1" opacity={0.4} />
-                <XAxis dataKey="name" fontSize={10} stroke="#ffffffb1" />
-                <YAxis
-                    fontSize={10}
-                    color="#fff"
-                    stroke="#ffffffb1"
-                    tickFormatter={(data: number) => data.toString().replace("0000", "") + "만"}
-                />
-                <Tooltip />
-                <Legend />
-                <Bar data={data} dataKey="value" fill="#76b7ed" />
-            </BarChartGraph>
-        </ResponsiveContainer>
+        <GridBoxWrap background={option?.background}>
+            {option?.title && <ChartTitle>{option.title}</ChartTitle>}
+            <ResponsiveContainer width={"100%"} height={option?.title ? "92%" : "100%"}>
+                <BarChartGraph
+                    data={data}
+                    margin={option?.margin ? option.margin : { top: 20, left: 20, bottom: 20, right: 20 }}
+                >
+                    <CartesianGrid strokeDasharray="3 1" opacity={0.4} />
+                    <XAxis dataKey="name" fontSize={10} stroke="#ffffffb1" />
+                    <YAxis
+                        fontSize={10}
+                        color="#fff"
+                        stroke="#ffffffb1"
+                        tickFormatter={(data: number) => data.toString().replace("0000", "") + "만"}
+                    />
+                    <Tooltip />
+                    <Legend />
+                    <Bar data={data} dataKey="value" fill="#76b7ed" />
+                </BarChartGraph>
+            </ResponsiveContainer>
+        </GridBoxWrap>
     );
 };
+
+const ChartTitle = styled.h5`
+    color: white;
+    text-align: center;
+`;
+
+const GridBoxWrap = styled.div<{ background?: string }>`
+    width: 100%;
+    height: 100%;
+    background-color: ${(props) => (props.background ? props.background : "#ffffff31")};
+`;

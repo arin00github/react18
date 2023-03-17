@@ -23,6 +23,7 @@ export const gridSlice = createSlice({
     initialState: initialState,
     reducers: {
         setStoredGridLayout: (state, action: PayloadAction<LayoutItem[]>) => {
+            console.log("action.payload", action.payload);
             state.layout = action.payload;
         },
     },

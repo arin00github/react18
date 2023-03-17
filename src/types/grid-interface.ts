@@ -67,3 +67,51 @@ export interface LineChartProps<T extends DataType> {
         background?: string;
     };
 }
+
+export interface BarChartProps<T extends DataType> {
+    data: T[];
+    option?: {
+        width?: number;
+        height?: number;
+        title?: string;
+        lineStyle?: {
+            lineColor?: string;
+            strokeWidth?: number;
+        };
+        margin?: {
+            top: number;
+            bottom: number;
+            right: number;
+            left: number;
+        };
+        tooltip?: {
+            formatter?: (value: number) => string;
+            renderTooltip?: (props: TooltipProps) => JSX.Element;
+        };
+        background?: string;
+    };
+}
+
+export interface PieChartProps<T extends DataType> {
+    data: T[];
+    option?: {
+        width?: number;
+        height?: number;
+        title?: string;
+        lineStyle?: {
+            lineColor?: string;
+            strokeWidth?: number;
+        };
+        margin?: {
+            top: number;
+            bottom: number;
+            right: number;
+            left: number;
+        };
+        tooltip?: {
+            formatter?: (value: number) => string;
+            renderTooltip?: (props: TooltipProps) => JSX.Element;
+        };
+        background?: string;
+    };
+}

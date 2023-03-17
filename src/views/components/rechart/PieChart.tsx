@@ -9,47 +9,17 @@ import {
     Cell,
     PieLabelRenderProps,
 } from "recharts";
+import styled from "styled-components";
 
 import { DataType } from "../../../types/d3-interface";
-
-interface TooltipProps {
-    x: number;
-    y: number;
-    content: string;
-}
-
-export interface PieChartProps<T extends DataType> {
-    data: T[];
-    option?: {
-        width?: number;
-        height?: number;
-        lineStyle?: {
-            lineColor?: string;
-            strokeWidth?: number;
-        };
-        margin?: {
-            top: number;
-            bottom: number;
-            right: number;
-            left: number;
-        };
-        tooltip?: {
-            formatter?: (value: number) => string;
-            renderTooltip?: (props: TooltipProps) => JSX.Element;
-        };
-    };
-}
+import { PieChartProps } from "../../../types/grid-interface";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 export const PieChart = <T extends DataType>(props: PieChartProps<T>) => {
-    const { data } = props;
+    const { data, option } = props;
 
     const [activeIndex, setActiveIndex] = useState<number>(0);
-
-    const handleChangeActiveIndex = (index: number) => {
-        setActiveIndex(index);
-    };
 
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({
@@ -75,27 +45,41 @@ export const PieChart = <T extends DataType>(props: PieChartProps<T>) => {
     };
 
     return (
-        <ResponsiveContainer>
-            <PieChartGraph width={260} height={260}>
-                <Pie
-                    activeIndex={activeIndex}
-                    //activeShape={renderActiveShape}
-                    data={data}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={renderCustomizedLabel}
-                    innerRadius={10}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    //onMouseEnter={handleChangeActiveIndex}
-                >
-                    {data.map((dataItem, index) => (
-                        <Cell key={`key-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                </Pie>
-            </PieChartGraph>
-        </ResponsiveContainer>
+        <GridBoxWrap background={option?.background}>
+            {option?.title && <ChartTitle>{option.title}</ChartTitle>}
+            <ResponsiveContainer>
+                <PieChartGraph width={260} height={260}>
+                    <Pie
+                        activeIndex={activeIndex}
+                        //activeShape={renderActiveShape}
+                        data={data}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={renderCustomizedLabel}
+                        innerRadius={10}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                        //onMouseEnter={handleChangeActiveIndex}
+                    >
+                        {data.map((dataItem, index) => (
+                            <Cell key={`key-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                    </Pie>
+                </PieChartGraph>
+            </ResponsiveContainer>
+        </GridBoxWrap>
     );
 };
+
+const ChartTitle = styled.h5`
+    color: white;
+    text-align: center;
+`;
+
+const GridBoxWrap = styled.div<{ background?: string }>`
+    width: 100%;
+    height: 100%;
+    background-color: ${(props) => (props.background ? props.background : "#ffffff31")};
+`;
