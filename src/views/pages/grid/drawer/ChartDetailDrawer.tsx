@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { Card, Col, Space, Input, Form, Switch, Checkbox, Button, Radio } from "antd";
 import { Drawer } from "antd";
-import Draggable from "react-draggable";
-import styled from "styled-components";
 
-import { ChartMenu } from "../../../components/common/ChartMenu";
+import { useAppSelector } from "../../../../redux/hook";
 
 interface ChartDetailDrawerProps {
     isOpen: boolean;
@@ -23,10 +21,22 @@ interface LineChartOption {
 export const ChartDetailDrawer = (props: ChartDetailDrawerProps) => {
     const { isOpen, onClose, title } = props;
 
+    const storedGrid = useAppSelector((state) => state.grid);
+
+    const { selectedChart, chartOptionArray } = storedGrid;
+
+    const selectedChartOption = useMemo(() => {
+        if (selectedChart) {
+            return chartOptionArray.find((option) => option.key === selectedChart);
+        } else {
+            return null;
+        }
+    }, [chartOptionArray, selectedChart]);
+
     const [chartOption, setChartOption] = useState<LineChartOption>({
-        backgroundColor: "",
-        strokeColor: "",
-        tooltip: false,
+        backgroundColor: selectedChartOption?.option?.background || "",
+        strokeColor: selectedChartOption?.option?.lineStyle?.strokeColor || "",
+        tooltip: selectedChartOption?.option?.tooltip?.display || false,
     });
 
     const onFinish = (values: LineChartOption) => {
@@ -36,6 +46,7 @@ export const ChartDetailDrawer = (props: ChartDetailDrawerProps) => {
     const onFinishFailed = (errors: any) => {
         console.log("Failed :", errors);
     };
+    console.log("chartOption", chartOption);
 
     return (
         <Drawer size="large" mask={false} title={title} placement="right" open={isOpen} onClose={onClose}>
@@ -49,14 +60,14 @@ export const ChartDetailDrawer = (props: ChartDetailDrawerProps) => {
                 autoComplete="off"
             >
                 <Form.Item label="backgroundColor" name="backgroundColor">
-                    <Input />
+                    <Input value={chartOption.backgroundColor} />
                 </Form.Item>
 
                 <Form.Item label="strokeColor" name="strokeColor">
-                    <Input />
+                    <Input value={chartOption.strokeColor} />
                 </Form.Item>
                 <Form.Item label="tooltip" name="tooltip">
-                    <Radio.Group>
+                    <Radio.Group value={chartOption.tooltip}>
                         <Radio value={true}> 사용 </Radio>
                         <Radio value={false}> 사용안함 </Radio>
                     </Radio.Group>

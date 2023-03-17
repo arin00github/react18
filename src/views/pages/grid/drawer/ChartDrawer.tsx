@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import { Card, Col, Space } from "antd";
-import { Drawer } from "antd";
-import Draggable from "react-draggable";
-import { Dispatch } from "redux";
+import { Space } from "antd";
+import { FaTimes } from "react-icons/fa";
 import styled from "styled-components";
 
 import { setStoredGridLayout } from "../../../../redux/grid/grid.slice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hook";
 import { updateArrayWithObject } from "../../../../service/util/utils";
+import { IconButton } from "../../../../style";
 import { LayoutItem } from "../../../../types/grid-interface";
 import { ChartMenu } from "../../../components/common/ChartMenu";
 
@@ -33,18 +32,14 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
     const [isDragging, setIsDragging] = useState<boolean>(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleMouseMove = useCallback(
-        (e: MouseEvent) => {
-            if (isDragging) {
-                console.log("mousemove", e.screenX, e.screenY);
-            }
-        },
-        [isDragging]
-    );
+    const handleMouseMove = useCallback((e: MouseEvent) => {
+        // if (isDragging) {
+        //     console.log("mousemove", e.screenX, e.screenY);
+        // }
+    }, []);
 
     const handleMouseDown = useCallback((e: MouseEvent) => {
         setIsDragging(true);
-        console.log("mouseDown", e.screenX, e.screenY);
     }, []);
 
     const handleMouseUp = useCallback(
@@ -59,7 +54,7 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
             });
 
             const updatedArray = findItem ? updateArrayWithObject(layout, findItem, { type: event.innerText }) : layout;
-            console.log("handleMouseUp", updatedArray);
+
             if (findItem) {
                 handleChartInsert({ ...findItem, type: event.innerText });
             }
@@ -82,20 +77,19 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
         };
     }, [handleMouseMove, handleMouseUp, handleMouseDown]);
 
+    console.log("isOpen", isOpen);
+
     return (
-        <StyledDrawer isOpen={isOpen}>
+        <StyledDrawer className={isOpen ? "openDrawer" : "closeDrawer"}>
             <Space dir="vertical" style={{ padding: 12 }}>
+                <Space>
+                    <IconButton onClick={onClose}>
+                        <FaTimes color="#fff" />
+                    </IconButton>
+                </Space>
                 {ChartMenu.map((menu, idx) => {
                     return (
-                        <StyledCard
-                            ref={draggableRef}
-                            // onMouseUp={(e) => handleMouseUp(e)}
-                            // onMouseMove={(e) => handleMouseMove(e)}
-                            // onMouseDown={(e) => handleMouseDown(e)}
-                            key={`chart_category_${idx}`}
-                            index={idx + 1}
-                            draggable={true}
-                        >
+                        <StyledCard ref={draggableRef} key={`chart_category_${idx}`} index={idx + 1} draggable={true}>
                             {menu.type}
                         </StyledCard>
                     );
@@ -116,7 +110,7 @@ const StyledCard = styled.div<{ index: number }>`
     border: 1px solid #fff;
 `;
 
-const StyledDrawer = styled.div<{ isOpen: boolean }>`
+const StyledDrawer = styled.div`
     color: black;
     position: absolute;
     width: 240px;
@@ -126,5 +120,31 @@ const StyledDrawer = styled.div<{ isOpen: boolean }>`
     z-index: 2000;
     background-color: #1f1f1f;
     border-left: 1px solid #898989;
-    transform: ${(props) => (props.isOpen ? "translate(0px, 0px)" : "translate(240px, 0px)")};
+    &.openDrawer {
+        animation-name: openDrawer;
+    }
+
+    &.closeDrawer {
+        animation-name: closeDrawer;
+    }
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+
+    @keyframes openDrawer {
+        from {
+            transform: translate(240px, 0px);
+        }
+        to {
+            transform: translate(0px, 0px);
+        }
+    }
+
+    @keyframes closeDrawer {
+        from {
+            transform: translate(0px, 0px);
+        }
+        to {
+            transform: translate(240px, 0px);
+        }
+    }
 `;

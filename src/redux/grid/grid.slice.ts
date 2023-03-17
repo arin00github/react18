@@ -11,7 +11,15 @@ export interface GridState {
 export const initialState: GridState = {
     selectedChart: undefined,
     chartOptionArray: [
-        { key: "box_01", option: { lineStyle: { strokeColor: "#ffff00" }, title: "Bit Coin Price" } },
+        {
+            key: "box_01",
+            option: {
+                lineStyle: { strokeColor: "#ffff00" },
+                title: "Bit Coin Price",
+                tooltip: { display: true },
+                background: "#ffffff76",
+            },
+        },
         { key: "box_1678854405986" },
     ],
     layout: [
