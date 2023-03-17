@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { setStoredGridLayout } from "../../../../redux/grid/grid.slice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hook";
 import { updateArrayWithObject } from "../../../../service/util/utils";
+import { LayoutItem } from "../../../../types/grid-interface";
 import { ChartMenu } from "../../../components/common/ChartMenu";
 
 interface ChartDrawerProps {
@@ -16,6 +17,7 @@ interface ChartDrawerProps {
     onClose: () => void;
     title: string;
     handleChartClick: (type: string) => void;
+    handleChartInsert: (updatedLayout: LayoutItem) => void;
 }
 
 export const ChartDrawer = (props: ChartDrawerProps) => {
@@ -25,7 +27,7 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
 
     const { layout } = storedGrid;
 
-    const { isOpen, onClose, title, handleChartClick } = props;
+    const { isOpen, onClose, title, handleChartInsert } = props;
     const draggableRef = useRef<HTMLDivElement | null>(null);
 
     const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -58,10 +60,14 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
 
             const updatedArray = findItem ? updateArrayWithObject(layout, findItem, { type: event.innerText }) : layout;
             console.log("handleMouseUp", updatedArray);
+            if (findItem) {
+                handleChartInsert({ ...findItem, type: event.innerText });
+            }
+
             dispatch(setStoredGridLayout(updatedArray));
         },
 
-        [dispatch, layout]
+        [dispatch, handleChartInsert, layout]
     );
 
     useEffect(() => {

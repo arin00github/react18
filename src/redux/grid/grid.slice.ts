@@ -4,10 +4,12 @@ import { LayoutItem, LineChartOptionsProps } from "../../types/grid-interface";
 
 export interface GridState {
     layout: LayoutItem[];
+    selectedChart: string | undefined;
     chartOptionArray: LineChartOptionsProps[];
 }
 
 export const initialState: GridState = {
+    selectedChart: undefined,
     chartOptionArray: [
         { key: "box_01", option: { lineStyle: { strokeColor: "#ffff00" }, title: "Bit Coin Price" } },
         { key: "box_1678854405986" },
@@ -23,12 +25,14 @@ export const gridSlice = createSlice({
     initialState: initialState,
     reducers: {
         setStoredGridLayout: (state, action: PayloadAction<LayoutItem[]>) => {
-            console.log("action.payload", action.payload);
             state.layout = action.payload;
+        },
+        setStoredGridSelectedChart: (state, action: PayloadAction<string | undefined>) => {
+            state.selectedChart = action.payload;
         },
     },
 });
 
-export const { setStoredGridLayout } = gridSlice.actions;
+export const { setStoredGridLayout, setStoredGridSelectedChart } = gridSlice.actions;
 
 export default gridSlice.reducer;

@@ -5,12 +5,13 @@ import { FaCog, FaExpand, FaFigma, FaTrash } from "react-icons/fa";
 import { ResizableBox } from "react-resizable";
 import styled from "styled-components";
 
+import { useAppSelector } from "../../../redux/hook";
 import { LayoutItem } from "../../../types/grid-interface";
+import { GridBoxContent } from "../../pages/grid/box2/GridBoxContent";
 
 interface DraggableItemProps {
     item: LayoutItem;
-    selectedId?: string;
-    children: ReactNode;
+
     chartType: string;
     onDragStop: (e: DraggableEvent, data: DraggableData, item: LayoutItem) => void;
     onResizeBox: (e: React.SyntheticEvent, item: LayoutItem) => void;
@@ -18,16 +19,17 @@ interface DraggableItemProps {
     handleSetting: (id: string) => void;
 }
 
-export const DraggableItem = ({
+const DraggableItemComponent = ({
     item,
-    selectedId,
-    children,
+
     chartType,
     onDragStop,
     onResizeBox,
     handleDelete,
     handleSetting,
 }: DraggableItemProps) => {
+    const storedSelectedChart = useAppSelector((state) => state.grid.selectedChart);
+
     const dragBoxRef = React.createRef<Draggable>();
 
     const handleResizeStop = (e: React.SyntheticEvent) => {
@@ -74,9 +76,9 @@ export const DraggableItem = ({
                     }
                 >
                     <StyledGridBox aria-label={item.i} chartType={chartType}>
-                        {children}
+                        <GridBoxContent keyId={item.i} chartType={item.type} />
                     </StyledGridBox>
-                    {selectedId === item.i && (
+                    {storedSelectedChart === item.i && (
                         <StyleChartTool>
                             <div className="tool-icon" onClick={() => handleDelete(item.i)}>
                                 <FaTrash />
@@ -133,3 +135,5 @@ const StyledHandle = styled.div`
     color: "white";
     color: #fff;
 `;
+
+export const DraggableItem = React.memo(DraggableItemComponent);

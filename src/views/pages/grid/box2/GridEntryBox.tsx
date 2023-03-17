@@ -1,19 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useReducer, useRef, useState } from "react";
 
 import { DraggableData, DraggableEvent } from "react-draggable";
 import { FaChevronLeft, FaCog, FaPlus } from "react-icons/fa";
 import styled from "styled-components";
 
 import { setStoredCommonAsideOpend } from "../../../../redux/common/common.slice";
-import { setStoredGridLayout } from "../../../../redux/grid/grid.slice";
+import { setStoredGridLayout, setStoredGridSelectedChart } from "../../../../redux/grid/grid.slice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hook";
+import { layoutReducer } from "../../../../service/reducer/grid-reducer";
 import { IconButton } from "../../../../style";
 import { LayoutItem } from "../../../../types/grid-interface";
 import { DraggableItem } from "../../../components/draggable/DraggableItem";
 import { ChartDetailDrawer } from "../drawer/ChartDetailDrawer";
 import { ChartDrawer } from "../drawer/ChartDrawer";
-
-import { GridBoxContent } from "./GridBoxContent";
 
 export const GridEntryBox = () => {
     const dispatch = useAppDispatch();
@@ -38,10 +37,7 @@ export const GridEntryBox = () => {
         (state) => state.grid.layout,
         (prev, curr) => prev === curr
     );
-
-    const [layout, setLayout] = useState<LayoutItem[]>(storedGridLayout);
-
-    const [selectedId, setSelectedId] = useState<string>();
+    const [layout, dispatchLayout] = useReducer(layoutReducer, storedGridLayout);
 
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
@@ -69,9 +65,10 @@ export const GridEntryBox = () => {
         const newItem = finedItem
             ? { ...finedItem, x: x, y: y }
             : { x: 20, y: 20, h: 300, w: defaultWidth, i: item.i, type: "" };
-        setLayout([...removedArray, newItem]);
+
+        dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
         dispatch(setStoredGridLayout([...removedArray, newItem]));
-        setSelectedId(item.i);
+        dispatch(setStoredGridSelectedChart(item.i));
     };
 
     /**
@@ -86,7 +83,8 @@ export const GridEntryBox = () => {
         const newItem = finedItem
             ? { ...finedItem, w: item.w, h: item.h }
             : { x: 100, y: 100, h: 100, w: 100, i: item.i, type: "" };
-        setLayout([...removedArray, newItem]);
+
+        dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
         dispatch(setStoredGridLayout([...removedArray, newItem]));
     };
 
@@ -106,7 +104,8 @@ export const GridEntryBox = () => {
             return;
         }
         const newBox = { x, y, w, h, i: `box_${Date.now().toString()}`, type: chartType ? chartType : "" };
-        setLayout([...layout, newBox]);
+
+        dispatchLayout({ type: "ADD_ITEM", payload: newBox });
         dispatch(setStoredGridLayout([...layout, newBox]));
     };
 
@@ -116,7 +115,7 @@ export const GridEntryBox = () => {
      * @description 선택한 박스 삭제하는 함수
      */
     const handleDeleteBox = (id: string) => {
-        setLayout(layout.filter((lay) => lay.i !== id));
+        dispatchLayout({ type: "DELETE_ITEM", payload: id });
         dispatch(setStoredGridLayout(layout.filter((lay) => lay.i !== id)));
     };
 
@@ -218,12 +217,6 @@ export const GridEntryBox = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
     };
-    console.log("GridEntryBox layout", layout);
-
-    useEffect(() => {
-        console.log("useEffect GrinEntry", storedGridLayout);
-        setLayout(storedGridLayout);
-    }, [storedGridLayout]);
 
     return (
         <>
@@ -259,7 +252,6 @@ export const GridEntryBox = () => {
                         <DraggableItem
                             chartType={item.type}
                             key={`${item.i}_${index}`}
-                            selectedId={selectedId}
                             item={item}
                             onDragStop={onDragStop}
                             onResizeBox={onResizeBox}
@@ -267,14 +259,15 @@ export const GridEntryBox = () => {
                             handleSetting={() => {
                                 setDetailDrawerOpen(true);
                             }}
-                        >
-                            <GridBoxContent keyId={item.i} chartType={item.type} />
-                        </DraggableItem>
+                        ></DraggableItem>
                     ))}
                     <ChartDrawer
                         title="Chart Category"
                         isOpen={drawerOpen}
                         onClose={() => setDrawerOpen(false)}
+                        handleChartInsert={(newItem: LayoutItem) => {
+                            dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
+                        }}
                         handleChartClick={(type: string) => {
                             setDrawerOpen(false);
                             handleClickAddBtn();
