@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { setStoredCommonAsideOpend } from "../../../../redux/common/common.slice";
 import { setStoredGridLayout, setStoredGridSelectedChart } from "../../../../redux/grid/grid.slice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hook";
-import { layoutReducer } from "../../../../service/reducer/grid-reducer";
+import { classlayoutReducer, layoutReducer } from "../../../../service/reducer/grid-reducer";
 import { IconButton } from "../../../../style";
 import { LayoutItem } from "../../../../types/grid-interface";
 import { DraggableItem } from "../../../components/draggable/DraggableItem";
@@ -49,7 +49,7 @@ export const GridEntryContainer = () => {
     const [isCreating, setIsCreating] = useState<boolean>(false);
 
     // 레아이웃
-    const [layout, dispatchLayout] = useReducer(layoutReducer, storedGridLayout);
+    const [layout, dispatchLayout] = useReducer(classlayoutReducer, storedClassLayout);
 
     // 레아이웃(useState 예시자료)
     const [layout2, setLayout2] = useState(storedGridLayout);
@@ -71,15 +71,15 @@ export const GridEntryContainer = () => {
         const { x, y } = data;
         const container = containerRef.current;
         if (!container) return;
-        const finedItem = layout.find((ly) => ly.i === item.i);
-        const keepArray = layout.filter((ly) => ly.i !== item.i);
+        const finedItem = layout.find((ly) => ly.gridInfo.i === item.i);
+        const keepArray = layout.filter((ly) => ly.gridInfo.i !== item.i);
         const newItem = finedItem
             ? { ...finedItem, x: x, y: y }
             : { x: 20, y: 20, h: 300, w: defaultWidth, i: item.i, type: "" };
 
-        dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
-        dispatch(setStoredGridLayout([...keepArray, newItem]));
-        setLayout2([...keepArray, newItem]);
+        // dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
+        // dispatch(setStoredGridLayout([...keepArray, newItem]));
+
         dispatch(setStoredGridSelectedChart(item.i));
     };
 
@@ -90,15 +90,14 @@ export const GridEntryContainer = () => {
      * @description 박스 리사이징하는 함수
      */
     const onResizeBox = (e: React.SyntheticEvent, item: LayoutItem) => {
-        const finedItem = layout.find((ly) => ly.i === item.i);
-        const removedArray = layout.filter((ly) => ly.i !== item.i);
+        const finedItem = layout.find((ly) => ly.gridInfo.i === item.i);
+        const removedArray = layout.filter((ly) => ly.gridInfo.i !== item.i);
         const newItem = finedItem
             ? { ...finedItem, w: item.w, h: item.h }
             : { x: 100, y: 100, h: 100, w: 100, i: item.i, type: "" };
 
-        dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
-        dispatch(setStoredGridLayout([...removedArray, newItem]));
-        setLayout2([...removedArray, newItem]);
+        // dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
+        // dispatch(setStoredGridLayout([...removedArray, newItem]));
     };
 
     /**
@@ -118,9 +117,8 @@ export const GridEntryContainer = () => {
         }
         const newBox = { x, y, w, h, i: `box_${Date.now().toString()}`, type: chartType ? chartType : "" };
 
-        dispatchLayout({ type: "ADD_ITEM", payload: newBox });
-        dispatch(setStoredGridLayout([...layout, newBox]));
-        setLayout2([...layout, newBox]);
+        // dispatchLayout({ type: "ADD_ITEM", payload: newBox });
+        // dispatch(setStoredGridLayout([...layout, newBox]));
     };
 
     /**
@@ -130,8 +128,7 @@ export const GridEntryContainer = () => {
      */
     const handleDeleteBox = (id: string) => {
         dispatchLayout({ type: "DELETE_ITEM", payload: id });
-        dispatch(setStoredGridLayout(layout.filter((lay) => lay.i !== id)));
-        setLayout2(layout.filter((lay) => lay.i !== id));
+        //dispatch(setStoredGridLayout(layout.filter((lay) => lay.i !== id)));
     };
 
     /**
@@ -276,9 +273,9 @@ export const GridEntryContainer = () => {
                     ))} */}
                     {layout.map((item, index) => (
                         <DraggableItem
-                            chartType={item.type}
-                            key={`${item.i}_${index}`}
-                            item={item}
+                            chartType={item.gridInfo.type}
+                            key={`${item.gridInfo.i}_${index}`}
+                            item={item.gridInfo}
                             onDragStop={onDragStop}
                             onResizeBox={onResizeBox}
                             handleDelete={handleDeleteBox}
@@ -290,7 +287,7 @@ export const GridEntryContainer = () => {
                         isOpen={drawerOpen}
                         onClose={() => setDrawerOpen(false)}
                         handleChartInsert={(newItem: LayoutItem) => {
-                            dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
+                            //dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
                             setLayout2(layout2.map((ly) => (ly.i === newItem.i ? newItem : ly)));
                         }}
                         handleChartClick={(type: string) => {

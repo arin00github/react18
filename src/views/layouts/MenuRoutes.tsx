@@ -5,8 +5,9 @@ import React, { ReactNode } from "react";
 import D3Page from "../pages/d3/D3Page";
 import D3WorldPage from "../pages/d3/WorldPage";
 import FormikIndexPage from "../pages/formik/IndexPage";
-import GridPage2 from "../pages/grid/IndexPage";
-import GridPage from "../pages/grid2/IndexPage";
+import GridPage from "../pages/grid/IndexPage";
+import GridPage2 from "../pages/grid2/IndexPage";
+import GridPage3 from "../pages/grid3/IndexPage";
 import MainPage from "../pages/main/MainPage";
 type subMenuProps = {
     title: string;
@@ -24,6 +25,8 @@ type MenuProps = {
 
 export const BasicMenu: MenuProps[] = [
     { title: "main", href: "/main", component: <MainPage />, isLeftMenu: true },
-    { title: "grid-l", href: "/grid-layout", component: <GridPage />, isLeftMenu: true },
-    { title: "grid-ll", href: "/", component: <GridPage2 />, isLeftMenu: true },
+    { title: "grid-l", href: "/", component: <GridPage />, isLeftMenu: true },
+    { title: "grid-ll", href: "/grid-2", component: <GridPage2 />, isLeftMenu: true },
+
+    { title: "grid-lll", href: "/grid-3", component: <GridPage3 />, isLeftMenu: true },
 ];

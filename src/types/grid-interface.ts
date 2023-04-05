@@ -17,17 +17,12 @@ interface TooltipProps {
     y: number;
     content: string;
 }
-
-export interface LineChartOptionsProps {
+export interface ChartOptionsProps {
     key: string;
     option?: {
         width?: number;
         height?: number;
         title?: string;
-        lineStyle?: {
-            strokeColor?: string;
-            strokeWidth?: number;
-        };
         margin?: {
             top: number;
             bottom: number;
@@ -43,6 +38,20 @@ export interface LineChartOptionsProps {
     };
 }
 
+export interface LineChartOptionsProps extends ChartOptionsProps {
+    lineOptions?: {
+        strokeColor?: string;
+        strokeWidth?: number;
+    };
+}
+
+export interface BarChartOptionsProps extends ChartOptionsProps {
+    barOptions?: {
+        barColor?: string;
+    };
+}
+
+export type ChartTypeOptionsProps = LineChartOptionsProps | BarChartOptionsProps;
 export interface LineChartProps<T extends DataType> {
     data: T[];
     option?: {
