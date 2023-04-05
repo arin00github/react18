@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import RGL, { WidthProvider, Layout } from "react-grid-layout";
 import styled, { css } from "styled-components";
 
-import { BoxUnit, Unit } from "../GridPage";
+import { BoxUnit, Unit } from "../IndexPage";
 
 import { GridBoxItem } from "./GridBoxItem";
 import { GridBoxItem2 } from "./GridBoxItem2";

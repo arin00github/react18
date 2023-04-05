@@ -11,7 +11,6 @@ interface LineChartWrapProps<T extends DataType> extends LineChartProps<T> {
 
 export const LineChartWrap = <T extends DataType>({ data, option, height }: LineChartWrapProps<T>) => {
     const chartWrap = useRef<HTMLDivElement | null>(null);
-    //console.log("height", height);
 
     return (
         <div style={{ width: "100%", height: height }} ref={chartWrap}>

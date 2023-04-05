@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 
-import { Card, Col, Space, Input, Form, Switch, Checkbox, Button, Radio } from "antd";
+import { Input, Form, Button, Radio } from "antd";
 import { Drawer } from "antd";
 
 import { useAppSelector } from "../../../../redux/hook";

@@ -39,9 +39,8 @@ const unit06 = new Unit(0, 9, 4, 6, "box_5&type=dounut").make();
 const unit07 = new Unit(12, 0, 4, 9, "box_6&type=box").make();
 
 const initialLayout = [unit01, unit02, unit03, unit04, unit05, unit06, unit07];
-console.log("initial", initialLayout);
 
-const GridPage = (): JSX.Element => {
+const IndexPage = (): JSX.Element => {
     return (
         <div>
             <GridEntryBox initialLayout={initialLayout} />
@@ -49,4 +48,4 @@ const GridPage = (): JSX.Element => {
     );
 };
 
-export default GridPage;
+export default IndexPage;

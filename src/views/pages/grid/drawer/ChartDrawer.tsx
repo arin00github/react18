@@ -26,7 +26,7 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
 
     const { layout } = storedGrid;
 
-    const { isOpen, onClose, title, handleChartInsert } = props;
+    const { isOpen, onClose, handleChartInsert } = props;
     const draggableRef = useRef<HTMLDivElement | null>(null);
 
     const [isDragging, setIsDragging] = useState<boolean>(false);

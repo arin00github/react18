@@ -25,29 +25,33 @@ export const GridEntryContainer = () => {
 
     const storedCommon = useAppSelector((state) => state.common);
 
-    const [startPos, setStartPos] = useState<{ x: number; y: number } | null>(null);
-
-    const [chartType, setChartType] = useState<string | undefined>(undefined);
-
-    const [drawedRect, setDrawedRect] = useState({ width: 0, height: 0 });
-
-    const [isCreating, setIsCreating] = useState<boolean>(false);
-
     const storedGridLayout = useAppSelector(
         (state) => state.grid.layout,
         (prev, curr) => prev === curr
     );
+
+    const { selectedChart } = useAppSelector((state) => state.grid);
+
+    // 박스생성 시작점
+    const [startPos, setStartPos] = useState<{ x: number; y: number } | null>(null);
+
+    // 차트타입
+    const [chartType, setChartType] = useState<string | undefined>(undefined);
+
+    const [drawedRect, setDrawedRect] = useState({ width: 0, height: 0 });
+
+    // 차트생성 상태 (canvas 태그 파싱 여부)
+    const [isCreating, setIsCreating] = useState<boolean>(false);
+
+    // 레아이웃
     const [layout, dispatchLayout] = useReducer(layoutReducer, storedGridLayout);
+
+    // 레아이웃(useState 예시자료)
+    const [layout2, setLayout2] = useState(storedGridLayout);
 
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
     const [detailDrawerOpen, setDetailDrawerOpen] = useState<boolean>(false);
-
-    // function removeDuplicates(arr: number[]): number[] {
-    //     const uniqueArr = Array.from(new Set(arr));
-    //     uniqueArr.sort((a, b) => a - b);
-    //     return uniqueArr;
-    // }
 
     /**
      * @name onDragStop
@@ -63,13 +67,14 @@ export const GridEntryContainer = () => {
         const container = containerRef.current;
         if (!container) return;
         const finedItem = layout.find((ly) => ly.i === item.i);
-        const removedArray = layout.filter((ly) => ly.i !== item.i);
+        const keepArray = layout.filter((ly) => ly.i !== item.i);
         const newItem = finedItem
             ? { ...finedItem, x: x, y: y }
             : { x: 20, y: 20, h: 300, w: defaultWidth, i: item.i, type: "" };
 
         dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
-        dispatch(setStoredGridLayout([...removedArray, newItem]));
+        dispatch(setStoredGridLayout([...keepArray, newItem]));
+        setLayout2([...keepArray, newItem]);
         dispatch(setStoredGridSelectedChart(item.i));
     };
 
@@ -88,6 +93,7 @@ export const GridEntryContainer = () => {
 
         dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
         dispatch(setStoredGridLayout([...removedArray, newItem]));
+        setLayout2([...removedArray, newItem]);
     };
 
     /**
@@ -109,6 +115,7 @@ export const GridEntryContainer = () => {
 
         dispatchLayout({ type: "ADD_ITEM", payload: newBox });
         dispatch(setStoredGridLayout([...layout, newBox]));
+        setLayout2([...layout, newBox]);
     };
 
     /**
@@ -119,6 +126,7 @@ export const GridEntryContainer = () => {
     const handleDeleteBox = (id: string) => {
         dispatchLayout({ type: "DELETE_ITEM", payload: id });
         dispatch(setStoredGridLayout(layout.filter((lay) => lay.i !== id)));
+        setLayout2(layout.filter((lay) => lay.i !== id));
     };
 
     /**
@@ -174,7 +182,6 @@ export const GridEntryContainer = () => {
      * @returns 함수 종료로 사용
      */
     const drawRect = () => {
-        console.log("drawReact");
         if (!canvasRef.current) return;
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
@@ -195,20 +202,21 @@ export const GridEntryContainer = () => {
      * @param e 이벤트 객체
      * @returns
      */
-    // const handleClickBackGroud = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    //     console.log("handleClickBackGroud");
-    //     const eventDiv = e.target as HTMLDivElement;
-    //     if (eventDiv.getAttribute("aria-label")) return;
-    //     if (!selectedId) return;
-    //     const childAr = Array.from(e.currentTarget.children);
-    //     const checkValid = childAr.some((child) => {
-    //         return selectedId && child.classList.contains(selectedId);
-    //     });
-    //     if (checkValid) {
-    //         console.log("selected undefined");
-    //         setSelectedId(undefined);
-    //     }
-    // };
+    const handleClickBackGroud = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        console.log("handleClickBackGroud", e);
+        const eventDiv = (e.target as HTMLDivElement) || HTMLElement;
+        if (eventDiv.getAttribute("aria-label")) return;
+        if (!selectedChart) return;
+        //e.target이나, 그 자식노드가 "container"라는 id 있는 경우를 체크
+        const hasIdContainer = eventDiv.id === "container";
+        const childAr = Array.from(e.currentTarget.children);
+        const hansChildIdContainer = childAr.some((child) => {
+            return child.id === "container";
+        });
+        if (hasIdContainer || hansChildIdContainer) {
+            dispatch(setStoredGridSelectedChart(undefined));
+        }
+    };
 
     const handleClickAddBtn = () => {
         setIsCreating(true);
@@ -244,12 +252,18 @@ export const GridEntryContainer = () => {
                     onClick={handleClickCanvas}
                     style={{ zIndex: isCreating ? 10 : -10, cursor: "crosshair" }}
                 />
-                <StyledContainer
-                    ref={containerRef}
-                    //onClick={handleClickBackGroud}
-                    //onMouseOver={(e) => handleMouseOver(e)}
-                    //onMouseUp={(e) => console.log("onMouseUp", e)}
-                >
+                <StyledContainer id="container" ref={containerRef} onClick={handleClickBackGroud}>
+                    {/* {layout2.map((item, index) => (
+                        <DraggableItem
+                            chartType={item.type}
+                            key={`${item.i}_${index}`}
+                            item={item}
+                            onDragStop={onDragStop}
+                            onResizeBox={onResizeBox}
+                            handleDelete={handleDeleteBox}
+                            handleSetting={() => setDetailDrawerOpen(true)}
+                        ></DraggableItem>
+                    ))} */}
                     {layout.map((item, index) => (
                         <DraggableItem
                             chartType={item.type}
@@ -265,9 +279,10 @@ export const GridEntryContainer = () => {
                         title="Chart Category"
                         isOpen={drawerOpen}
                         onClose={() => setDrawerOpen(false)}
-                        handleChartInsert={(newItem: LayoutItem) =>
-                            dispatchLayout({ type: "UPDATE_ITEM", payload: newItem })
-                        }
+                        handleChartInsert={(newItem: LayoutItem) => {
+                            dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
+                            setLayout2(layout2.map((ly) => (ly.i === newItem.i ? newItem : ly)));
+                        }}
                         handleChartClick={(type: string) => {
                             setDrawerOpen(false);
                             handleClickAddBtn();
@@ -300,7 +315,7 @@ const StyledToolbar = styled.div`
 
 const StyledCanvas = styled.canvas`
     position: absolute;
-    top: 60px;
+    top: 48px;
     left: 0;
     width: 100%;
     height: calc(100vh - 48px);
@@ -309,24 +324,20 @@ const StyledCanvas = styled.canvas`
 
 const StyledContainer = styled.div`
     position: absolute;
-    top: 60px;
+    top: 48px;
     left: 0;
     width: 100%;
     height: calc(100vh - 48px);
     overflow: hidden;
 
-    .grid-item {
-        z-index: 100;
-        position: absolute;
-    }
-
     .react-resizable {
         position: absolute;
-        /* cursor: move;
-        position: absolute;
+        border: 1px solid transparent;
 
-        &:hover {
-            cursor: move;
-        } */
+        &.grid-item {
+            z-index: 100;
+            border: 1px solid yellow;
+            // box-sizing: border-box;
+        }
     }
 `;

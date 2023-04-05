@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { useAppSelector } from "../../redux/hook";
 
-import { BasicMenu } from "./menuRouter";
+import { BasicMenu } from "./MenuRoutes";
 
 export function Aside() {
     const storedCommon = useAppSelector((state) => state.common);

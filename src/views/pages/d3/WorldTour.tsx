@@ -29,7 +29,6 @@ export const WorldTour: React.FC<Props> = ({ world }) => {
     const render = useCallback(
         (land: any, countries: any, borders: any, sphere: any) => {
             if (context) {
-                console.log("render", path(land));
                 context.clearRect(0, 0, width, height);
 
                 context.beginPath(), path(land), (context.fillStyle = "#ccc"), context.fill();

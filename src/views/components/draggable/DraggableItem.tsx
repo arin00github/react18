@@ -1,7 +1,7 @@
-import React, { ReactNode } from "react";
+import React from "react";
 
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
-import { FaCog, FaExpand, FaFigma, FaTrash } from "react-icons/fa";
+import { FaCog, FaExpand, FaTrash } from "react-icons/fa";
 import { ResizableBox } from "react-resizable";
 import styled from "styled-components";
 
@@ -85,7 +85,7 @@ const DraggableItemComponent = ({
                             <div
                                 className="tool-icon"
                                 onClick={(e) => {
-                                    console.log("e", e.target);
+                                    //console.log("e", e.target);
                                     handleSetting(item.i);
                                 }}
                             >
