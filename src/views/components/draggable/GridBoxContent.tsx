@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 
-import { useAppSelector } from "../../../../redux/hook";
-import { NewDeplomacyApi } from "../../../../service/api/DeplomacyApi";
-import { DataType } from "../../../../types/d3-interface";
-import { IDeplomacyList } from "../../../../types/deplomacy-interface";
-import { BarChart } from "../../../components/rechart/BarChart";
-import { LineChart } from "../../../components/rechart/LineChart";
-import { PieChart } from "../../../components/rechart/PieChart";
+import { useAppSelector } from "../../../redux/hook";
+import { NewDeplomacyApi } from "../../../service/api/DeplomacyApi";
+import { DataType } from "../../../types/d3-interface";
+import { IDeplomacyList } from "../../../types/deplomacy-interface";
+import { BarChart } from "../rechart/BarChart";
+import { LineChart } from "../rechart/LineChart";
+import { PieChart } from "../rechart/PieChart";
 
 interface GridBoxItemProps {
     keyId: string;

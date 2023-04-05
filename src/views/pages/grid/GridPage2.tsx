@@ -1,9 +1,9 @@
 import React from "react";
 
-import { GridEntryBox } from "./box2/GridEntryBox";
+import { GridEntryContainer } from "./box2/GridEntryContainer";
 
 const GridPage2 = (): JSX.Element => {
-    return <GridEntryBox />;
+    return <GridEntryContainer />;
 };
 
 export default GridPage2;

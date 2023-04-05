@@ -7,11 +7,11 @@ import styled from "styled-components";
 
 import { useAppSelector } from "../../../redux/hook";
 import { LayoutItem } from "../../../types/grid-interface";
-import { GridBoxContent } from "../../pages/grid/box2/GridBoxContent";
+
+import { GridBoxContent } from "./GridBoxContent";
 
 interface DraggableItemProps {
     item: LayoutItem;
-
     chartType: string;
     onDragStop: (e: DraggableEvent, data: DraggableData, item: LayoutItem) => void;
     onResizeBox: (e: React.SyntheticEvent, item: LayoutItem) => void;
@@ -21,7 +21,6 @@ interface DraggableItemProps {
 
 const DraggableItemComponent = ({
     item,
-
     chartType,
     onDragStop,
     onResizeBox,
@@ -58,7 +57,7 @@ const DraggableItemComponent = ({
         <>
             <Draggable
                 ref={dragBoxRef}
-                defaultClassName={`grid-item ${item.i}`}
+                defaultClassName={`${item.i === storedSelectedChart && "grid-item"} ${item.i}`}
                 key={item.i}
                 position={{ x: item.x, y: item.y }}
                 grid={[20, 20]}
@@ -79,14 +78,17 @@ const DraggableItemComponent = ({
                         <GridBoxContent keyId={item.i} chartType={item.type} />
                     </StyledGridBox>
                     {storedSelectedChart === item.i && (
-                        <StyleChartTool>
+                        <StyleChartTool aria-label="chart-tool">
                             <div className="tool-icon" onClick={() => handleDelete(item.i)}>
                                 <FaTrash />
                             </div>
-                            <div className="tool-icon">
-                                <FaFigma />
-                            </div>
-                            <div className="tool-icon" onClick={() => handleSetting(item.i)}>
+                            <div
+                                className="tool-icon"
+                                onClick={(e) => {
+                                    console.log("e", e.target);
+                                    handleSetting(item.i);
+                                }}
+                            >
                                 <FaCog />
                             </div>
                         </StyleChartTool>

@@ -14,7 +14,7 @@ import { DraggableItem } from "../../../components/draggable/DraggableItem";
 import { ChartDetailDrawer } from "../drawer/ChartDetailDrawer";
 import { ChartDrawer } from "../drawer/ChartDrawer";
 
-export const GridEntryBox = () => {
+export const GridEntryContainer = () => {
     const dispatch = useAppDispatch();
 
     const defaultWidth = 400;
@@ -57,6 +57,8 @@ export const GridEntryBox = () => {
      * @description 드래그 stop시 실행하는 함수
      */
     const onDragStop = (e: DraggableEvent, data: DraggableData, item: LayoutItem) => {
+        console.log("e.target stop", e.target);
+        console.log("e.currenttarget", e.currentTarget);
         const { x, y } = data;
         const container = containerRef.current;
         if (!container) return;
@@ -256,18 +258,16 @@ export const GridEntryBox = () => {
                             onDragStop={onDragStop}
                             onResizeBox={onResizeBox}
                             handleDelete={handleDeleteBox}
-                            handleSetting={() => {
-                                setDetailDrawerOpen(true);
-                            }}
+                            handleSetting={() => setDetailDrawerOpen(true)}
                         ></DraggableItem>
                     ))}
                     <ChartDrawer
                         title="Chart Category"
                         isOpen={drawerOpen}
                         onClose={() => setDrawerOpen(false)}
-                        handleChartInsert={(newItem: LayoutItem) => {
-                            dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
-                        }}
+                        handleChartInsert={(newItem: LayoutItem) =>
+                            dispatchLayout({ type: "UPDATE_ITEM", payload: newItem })
+                        }
                         handleChartClick={(type: string) => {
                             setDrawerOpen(false);
                             handleClickAddBtn();
@@ -300,7 +300,7 @@ const StyledToolbar = styled.div`
 
 const StyledCanvas = styled.canvas`
     position: absolute;
-    top: 60;
+    top: 60px;
     left: 0;
     width: 100%;
     height: calc(100vh - 48px);
@@ -309,26 +309,19 @@ const StyledCanvas = styled.canvas`
 
 const StyledContainer = styled.div`
     position: absolute;
-    top: 60;
+    top: 60px;
     left: 0;
     width: 100%;
     height: calc(100vh - 48px);
     overflow: hidden;
 
     .grid-item {
+        z-index: 100;
         position: absolute;
-        /* border: 2px solid transparent;
-
-        .recharts-wrapper {
-            cursor: move;
-        }
-
-        &.react-draggable-dragging {
-            border: 2px solid #fff;
-        } */
     }
 
     .react-resizable {
+        position: absolute;
         /* cursor: move;
         position: absolute;
 
