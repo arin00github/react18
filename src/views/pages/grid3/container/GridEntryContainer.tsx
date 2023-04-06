@@ -1,13 +1,18 @@
-import React, { useReducer, useRef, useState, useEffect } from "react";
+import React, { useReducer, useRef, useState } from "react";
 
 import { DraggableData, DraggableEvent } from "react-draggable";
 import { FaChevronLeft, FaCog, FaPlus } from "react-icons/fa";
 import styled from "styled-components";
 
 import { setStoredCommonAsideOpend } from "../../../../redux/common/common.slice";
-import { setStoredGridLayout, setStoredGridSelectedChart } from "../../../../redux/grid/grid.slice";
+import {
+    setAddClassLayout,
+    setDeleteClassLayout,
+    setStoredGridSelectedChart,
+    setUpdateClassLayout,
+} from "../../../../redux/grid/grid.slice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hook";
-import { classlayoutReducer, layoutReducer } from "../../../../service/reducer/grid-reducer";
+import { classlayoutReducer } from "../../../../service/reducer/grid-reducer";
 import { IconButton } from "../../../../style";
 import { LayoutItem } from "../../../../types/grid-interface";
 import { DraggableItem } from "../../../components/draggable/DraggableItem";
@@ -24,11 +29,6 @@ export const GridEntryContainer = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const storedCommon = useAppSelector((state) => state.common);
-
-    const storedGridLayout = useAppSelector(
-        (state) => state.grid.layout,
-        (prev, curr) => prev === curr
-    );
 
     const storedClassLayout = useAppSelector(
         (state) => state.grid.classLayout,
@@ -51,9 +51,6 @@ export const GridEntryContainer = () => {
     // 레아이웃
     const [layout, dispatchLayout] = useReducer(classlayoutReducer, storedClassLayout);
 
-    // 레아이웃(useState 예시자료)
-    const [layout2, setLayout2] = useState(storedGridLayout);
-
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
     const [detailDrawerOpen, setDetailDrawerOpen] = useState<boolean>(false);
@@ -72,13 +69,12 @@ export const GridEntryContainer = () => {
         const container = containerRef.current;
         if (!container) return;
         const finedItem = layout.find((ly) => ly.gridInfo.i === item.i);
-        const keepArray = layout.filter((ly) => ly.gridInfo.i !== item.i);
         const newItem = finedItem
-            ? { ...finedItem, x: x, y: y }
+            ? { ...finedItem.getGridInfo(), x: x, y: y }
             : { x: 20, y: 20, h: 300, w: defaultWidth, i: item.i, type: "" };
 
-        // dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
-        // dispatch(setStoredGridLayout([...keepArray, newItem]));
+        dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
+        dispatch(setUpdateClassLayout(newItem));
 
         dispatch(setStoredGridSelectedChart(item.i));
     };
@@ -91,13 +87,12 @@ export const GridEntryContainer = () => {
      */
     const onResizeBox = (e: React.SyntheticEvent, item: LayoutItem) => {
         const finedItem = layout.find((ly) => ly.gridInfo.i === item.i);
-        const removedArray = layout.filter((ly) => ly.gridInfo.i !== item.i);
         const newItem = finedItem
-            ? { ...finedItem, w: item.w, h: item.h }
+            ? { ...finedItem.getGridInfo(), w: item.w, h: item.h }
             : { x: 100, y: 100, h: 100, w: 100, i: item.i, type: "" };
 
-        // dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
-        // dispatch(setStoredGridLayout([...removedArray, newItem]));
+        dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
+        dispatch(setUpdateClassLayout(newItem));
     };
 
     /**
@@ -117,8 +112,8 @@ export const GridEntryContainer = () => {
         }
         const newBox = { x, y, w, h, i: `box_${Date.now().toString()}`, type: chartType ? chartType : "" };
 
-        // dispatchLayout({ type: "ADD_ITEM", payload: newBox });
-        // dispatch(setStoredGridLayout([...layout, newBox]));
+        dispatchLayout({ type: "ADD_ITEM", payload: newBox });
+        dispatch(setAddClassLayout(newBox));
     };
 
     /**
@@ -128,7 +123,7 @@ export const GridEntryContainer = () => {
      */
     const handleDeleteBox = (id: string) => {
         dispatchLayout({ type: "DELETE_ITEM", payload: id });
-        //dispatch(setStoredGridLayout(layout.filter((lay) => lay.i !== id)));
+        dispatch(setDeleteClassLayout(id));
     };
 
     /**
@@ -230,11 +225,6 @@ export const GridEntryContainer = () => {
         }
     };
 
-    // useEffect(() => {
-    //     const navigationTiming = performance.getEntriesByType("navigation");
-    //     console.log(" navigationTiming", navigationTiming);
-    // }, []);
-
     return (
         <>
             <StyledWrap>
@@ -285,10 +275,11 @@ export const GridEntryContainer = () => {
                     <ChartDrawer
                         title="Chart Category"
                         isOpen={drawerOpen}
+                        layout={layout}
                         onClose={() => setDrawerOpen(false)}
                         handleChartInsert={(newItem: LayoutItem) => {
-                            //dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
-                            setLayout2(layout2.map((ly) => (ly.i === newItem.i ? newItem : ly)));
+                            dispatchLayout({ type: "UPDATE_ITEM", payload: newItem });
+                            dispatch(setUpdateClassLayout(newItem));
                         }}
                         handleChartClick={(type: string) => {
                             setDrawerOpen(false);

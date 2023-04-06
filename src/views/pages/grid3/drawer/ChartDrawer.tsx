@@ -8,11 +8,13 @@ import { setStoredGridLayout } from "../../../../redux/grid/grid.slice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hook";
 import { updateArrayWithObject } from "../../../../service/util/utils";
 import { IconButton } from "../../../../style";
+import { ChartItem } from "../../../../types/ChartItem";
 import { LayoutItem } from "../../../../types/grid-interface";
 import { ChartMenu } from "../../../components/common/ChartMenu";
 
 interface ChartDrawerProps {
     isOpen: boolean;
+    layout: ChartItem<any>[];
     onClose: () => void;
     title: string;
     handleChartClick: (type: string) => void;
@@ -22,11 +24,7 @@ interface ChartDrawerProps {
 export const ChartDrawer = (props: ChartDrawerProps) => {
     const dispatch = useAppDispatch();
 
-    const storedGrid = useAppSelector((state) => state.grid);
-
-    const { layout } = storedGrid;
-
-    const { isOpen, onClose, handleChartInsert } = props;
+    const { isOpen, onClose, handleChartInsert, layout } = props;
     const draggableRef = useRef<HTMLDivElement | null>(null);
 
     const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -48,21 +46,21 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
 
             const event = e.target as HTMLDivElement;
             const findItem = layout.find((ly) => {
-                const innerWidth = ly.x + ly.w > e.x && ly.x < e.x;
-                const innerHeight = ly.y + ly.h > e.y && ly.y < e.y;
+                const innerWidth = ly.gridInfo.x + ly.gridInfo.w > e.x && ly.gridInfo.x < e.x;
+                const innerHeight = ly.gridInfo.y + ly.gridInfo.h > e.y && ly.gridInfo.y < e.y;
                 return innerWidth && innerHeight;
             });
 
-            const updatedArray = findItem ? updateArrayWithObject(layout, findItem, { type: event.innerText }) : layout;
+            //const updatedArray = findItem ? updateArrayWithObject(layout, findItem, { type: event.innerText }) : layout;
 
-            if (findItem) {
-                handleChartInsert({ ...findItem, type: event.innerText });
+            if (findItem && event.textContent) {
+                handleChartInsert({ ...findItem.gridInfo, type: event.textContent });
             }
 
-            dispatch(setStoredGridLayout(updatedArray));
+            //dispatch(setStoredGridLayout(updatedArray));
         },
 
-        [dispatch, handleChartInsert, layout]
+        [handleChartInsert, layout]
     );
 
     useEffect(() => {
@@ -77,8 +75,6 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
         };
     }, [handleMouseMove, handleMouseUp, handleMouseDown]);
 
-    console.log("isOpen", isOpen);
-
     return (
         <StyledDrawer className={isOpen ? "openDrawer" : "closeDrawer"}>
             <Space dir="vertical" style={{ padding: 12 }}>
@@ -89,7 +85,13 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
                 </Space>
                 {ChartMenu.map((menu, idx) => {
                     return (
-                        <StyledCard ref={draggableRef} key={`chart_category_${idx}`} index={idx + 1} draggable={true}>
+                        <StyledCard
+                            aria-label={menu.type}
+                            ref={draggableRef}
+                            key={`chart_category_${idx}`}
+                            index={idx + 1}
+                            draggable={true}
+                        >
                             {menu.type}
                         </StyledCard>
                     );

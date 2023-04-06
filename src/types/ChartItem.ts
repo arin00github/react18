@@ -12,12 +12,17 @@ export class ChartItem<T extends DataType> {
         this.chartType = gridInfo.type;
     }
 
+    public getData() {
+        return this.data;
+    }
+
     public getGridInfo() {
         return this.gridInfo;
     }
 
     public setGridInfo(newGridInfo: LayoutItem) {
         this.gridInfo = newGridInfo;
+        this.chartType = newGridInfo.type;
     }
 
     public getOptions() {

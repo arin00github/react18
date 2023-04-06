@@ -48,8 +48,6 @@ export const ChartDetailDrawer = (props: ChartDetailDrawerProps) => {
         title: chartOptionObject?.option?.title || "",
     });
 
-    console.log("chartOptionObject", chartOptionObject);
-
     const onFinish = (values: LineChartOption) => {
         console.log("values", values);
     };

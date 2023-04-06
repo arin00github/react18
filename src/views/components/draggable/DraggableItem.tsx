@@ -19,7 +19,7 @@ interface DraggableItemProps {
     handleSetting: (id: string) => void;
 }
 
-const DraggableItemComponent = ({
+export const DraggableItem = ({
     item,
     chartType,
     onDragStop,
@@ -82,13 +82,7 @@ const DraggableItemComponent = ({
                             <div className="tool-icon" onClick={() => handleDelete(item.i)}>
                                 <FaTrash />
                             </div>
-                            <div
-                                className="tool-icon"
-                                onClick={(e) => {
-                                    //console.log("e", e.target);
-                                    handleSetting(item.i);
-                                }}
-                            >
+                            <div className="tool-icon" onClick={() => handleSetting(item.i)}>
                                 <FaCog />
                             </div>
                         </StyleChartTool>
@@ -137,5 +131,3 @@ const StyledHandle = styled.div`
     color: "white";
     color: #fff;
 `;
-
-export const DraggableItem = React.memo(DraggableItemComponent);
