@@ -1,5 +1,6 @@
 import React, { useReducer, useRef, useState } from "react";
 
+import { Select } from "antd";
 import { DraggableData, DraggableEvent } from "react-draggable";
 import { FaChevronLeft, FaCog, FaPlus } from "react-icons/fa";
 import styled from "styled-components";
@@ -19,6 +20,13 @@ import { DraggableItem } from "../../../components/draggable/DraggableItem";
 import { ChartDetailDrawer } from "../drawer/ChartDetailDrawer";
 import { ChartDrawer } from "../drawer/ChartDrawer";
 
+const chartLibrary = [
+    { title: "rechart", key: "rechart" },
+    { title: "chart.js", key: "chart.js" },
+    { title: "echarts", key: "echarts" },
+    { title: "d3", key: "d3" },
+];
+
 export const GridEntryContainer = () => {
     const dispatch = useAppDispatch();
 
@@ -34,6 +42,8 @@ export const GridEntryContainer = () => {
         (state) => state.grid.classLayout,
         (prev, curr) => prev === curr
     );
+
+    const [selectedLibrary, setSelectedLibrary] = useState("rechart");
 
     const { selectedChart } = useAppSelector((state) => state.grid);
 
@@ -236,6 +246,19 @@ export const GridEntryContainer = () => {
                     <IconButton onClick={() => setDrawerOpen(true)}>
                         <FaCog />
                     </IconButton>
+                    <Select
+                        style={{ width: 180 }}
+                        value={selectedLibrary}
+                        onChange={(value) => setSelectedLibrary(value)}
+                    >
+                        {chartLibrary.map((list) => {
+                            return (
+                                <option value={list.key} key={list.key}>
+                                    {list.title}
+                                </option>
+                            );
+                        })}
+                    </Select>
                 </StyledToolbar>
                 <StyledCanvas
                     ref={canvasRef}
@@ -250,6 +273,7 @@ export const GridEntryContainer = () => {
                 <StyledContainer id="container" ref={containerRef} onClick={handleClickBackGroud}>
                     {layout.map((item, index) => (
                         <DraggableItem
+                            selectedLibrary={selectedLibrary}
                             chartType={item.gridInfo.type}
                             key={`${item.gridInfo.i}_${index}`}
                             item={item.gridInfo}

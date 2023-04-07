@@ -4,16 +4,14 @@ import { useAppSelector } from "../../../redux/hook";
 import { NewDeplomacyApi } from "../../../service/api/DeplomacyApi";
 import { DataType } from "../../../types/d3-interface";
 import { IDeplomacyList } from "../../../types/deplomacy-interface";
-import { BarChart } from "../chartjs/BarChart";
-import { LineChart } from "../chartjs/LineChart";
-import { PieChart } from "../chartjs/PieChart";
+import { CustomChart } from "../echarts/CustomChart";
 
-interface ChartContentProps {
+interface ChartContent2Props {
     keyId: string;
     chartType: string;
 }
 
-export const ChartContent = (props: ChartContentProps): JSX.Element => {
+export const ChartContent3 = (props: ChartContent2Props): JSX.Element => {
     const { keyId, chartType } = props;
 
     const [data, setData] = useState<DataType[]>([]);
@@ -85,14 +83,5 @@ export const ChartContent = (props: ChartContentProps): JSX.Element => {
         }
     }, [chartType, updateBarData]);
 
-    if (chartType === "line") {
-        return <>{data && <LineChart data={data} option={targetOption?.option} />}</>;
-    }
-    if (chartType === "bar") {
-        return <>{data && <BarChart data={data} />}</>;
-    }
-    if (chartType === "pie") {
-        return <>{data && <PieChart data={data.filter((item) => item.value > 50000000)} />}</>;
-    }
-    return <></>;
+    return <>{data && <CustomChart type={chartType} chart={{ data: data, option: targetOption?.option }} />}</>;
 };

@@ -81,18 +81,18 @@ export const GridBoxItem = (props: GridBoxItemProps): JSX.Element => {
         }
     }, [chartType, height, updateBarData]);
 
-    if (chartType === "line") {
-        return (
-            <>
-                {data && <LineChartWrap height={height} data={data} option={{ lineStyle: { lineColor: "#ff00ff" } }} />}
-            </>
-        );
-    }
-    if (chartType === "bar") {
-        return <>{data && <BarChartWrap height={height} data={data} />}</>;
-    }
-    if (chartType === "dounut") {
-        return <>{data && <DounutChartWrap height={height} data={data} />}</>;
-    }
+    // if (chartType === "line") {
+    //     return (
+    //         <>
+    //             {data && <LineChartWrap height={height} data={data} option={{ lineStyle: { lineColor: "#ff00ff" } }} />}
+    //         </>
+    //     );
+    // }
+    // if (chartType === "bar") {
+    //     return <>{data && <BarChartWrap height={height} data={data} />}</>;
+    // }
+    // if (chartType === "dounut") {
+    //     return <>{data && <DounutChartWrap height={height} data={data} />}</>;
+    // }
     return <></>;
 };

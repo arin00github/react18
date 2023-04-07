@@ -10,10 +10,13 @@ import { LayoutItem } from "../../../types/grid-interface";
 
 import { ChartContent } from "./ChartContent";
 import { ChartContent2 } from "./ChartContent2";
+import { ChartContent3 } from "./ChartContent3";
+import { ChartContent4 } from "./ChartContent4";
 
 interface DraggableItemProps {
     item: LayoutItem;
     chartType: string;
+    selectedLibrary: string;
     onDragStop: (e: DraggableEvent, data: DraggableData, item: LayoutItem) => void;
     onResizeBox: (e: React.SyntheticEvent, item: LayoutItem) => void;
     handleDelete: (id: string) => void;
@@ -23,6 +26,7 @@ interface DraggableItemProps {
 export const DraggableItem = ({
     item,
     chartType,
+    selectedLibrary,
     onDragStop,
     onResizeBox,
     handleDelete,
@@ -76,8 +80,10 @@ export const DraggableItem = ({
                     }
                 >
                     <StyledGridBox aria-label={item.i} chartType={chartType}>
-                        <ChartContent keyId={item.i} chartType={item.type} />
-                        {/* <ChartContent2 keyId={item.i} chartType={item.type} /> */}
+                        {selectedLibrary === "chart.js" && <ChartContent keyId={item.i} chartType={item.type} />}
+                        {selectedLibrary === "rechart" && <ChartContent2 keyId={item.i} chartType={item.type} />}
+                        {selectedLibrary === "echarts" && <ChartContent3 keyId={item.i} chartType={item.type} />}
+                        {selectedLibrary === "d3" && <ChartContent4 keyId={item.i} chartType={item.type} />}
                     </StyledGridBox>
                     {storedSelectedChart === item.i && (
                         <StyleChartTool aria-label="chart-tool">

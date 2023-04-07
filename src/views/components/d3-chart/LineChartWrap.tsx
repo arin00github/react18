@@ -1,25 +1,26 @@
 import React, { useRef } from "react";
 
+import { ChartBoxWrap } from "../../../style";
 import { DataType } from "../../../types/d3-interface";
+import { LineChartProps } from "../../../types/grid-interface";
 
-import { LineChart, LineChartProps } from "./LineChart";
+import { LineChart } from "./LineChart";
 
 interface LineChartWrapProps<T extends DataType> extends LineChartProps<T> {
-    height: number;
     data: T[];
 }
 
-export const LineChartWrap = <T extends DataType>({ data, option, height }: LineChartWrapProps<T>) => {
+export const LineChartWrap = <T extends DataType>({ data, option }: LineChartWrapProps<T>) => {
     const chartWrap = useRef<HTMLDivElement | null>(null);
 
     return (
-        <div style={{ width: "100%", height: height }} ref={chartWrap}>
+        <ChartBoxWrap background={option?.background} style={{ width: "100%", height: "100%" }} ref={chartWrap}>
             {chartWrap.current && data && (
                 <LineChart
                     data={data}
                     option={{ width: chartWrap.current.clientWidth, height: chartWrap.current.clientHeight, ...option }}
                 />
             )}
-        </div>
+        </ChartBoxWrap>
     );
 };

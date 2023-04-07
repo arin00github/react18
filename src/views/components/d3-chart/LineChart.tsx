@@ -3,34 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
 import { DataType } from "../../../types/d3-interface";
-
-interface TooltipProps {
-    x: number;
-    y: number;
-    content: string;
-}
-
-export interface LineChartProps<T extends DataType> {
-    data: T[];
-    option?: {
-        width?: number;
-        height?: number;
-        lineStyle?: {
-            lineColor?: string;
-            strokeWidth?: number;
-        };
-        margin?: {
-            top: number;
-            bottom: number;
-            right: number;
-            left: number;
-        };
-        tooltip?: {
-            formatter?: (value: number) => string;
-            renderTooltip?: (props: TooltipProps) => JSX.Element;
-        };
-    };
-}
+import { LineChartProps } from "../../../types/grid-interface";
 
 export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Element => {
     const { data, option } = props;
@@ -134,7 +107,7 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
                 .on("mouseout", () => focus.style("display", "none"))
                 .on("mousemove", mousemove);
         }
-    }, [data, option?.height, option?.lineStyle?.lineColor, option?.width, svgBox.height, svgBox.width]);
+    }, [data, option?.height, option?.lineStyle?.strokeColor, option?.width, svgBox.height, svgBox.width]);
 
     return <svg ref={svgRef} width={svgBox.width} height={svgBox.height}></svg>;
 };

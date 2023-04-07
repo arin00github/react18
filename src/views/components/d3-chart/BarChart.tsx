@@ -3,48 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { NumberValue } from "d3";
 
-import { CountryData, DataType } from "../../../types/d3-interface";
-
-interface TooltipProps {
-    x: number;
-    y: number;
-    content: string;
-}
-
-export interface BarChartProps<T extends DataType> {
-    data: T[];
-    option?: {
-        width?: number;
-        height?: number;
-        barStyle?: {
-            barColor?: string;
-        };
-        margin?: {
-            top: number;
-            bottom: number;
-            right: number;
-            left: number;
-        };
-        yAxis?: {
-            visible: boolean;
-            tickSize?: number;
-            formatter?: (value: T) => string;
-        };
-        xAxis?: {
-            visible: boolean;
-            tickSize?: number;
-            formatter?: (value: T) => string;
-        };
-        title?: {
-            text: string;
-            fontSize?: string;
-        };
-        tooltip?: {
-            formatter?: (value: number) => string;
-            renderTooltip?: (props: TooltipProps) => JSX.Element;
-        };
-    };
-}
+import { DataType } from "../../../types/d3-interface";
+import { BarChartProps } from "../../../types/grid-interface";
 
 export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Element => {
     const { data, option } = props;

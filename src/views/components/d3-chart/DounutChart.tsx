@@ -1,38 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import * as d3 from "d3";
-import { NumberValue } from "d3";
 
-import { CountryData, DataType } from "../../../types/d3-interface";
+import { DataType } from "../../../types/d3-interface";
+import { PieChartProps } from "../../../types/grid-interface";
 
-interface TooltipProps {
-    x: number;
-    y: number;
-    content: string;
-}
-
-export interface BarChartProps<T extends DataType> {
-    data: T[];
-    option?: {
-        width?: number;
-        height?: number;
-        barStyle?: {
-            barColor?: string;
-        };
-        margin?: {
-            top: number;
-            bottom: number;
-            right: number;
-            left: number;
-        };
-        tooltip?: {
-            formatter?: (value: number) => string;
-            renderTooltip?: (props: TooltipProps) => JSX.Element;
-        };
-    };
-}
-
-export const DounutChart = <T extends DataType>(props: BarChartProps<T>): JSX.Element => {
+export const DounutChart = <T extends DataType>(props: PieChartProps<T>): JSX.Element => {
     const { data, option } = props;
     const [svgBox, setSVGBox] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
     const svgRef = useRef<SVGSVGElement | null>(null);
@@ -92,7 +65,7 @@ export const DounutChart = <T extends DataType>(props: BarChartProps<T>): JSX.El
                 .attr("text-anchor", (d) => ((d.startAngle + d.endAngle) / 2 < Math.PI ? "start" : "end"))
                 .style("font-size", "14px");
         }
-    }, [data, option?.barStyle?.barColor, option?.height, option?.width]);
+    }, [data, option?.height, option?.width]);
 
     return <svg ref={svgRef} width={svgBox.width} height={svgBox.height}></svg>;
 };

@@ -1,12 +1,11 @@
 import React, { useRef } from "react";
 
 import { DataType } from "../../../types/d3-interface";
+import { PieChartProps } from "../../../types/grid-interface";
 
-import { BarChart } from "./BarChart";
 import { DounutChart } from "./DounutChart";
-import { LineChartProps } from "./LineChart";
 
-interface DounutChartWrapProps<T extends DataType> extends LineChartProps<T> {
+interface DounutChartWrapProps<T extends DataType> extends PieChartProps<T> {
     height: number;
     data: T[];
 }

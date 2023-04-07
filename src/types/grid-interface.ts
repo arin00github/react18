@@ -83,9 +83,9 @@ export interface BarChartProps<T extends DataType> {
         width?: number;
         height?: number;
         title?: string;
-        lineStyle?: {
-            lineColor?: string;
-            strokeWidth?: number;
+        barStyle?: {
+            barColor?: string;
+            barWidth?: number;
         };
         margin?: {
             top: number;
@@ -124,3 +124,8 @@ export interface PieChartProps<T extends DataType> {
         background?: string;
     };
 }
+
+export type AllChartProps<T extends DataType> = {
+    type: string;
+    chart: LineChartProps<T> | PieChartProps<T> | BarChartProps<T>;
+};
