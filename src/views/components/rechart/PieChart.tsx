@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import styled from "styled-components";
 
+import { ChartBoxWrap } from "../../../style";
 import { DataType } from "../../../types/d3-interface";
 import { PieChartProps } from "../../../types/grid-interface";
 
@@ -37,7 +38,13 @@ export const PieChart = <T extends DataType>(props: PieChartProps<T>) => {
             const y = Number(cy) + radius * Math.sin(-midAngle * RADIAN);
 
             return (
-                <text x={x} y={y} fill="white" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central">
+                <text
+                    x={x}
+                    y={y}
+                    fill="white"
+                    textAnchor={typeof cx === "number" && x > cx ? "start" : "end"}
+                    dominantBaseline="central"
+                >
                     {`${(percent * 100).toFixed(0)}%`}
                 </text>
             );
@@ -45,7 +52,7 @@ export const PieChart = <T extends DataType>(props: PieChartProps<T>) => {
     };
 
     return (
-        <GridBoxWrap background={option?.background}>
+        <ChartBoxWrap background={option?.background}>
             {option?.title && <ChartTitle>{option.title}</ChartTitle>}
             <ResponsiveContainer>
                 <PieChartGraph width={260} height={260}>
@@ -69,17 +76,11 @@ export const PieChart = <T extends DataType>(props: PieChartProps<T>) => {
                     </Pie>
                 </PieChartGraph>
             </ResponsiveContainer>
-        </GridBoxWrap>
+        </ChartBoxWrap>
     );
 };
 
 const ChartTitle = styled.h5`
     color: white;
     text-align: center;
-`;
-
-const GridBoxWrap = styled.div<{ background?: string }>`
-    width: 100%;
-    height: 100%;
-    background-color: ${(props) => (props.background ? props.background : "#ffffff31")};
 `;

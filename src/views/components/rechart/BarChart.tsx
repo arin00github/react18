@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import styled from "styled-components";
 
+import { ChartBoxWrap } from "../../../style";
 import { DataType } from "../../../types/d3-interface";
 import { BarChartProps } from "../../../types/grid-interface";
 
@@ -20,7 +21,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
     const { data, option } = props;
 
     return (
-        <GridBoxWrap background={option?.background}>
+        <ChartBoxWrap background={option?.background}>
             {option?.title && <ChartTitle>{option.title}</ChartTitle>}
             <ResponsiveContainer width={"100%"} height={option?.title ? "92%" : "100%"}>
                 <BarChartGraph
@@ -40,17 +41,11 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                     <Bar data={data} dataKey="value" fill="#76b7ed" />
                 </BarChartGraph>
             </ResponsiveContainer>
-        </GridBoxWrap>
+        </ChartBoxWrap>
     );
 };
 
 const ChartTitle = styled.h5`
     color: white;
     text-align: center;
-`;
-
-const GridBoxWrap = styled.div<{ background?: string }>`
-    width: 100%;
-    height: 100%;
-    background-color: ${(props) => (props.background ? props.background : "#ffffff31")};
 `;

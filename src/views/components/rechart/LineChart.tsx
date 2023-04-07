@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import styled from "styled-components";
 
+import { ChartBoxWrap } from "../../../style";
 import { DataType } from "../../../types/d3-interface";
 import { LineChartProps } from "../../../types/grid-interface";
 
@@ -21,7 +22,7 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
     const { data, option } = props;
 
     return (
-        <GridBoxWrap background={option?.background}>
+        <ChartBoxWrap background={option?.background}>
             {option?.title && <ChartTitle>{option.title}</ChartTitle>}
             <ResponsiveContainer width={"100%"} height={option?.title ? "92%" : "100%"}>
                 <LineCharGraph
@@ -59,19 +60,13 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
                     />
                 </LineCharGraph>
             </ResponsiveContainer>
-        </GridBoxWrap>
+        </ChartBoxWrap>
     );
 };
 
 const ChartTitle = styled.h5`
     color: white;
     text-align: center;
-`;
-
-const GridBoxWrap = styled.div<{ background?: string }>`
-    width: 100%;
-    height: 100%;
-    background-color: ${(props) => (props.background ? props.background : "#ffffff31")};
 `;
 
 const StyledTooltip = styled.div`

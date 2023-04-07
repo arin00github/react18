@@ -46,4 +46,10 @@ export const CustomButton = styled.button`
     }
 `;
 
-export const StyledBox = { StyledInput, StyledLabel, IconButton, CustomButton };
+const ChartBoxWrap = styled.div<{ background?: string }>`
+    width: 100%;
+    height: 100%;
+    background-color: ${(props) => (props.background ? props.background : "#ffffff31")};
+`;
+
+export const StyledBox = { StyledInput, StyledLabel, IconButton, CustomButton, ChartBoxWrap };

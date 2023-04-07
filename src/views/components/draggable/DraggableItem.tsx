@@ -8,7 +8,8 @@ import styled from "styled-components";
 import { useAppSelector } from "../../../redux/hook";
 import { LayoutItem } from "../../../types/grid-interface";
 
-import { GridBoxContent } from "./GridBoxContent";
+import { ChartContent } from "./ChartContent";
+import { ChartContent2 } from "./ChartContent2";
 
 interface DraggableItemProps {
     item: LayoutItem;
@@ -75,7 +76,8 @@ export const DraggableItem = ({
                     }
                 >
                     <StyledGridBox aria-label={item.i} chartType={chartType}>
-                        <GridBoxContent keyId={item.i} chartType={item.type} />
+                        <ChartContent keyId={item.i} chartType={item.type} />
+                        {/* <ChartContent2 keyId={item.i} chartType={item.type} /> */}
                     </StyledGridBox>
                     {storedSelectedChart === item.i && (
                         <StyleChartTool aria-label="chart-tool">

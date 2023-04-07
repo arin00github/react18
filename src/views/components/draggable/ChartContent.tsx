@@ -4,16 +4,18 @@ import { useAppSelector } from "../../../redux/hook";
 import { NewDeplomacyApi } from "../../../service/api/DeplomacyApi";
 import { DataType } from "../../../types/d3-interface";
 import { IDeplomacyList } from "../../../types/deplomacy-interface";
-import { BarChart } from "../rechart/BarChart";
-import { LineChart } from "../rechart/LineChart";
-import { PieChart } from "../rechart/PieChart";
+import { BarChart } from "../chartjs/BarChart";
+import { LineChart } from "../chartjs/LineChart";
+import { PieChart } from "../chartjs/PieChart";
 
-interface GridBoxItemProps {
+interface ChartContentProps {
     keyId: string;
     chartType: string;
 }
 
-export const GridBoxContent = (props: GridBoxItemProps): JSX.Element => {
+export const ChartContent = (props: ChartContentProps): JSX.Element => {
+    console.log("chartjs");
+
     const { keyId, chartType } = props;
 
     const [data, setData] = useState<DataType[]>([]);

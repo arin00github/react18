@@ -63,8 +63,6 @@ export const GridEntryContainer = () => {
      * @description 드래그 stop시 실행하는 함수
      */
     const onDragStop = (e: DraggableEvent, data: DraggableData, item: LayoutItem) => {
-        console.log("e.target stop", e.target);
-        console.log("e.currenttarget", e.currentTarget);
         const { x, y } = data;
         const container = containerRef.current;
         if (!container) return;
@@ -250,17 +248,6 @@ export const GridEntryContainer = () => {
                     style={{ zIndex: isCreating ? 10 : -10, cursor: "crosshair" }}
                 />
                 <StyledContainer id="container" ref={containerRef} onClick={handleClickBackGroud}>
-                    {/* {layout2.map((item, index) => (
-                        <DraggableItem
-                            chartType={item.type}
-                            key={`${item.i}_${index}`}
-                            item={item}
-                            onDragStop={onDragStop}
-                            onResizeBox={onResizeBox}
-                            handleDelete={handleDeleteBox}
-                            handleSetting={() => setDetailDrawerOpen(true)}
-                        ></DraggableItem>
-                    ))} */}
                     {layout.map((item, index) => (
                         <DraggableItem
                             chartType={item.gridInfo.type}
