@@ -9,6 +9,7 @@ import GridPage from "../pages/grid/IndexPage";
 import GridPage2 from "../pages/grid2/IndexPage";
 import GridPage3 from "../pages/grid3/IndexPage";
 import MainPage from "../pages/main/MainPage";
+import SvgMapPage from "../pages/map/IndexPage";
 type subMenuProps = {
     title: string;
     href: string;
@@ -27,6 +28,6 @@ export const BasicMenu: MenuProps[] = [
     { title: "main", href: "/main", component: <MainPage />, isLeftMenu: true },
     { title: "grid-l", href: "/", component: <GridPage />, isLeftMenu: true },
     { title: "grid-ll", href: "/grid-2", component: <GridPage2 />, isLeftMenu: true },
-
     { title: "grid-lll", href: "/grid-3", component: <GridPage3 />, isLeftMenu: true },
+    { title: "map", href: "/svg-map", component: <SvgMapPage />, isLeftMenu: true },
 ];

@@ -1,0 +1,132 @@
+{
+  "info_array": [
+    {
+      "region_name": "종로구",
+      "region_code": "11110",
+      "police_name": "서울종로경찰서"
+    },
+    {
+      "region_name": "중구",
+      "region_code": "11140",
+      "police_name": "서울중구경찰서"
+    },
+    {
+      "region_name": "용산구",
+      "region_code": "11170",
+      "police_name": "서울용산경찰서"
+    },
+    {
+      "region_name": "광진구",
+      "region_code": "11215",
+      "police_name": "서울광진경찰서"
+    },
+    {
+      "region_name": "성동구",
+      "region_code": "11200",
+      "police_name": "서울성동경찰서"
+    },
+    {
+      "region_name": "동대문구",
+      "region_code": "11230",
+      "police_name": "서울동대문경찰서"
+    },
+
+    {
+      "region_name": "성북구",
+      "region_code": "11290",
+      "police_name": "서울성북경찰서"
+    },
+    {
+      "region_name": "중랑구",
+      "region_code": "11260",
+      "police_name": "서울중랑경찰서"
+    },
+    {
+      "region_name": "도봉구",
+      "region_code": "11320",
+      "police_name": "서울도봉경찰서"
+    },
+
+    {
+      "region_name": "노원구",
+      "region_code": "11350",
+      "police_name": "서울노원경찰서"
+    },
+    {
+      "region_name": "은평구",
+      "region_code": "11380",
+      "police_name": "서울은평경찰서"
+    },
+
+    {
+      "region_name": "서대문구",
+      "region_code": "11410",
+      "police_name": "서울서대문경찰서"
+    },
+    {
+      "region_name": "마포구",
+      "region_code": "11440",
+      "police_name": "서울마포경찰서"
+    },
+    {
+      "region_name": "양천구",
+      "region_code": "11470",
+      "police_name": "서울양천경찰서"
+    },
+    {
+      "region_name": "강서구",
+      "region_code": "11500",
+      "police_name": "서울강서경찰서"
+    },
+    {
+      "region_name": "구로구",
+      "region_code": "11530",
+      "police_name": "서울구로경찰서"
+    },
+    {
+      "region_name": "금천구",
+      "region_code": "11545",
+      "police_name": "서울금천경찰서"
+    },
+    {
+      "region_name": "영등포구",
+      "region_code": "11560",
+      "police_name": "서울영등포경찰서"
+    },
+    {
+      "region_name": "동작구",
+      "region_code": "11590",
+      "police_name": "서울동작경찰서"
+    },
+    {
+      "region_name": "관악구",
+      "region_code": "11620",
+      "police_name": "서울관악경찰서"
+    },
+    {
+      "region_name": "강남구",
+      "region_code": "11680",
+      "police_name": "서울강남경찰서"
+    },
+    {
+      "region_name": "강북구",
+      "region_code": "11305",
+      "police_name": "서울강북경찰서"
+    },
+    {
+      "region_name": "서초구",
+      "region_code": "11650",
+      "police_name": "서울서초경찰서"
+    },
+    {
+      "region_name": "송파구",
+      "region_code": "11710",
+      "police_name": "서울송파경찰서"
+    },
+    {
+      "region_name": "강동구",
+      "region_code": "11740",
+      "police_name": "서울강동경찰서"
+    }
+  ]
+}

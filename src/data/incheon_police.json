@@ -1,0 +1,50 @@
+{
+  "info_array": [
+    {
+      "region_name": "중구",
+      "region_code": "28110",
+      "police_name": "인천중구경찰서"
+    },
+    {
+      "region_name": "미추홀구",
+      "region_code": "28177",
+      "police_name": "인천미추홀경찰서"
+    },
+    {
+      "region_name": "연수구",
+      "region_code": "28185",
+      "police_name": "인천연수경찰서"
+    },
+    {
+      "region_name": "남동구",
+      "region_code": "28200",
+      "police_name": "인천남동경찰서"
+    },
+    {
+      "region_name": "부평구",
+      "region_code": "28237",
+      "police_name": "인천부평경찰서"
+    },
+    {
+      "region_name": "계양구",
+      "region_code": "28245",
+      "police_name": "인천계양경찰서"
+    },
+
+    {
+      "region_name": "서구",
+      "region_code": "28260",
+      "police_name": "인천서구경찰서"
+    },
+    {
+      "region_name": "강화군",
+      "region_code": "28710",
+      "police_name": "인천강화경찰서"
+    },
+    {
+      "region_name": "옹진군",
+      "region_code": "28720",
+      "police_name": "인천옹진구경찰서"
+    }
+  ]
+}

@@ -5,8 +5,8 @@ import { NewDeplomacyApi } from "../../../service/api/DeplomacyApi";
 import { DataType } from "../../../types/d3-interface";
 import { IDeplomacyList } from "../../../types/deplomacy-interface";
 import { BarChartWrap } from "../d3-chart/BarChartWrap";
+import { DounutChartWrap } from "../d3-chart/DounutChartWrap";
 import { LineChartWrap } from "../d3-chart/LineChartWrap";
-import { CustomChart } from "../echarts/CustomChart";
 
 interface ChartContent2Props {
     keyId: string;
@@ -91,8 +91,8 @@ export const ChartContent4 = (props: ChartContent2Props): JSX.Element => {
     if (chartType === "bar") {
         return <>{data && <BarChartWrap data={data} />}</>;
     }
-    // if (chartType === "pie") {
-    //     return <>{data && <PieChart data={data.filter((item) => item.value > 50000000)} />}</>;
-    // }
+    if (chartType === "pie") {
+        return <>{data && <DounutChartWrap data={data.filter((item) => item.value > 50000000)} />}</>;
+    }
     return <></>;
 };

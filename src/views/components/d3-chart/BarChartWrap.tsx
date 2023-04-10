@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 
+import { ChartBoxWrap } from "../../../style";
 import { DataType } from "../../../types/d3-interface";
 import { BarChartProps } from "../../../types/grid-interface";
 
@@ -12,13 +13,13 @@ export const BarChartWrap = <T extends DataType>({ data, option }: BarChartWrapP
     const chartWrap = useRef<HTMLDivElement | null>(null);
 
     return (
-        <div style={{ width: "100%", height: "100%" }} ref={chartWrap}>
+        <ChartBoxWrap background={option?.background} style={{ width: "100%", height: "100%" }} ref={chartWrap}>
             {chartWrap.current && data && (
                 <BarChart
                     data={data}
                     option={{ width: chartWrap.current.clientWidth, height: chartWrap.current.clientHeight, ...option }}
                 />
             )}
-        </div>
+        </ChartBoxWrap>
     );
 };

@@ -1,0 +1,86 @@
+{
+  "info_array": [
+    {
+      "region_name": "중구",
+      "region_code": "26110",
+      "police_name": "부산중부경찰서"
+    },
+    {
+      "region_name": "서구",
+      "region_code": "26140",
+      "police_name": "부산서부경찰서"
+    },
+    {
+      "region_name": "동구",
+      "region_code": "26170",
+      "police_name": "부산동부경찰서"
+    },
+    {
+      "region_name": "영도구",
+      "region_code": "26200",
+      "police_name": "부산영도경찰서"
+    },
+    {
+      "region_name": "부산진구",
+      "region_code": "26230",
+      "police_name": "부산진경찰서"
+    },
+    {
+      "region_name": "동래구",
+      "region_code": "26260",
+      "police_name": "부산동래경찰서"
+    },
+
+    {
+      "region_name": "남구",
+      "region_code": "26290",
+      "police_name": "부산남부경찰서"
+    },
+    {
+      "region_name": "북구",
+      "region_code": "26320",
+      "police_name": "부산북구경찰서"
+    },
+    {
+      "region_name": "해운대구",
+      "region_code": "26350",
+      "police_name": "부산해운대경찰서"
+    },
+    {
+      "region_name": "사하구",
+      "region_code": "26380",
+      "police_name": "부산사하경찰서"
+    },
+
+    {
+      "region_name": "금정구",
+      "region_code": "26410",
+      "police_name": "부산금정경찰서"
+    },
+    {
+      "region_name": "강서구",
+      "region_code": "26440",
+      "police_name": "부산강서경찰서"
+    },
+    {
+      "region_name": "연제구",
+      "region_code": "26470",
+      "police_name": "부산연제경찰서"
+    },
+    {
+      "region_name": "수영구",
+      "region_code": "26500",
+      "police_name": "부산수영경찰서"
+    },
+    {
+      "region_name": "사상구",
+      "region_code": "26530",
+      "police_name": "부산사상경찰서"
+    },
+    {
+      "region_name": "기장군",
+      "region_code": "26710",
+      "police_name": "부산기장경찰서"
+    }
+  ]
+}

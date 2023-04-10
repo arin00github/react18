@@ -1,0 +1,50 @@
+{
+  "info_array": [
+    {
+      "region_name": "중구",
+      "region_code": "27110",
+      "police_name": "대구중구경찰서"
+    },
+    {
+      "region_name": "동구",
+      "region_code": "27140",
+      "police_name": "대구동구경찰서"
+    },
+    {
+      "region_name": "서구",
+      "region_code": "27170",
+      "police_name": "대구서구경찰서"
+    },
+    {
+      "region_name": "남구",
+      "region_code": "27200",
+      "police_name": "대구남구경찰서"
+    },
+    {
+      "region_name": "북구",
+      "region_code": "27230",
+      "police_name": "대구북구경찰서"
+    },
+    {
+      "region_name": "수성구",
+      "region_code": "27260",
+      "police_name": "대구수성경찰서"
+    },
+
+    {
+      "region_name": "달서구",
+      "region_code": "27290",
+      "police_name": "대구달서경찰서"
+    },
+    {
+      "region_name": "달성군",
+      "region_code": "27710",
+      "police_name": "대구달성경찰서"
+    },
+    {
+      "region_name": "해운대구",
+      "region_code": "26350",
+      "police_name": "부산해운대구경찰서"
+    }
+  ]
+}
