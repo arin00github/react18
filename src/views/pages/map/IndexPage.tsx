@@ -27,8 +27,10 @@ const IndexPage = () => {
                     roam: true,
                     zoom: 1.2,
                     label: {
+                        show: true,
+                        color: "#ffffff",
                         emphasis: {
-                            show: false,
+                            show: true,
                         },
                     },
                     nameProperty: "SIG_KOR_NM",

@@ -83,5 +83,9 @@ export const ChartContent3 = (props: ChartContent2Props): JSX.Element => {
         }
     }, [chartType, updateBarData]);
 
-    return <>{data && <CustomChart type={chartType} chart={{ data: data, option: targetOption?.option }} />}</>;
+    console.log(data.length > 0, chartType);
+
+    return (
+        <>{chartType !== "" && <CustomChart type={chartType} chart={{ data: data, option: targetOption?.option }} />}</>
+    );
 };

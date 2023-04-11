@@ -1,6 +1,15 @@
 import React, { useMemo } from "react";
 
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ChartOptions,
+} from "chart.js";
 import { Bar } from "react-chartjs-2";
 
 import { ChartBoxWrap } from "../../../style";
@@ -11,7 +20,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const BarChart = <T extends DataType>(props: BarChartProps<T>) => {
     const { data, option } = props;
-    const customOptions = useMemo(() => {
+    const customOptions: ChartOptions = useMemo(() => {
         return {
             responsive: true,
             plugins: {
@@ -32,6 +41,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>) => {
             datasets: [
                 {
                     label: "Dataset 1",
+
                     data: data.map((dataset) => dataset.value),
                     backgroundColor: "rgba(255, 99, 132, 0.5)",
                 },

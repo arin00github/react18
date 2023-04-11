@@ -62,8 +62,8 @@ export const DraggableItem = ({
         <>
             <Draggable
                 ref={dragBoxRef}
-                defaultClassName={`${item.i === storedSelectedChart && "grid-item"} ${item.i}`}
                 key={item.i}
+                defaultClassName={`${item.i === storedSelectedChart && "grid-item"} ${item.i}`}
                 position={{ x: item.x, y: item.y }}
                 grid={[20, 20]}
                 cancel="#handle"

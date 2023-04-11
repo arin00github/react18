@@ -15,7 +15,7 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
     useEffect(() => {
         if (!svgRef.current) return;
         if (data.length > 0 && svgRef.current) {
-            const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+            const margin = { top: 20, right: 30, bottom: 30, left: 80 };
             const boxWidth = option?.width ? option.width : svgRef.current.clientWidth;
             const boxHeight = option?.height ? option.height : svgRef.current.clientHeight;
             setSVGBox({ width: boxWidth, height: boxHeight });
@@ -36,7 +36,11 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
                 .domain(d3.extent(data, (d) => new Date(d.date)) as [Date, Date])
                 .range([0, width]);
             const xAxisGroup = d3.axisBottom(xRange);
-            grid.append("g").attr("transform", `translate(0, ${height})`).call(xAxisGroup);
+            grid.append("g")
+                .attr("transform", `translate(0, ${height})`)
+                .call(xAxisGroup)
+                .selectAll("text")
+                .style("fill", "#fff");
 
             //y축 범위 설정 & 대입 & grid에 도입
             const yRange = d3
@@ -44,7 +48,10 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
                 .domain([0, d3.max(data, (d) => d.value) as number])
                 .range([height, 0]);
             const yAxisGroup = d3.axisLeft(yRange);
-            grid.append("g").call(yAxisGroup);
+            grid.append("g").call(yAxisGroup).selectAll("text").style("fill", "#fff");
+
+            grid.selectAll(".tick").select("line").attr("stroke", "#fff");
+            grid.selectAll(".domain").attr("stroke", "#fff");
 
             //line 값 설정하기
             const lineGraph = d3

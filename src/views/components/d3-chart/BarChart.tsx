@@ -16,7 +16,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
         if (!svgRef.current) return;
 
         if (data.length > 0) {
-            const margin = { top: 20, right: 30, bottom: 30, left: 60 };
+            const margin = { top: 20, right: 30, bottom: 30, left: 80 };
             const boxWidth = option?.width ? option.width : svgRef.current.clientWidth;
             const boxHeight = option?.height ? option.height : svgRef.current.clientHeight;
             setSVGBox({ width: boxWidth, height: boxHeight });
@@ -50,6 +50,9 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .attr("transform", `translate(${margin.left},${margin.top})`)
                 .attr("aria-label", "mouse-over-box");
 
+            const path = axisBox.select(".domain");
+            console.log("path", path);
+
             /*x축 설정
              * scaleBand() : 범주형 변수를 연속형 변수로 변환
              * range() : 출력 범위를 지정하며, 여기서는 0부터 width까지의 범위를 지정
@@ -66,6 +69,9 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
             y_scale.domain([0, d3.max(data, (d) => d.value) || 6800000]);
             const yAxisGroup = d3.axisLeft(y_scale);
 
+            grid.selectAll(".tick").select("text").attr("fill", "#fff");
+            grid.selectAll(".domain").attr("stroke", "#fff");
+
             // y 축 그리드선 추가
             grid.append("g")
                 .attr("class", "grid-x")
@@ -79,9 +85,9 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .attr("x2", width)
                 .attr("y2", 0)
                 .style("stroke-width", "2px")
-                .style("stroke", "red")
+                .style("stroke", "white")
                 //.style("stroke", "#ececec37")
-                .style("stroke-opacity", 0.1);
+                .style("stroke-opacity", 0.7);
 
             //axisBox 안에 x축 추가
             axisBox
@@ -89,6 +95,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .call(xAxisGroup)
                 .attr("transform", `translate(0, ${height})`)
                 .selectAll("text")
+                .style("color", "#fff")
                 .style("text-anchor", "middle")
                 .attr("dy", "10px");
 
@@ -103,6 +110,8 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                         .tickSizeOuter(0)
                         .tickFormat((d: NumberValue) => d.valueOf() / 1000000 + "백만")
                 )
+                .selectAll("text")
+                .style("color", "#fff")
                 .selectAll("g")
                 .selectAll("line")
                 .style("stroke", "transparent");

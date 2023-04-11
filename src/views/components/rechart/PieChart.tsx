@@ -23,15 +23,7 @@ export const PieChart = <T extends DataType>(props: PieChartProps<T>) => {
     const [activeIndex, setActiveIndex] = useState<number>(0);
 
     const RADIAN = Math.PI / 180;
-    const renderCustomizedLabel = ({
-        cx,
-        cy,
-        midAngle,
-        innerRadius,
-        outerRadius,
-        percent,
-        index,
-    }: PieLabelRenderProps) => {
+    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: PieLabelRenderProps) => {
         if (innerRadius && outerRadius && midAngle && percent && cx && cy) {
             const radius = Number(innerRadius) + (Number(outerRadius) - Number(innerRadius)) * 0.5;
             const x = Number(cx) + radius * Math.cos(-midAngle * RADIAN);

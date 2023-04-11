@@ -95,6 +95,7 @@ export const GridEntryContainer = () => {
      * @description 박스 리사이징하는 함수
      */
     const onResizeBox = (e: React.SyntheticEvent, item: LayoutItem) => {
+        console.log("onResizeBox");
         const finedItem = layout.find((ly) => ly.i === item.i);
         const removedArray = layout.filter((ly) => ly.i !== item.i);
         const newItem = finedItem
@@ -177,6 +178,7 @@ export const GridEntryContainer = () => {
      * @description 드래그로 박스를 그린 후 클릭 시 실행하는 함수
      */
     const handleClickCanvas = () => {
+        console.log("handleClickCanvas");
         if (isCreating && startPos) {
             handleAddBox(startPos.x, startPos.y, drawedRect.width, drawedRect.height);
             setDrawedRect({ width: 0, height: 0 });

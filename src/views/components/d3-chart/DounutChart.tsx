@@ -63,7 +63,8 @@ export const DounutChart = <T extends DataType>(props: PieChartProps<T>): JSX.El
                     return `translate(${pos})`;
                 })
                 .attr("text-anchor", (d) => ((d.startAngle + d.endAngle) / 2 < Math.PI ? "start" : "end"))
-                .style("font-size", "14px");
+                .style("font-size", "14px")
+                .attr("fill", "#fff");
         }
     }, [data, option?.height, option?.width]);
 
