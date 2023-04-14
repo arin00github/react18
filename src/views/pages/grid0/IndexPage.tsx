@@ -30,11 +30,13 @@ export class Unit {
 /**
  * i 값이 Grid Box의 key 값 하고 일치해야 한다
  */
+
+// (0,0) 에서 시작해서 (12,4)단위를 가지는 박스를 제작
+const unit05 = new Unit(0, 0, 12, 4, "box_4&type=box").make();
 const unit01 = new Unit(0, 4, 4, 5, "box_0&type=line").make();
 const unit02 = new Unit(4, 4, 4, 5, "box_1&type=bar").make();
 const unit03 = new Unit(8, 4, 4, 5, "box_2&type=dounut").make();
 const unit04 = new Unit(4, 9, 8, 6, "box_3&type=bar").make();
-const unit05 = new Unit(0, 0, 12, 4, "box_4&type=box").make();
 const unit06 = new Unit(0, 9, 4, 6, "box_5&type=dounut").make();
 const unit07 = new Unit(12, 0, 4, 9, "box_6&type=box").make();
 

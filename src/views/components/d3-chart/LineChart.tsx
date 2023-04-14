@@ -12,6 +12,7 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
 
     const svgRef = useRef<SVGSVGElement | null>(null);
 
+    // DESC: selectAll(), select(), datum()  데이터를 선택 & 바인딩
     useEffect(() => {
         if (!svgRef.current) return;
         if (data.length > 0 && svgRef.current) {

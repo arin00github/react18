@@ -4,9 +4,7 @@ import { Space } from "antd";
 import { FaTimes } from "react-icons/fa";
 import styled from "styled-components";
 
-import { setStoredGridLayout } from "../../../../redux/grid/grid.slice";
 import { useAppDispatch, useAppSelector } from "../../../../redux/hook";
-import { updateArrayWithObject } from "../../../../service/util/utils";
 import { IconButton } from "../../../../style";
 import { ChartItem } from "../../../../types/ChartItem";
 import { LayoutItem } from "../../../../types/grid-interface";
@@ -22,58 +20,25 @@ interface ChartDrawerProps {
 }
 
 export const ChartDrawer = (props: ChartDrawerProps) => {
-    const dispatch = useAppDispatch();
-
     const { isOpen, onClose, handleChartInsert, layout } = props;
     const draggableRef = useRef<HTMLDivElement | null>(null);
 
-    const [isDragging, setIsDragging] = useState<boolean>(false);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleMouseMove = useCallback((e: MouseEvent) => {
-        // if (isDragging) {
-        //     console.log("mousemove", e.screenX, e.screenY);
-        // }
-    }, []);
-
-    const handleMouseDown = useCallback((e: MouseEvent) => {
-        setIsDragging(true);
-    }, []);
-
-    const handleMouseUp = useCallback(
-        (e: MouseEvent) => {
-            setIsDragging(false);
-
+    const handleDragEnd = useCallback(
+        (e: React.DragEvent<HTMLDivElement>) => {
             const event = e.target as HTMLDivElement;
             const findItem = layout.find((ly) => {
-                const innerWidth = ly.gridInfo.x + ly.gridInfo.w > e.x && ly.gridInfo.x < e.x;
-                const innerHeight = ly.gridInfo.y + ly.gridInfo.h > e.y && ly.gridInfo.y < e.y;
+                const innerWidth = ly.gridInfo.x + ly.gridInfo.w > e.clientX && ly.gridInfo.x < e.clientX;
+                const innerHeight = ly.gridInfo.y + ly.gridInfo.h > e.clientY && ly.gridInfo.y < e.clientY;
                 return innerWidth && innerHeight;
             });
-
-            //const updatedArray = findItem ? updateArrayWithObject(layout, findItem, { type: event.innerText }) : layout;
 
             if (findItem && event.textContent) {
                 handleChartInsert({ ...findItem.gridInfo, type: event.textContent });
             }
-
-            //dispatch(setStoredGridLayout(updatedArray));
         },
 
         [handleChartInsert, layout]
     );
-
-    useEffect(() => {
-        document.addEventListener("dragstart", handleMouseDown);
-        document.addEventListener("dragend", handleMouseUp);
-        document.addEventListener("drag", handleMouseMove);
-
-        return () => {
-            document.removeEventListener("dragend", handleMouseUp);
-            document.removeEventListener("dragstart", handleMouseDown);
-            document.removeEventListener("drag", handleMouseMove);
-        };
-    }, [handleMouseMove, handleMouseUp, handleMouseDown]);
 
     return (
         <StyledDrawer className={isOpen ? "openDrawer" : "closeDrawer"}>
@@ -86,6 +51,7 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
                 {ChartMenu.map((menu, idx) => {
                     return (
                         <StyledCard
+                            onDragEnd={(e) => handleDragEnd(e)}
                             aria-label={menu.type}
                             ref={draggableRef}
                             key={`chart_category_${idx}`}

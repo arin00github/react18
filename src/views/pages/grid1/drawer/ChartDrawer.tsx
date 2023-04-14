@@ -29,55 +29,23 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
     const { isOpen, onClose, handleChartInsert } = props;
     const draggableRef = useRef<HTMLDivElement | null>(null);
 
-    const [isDragging, setIsDragging] = useState<boolean>(false);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleMouseMove = useCallback((e: MouseEvent) => {
-        // if (isDragging) {
-        //     console.log("mousemove", e.screenX, e.screenY);
-        // }
-    }, []);
-
-    const handleMouseDown = useCallback((e: MouseEvent) => {
-        setIsDragging(true);
-    }, []);
-
-    const handleMouseUp = useCallback(
-        (e: MouseEvent) => {
-            setIsDragging(false);
-
+    const handleDragEnd = useCallback(
+        (e: React.DragEvent<HTMLDivElement>) => {
             const event = e.target as HTMLDivElement;
             const findItem = layout.find((ly) => {
-                const innerWidth = ly.x + ly.w > e.x && ly.x < e.x;
-                const innerHeight = ly.y + ly.h > e.y && ly.y < e.y;
+                const innerWidth = ly.x + ly.w > e.clientX && ly.x < e.clientX;
+                const innerHeight = ly.y + ly.h > e.clientY && ly.y < e.clientY;
                 return innerWidth && innerHeight;
             });
-
-            const updatedArray = findItem ? updateArrayWithObject(layout, findItem, { type: event.innerText }) : layout;
-
-            if (findItem) {
-                handleChartInsert({ ...findItem, type: event.innerText });
+            if (findItem && event.textContent) {
+                handleChartInsert({ ...findItem, type: event.textContent });
             }
-
-            dispatch(setStoredGridLayout(updatedArray));
+            // const updatedArray = findItem ? updateArrayWithObject(layout, findItem, { type: event.innerText }) : layout;
+            // dispatch(setStoredGridLayout(updatedArray));
         },
 
-        [dispatch, handleChartInsert, layout]
+        [handleChartInsert, layout]
     );
-
-    useEffect(() => {
-        document.addEventListener("dragstart", handleMouseDown);
-        document.addEventListener("dragend", handleMouseUp);
-        document.addEventListener("drag", handleMouseMove);
-
-        return () => {
-            document.removeEventListener("dragend", handleMouseUp);
-            document.removeEventListener("dragstart", handleMouseDown);
-            document.removeEventListener("drag", handleMouseMove);
-        };
-    }, [handleMouseMove, handleMouseUp, handleMouseDown]);
-
-    console.log("isOpen", isOpen);
 
     return (
         <StyledDrawer className={isOpen ? "openDrawer" : "closeDrawer"}>
@@ -89,7 +57,13 @@ export const ChartDrawer = (props: ChartDrawerProps) => {
                 </Space>
                 {ChartMenu.map((menu, idx) => {
                     return (
-                        <StyledCard ref={draggableRef} key={`chart_category_${idx}`} index={idx + 1} draggable={true}>
+                        <StyledCard
+                            onDragEnd={(e) => handleDragEnd(e)}
+                            ref={draggableRef}
+                            key={`chart_category_${idx}`}
+                            index={idx + 1}
+                            draggable={true}
+                        >
                             {menu.type}
                         </StyledCard>
                     );

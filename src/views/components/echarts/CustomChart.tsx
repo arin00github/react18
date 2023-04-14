@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import * as echarts from "echarts";
 import ReactECharts from "echarts-for-react";
@@ -13,12 +13,9 @@ export const CustomChart = <T extends DataType>(props: AllChartProps<T>) => {
 
     const customOption = useMemo(() => {
         return {
-            gird: {
-                borderColor: "#fff",
-            },
             xAxis: {
                 type: "category",
-                data: chart.data.map((dataset) => (type === "line" ? dataset.date : dataset.name)),
+                data: chart.data.map((dataset) => dataset.date),
                 axisLabel: {
                     color: "#fff",
                 },
@@ -29,34 +26,137 @@ export const CustomChart = <T extends DataType>(props: AllChartProps<T>) => {
                     },
                 },
                 interval: 5,
-                formatter: function (value: any) {
-                    // 눈금의 표시 포맷을 설정할 수 있습니다.
-                    // 예를 들어, 날짜를 'MM-DD' 형식으로 표시하고 싶을 경우
-                    return echarts.format.formatTime("MM-DD", value);
+            },
+            yAxis: {
+                type: "value",
+                axisLabel: {
+                    color: "#ffffff",
+                },
+            },
+            series: [
+                {
+                    data: chart.data.map((dataset) => dataset.value),
+                    type: "line",
+                },
+            ],
+        };
+    }, [chart.data]);
+
+    const barCustomOption = useMemo(() => {
+        return {
+            grid: {
+                borderColor: "#fff",
+            },
+            xAxis: {
+                type: "category",
+                data: chart.data.map((dataset) => dataset.name),
+                axisLabel: {
+                    color: "#fff",
+                    interval: 0,
+                    //rotate: 50,
+                },
+                axisLine: {
+                    show: chart.data.length > 0 ? true : false,
+                    lineStyle: {
+                        color: "#ffffff6b",
+                    },
                 },
             },
             yAxis: {
                 type: "value",
                 axisLabel: {
                     color: "#fff",
+                    formatter: (value: number) => {
+                        return (value / 1000000).toFixed(0) + "백만";
+                    },
                 },
             },
             series: [
                 {
                     data: chart.data.map((dataset) => dataset.value),
-                    type: type,
+                    type: "bar",
                 },
             ],
         };
-    }, [chart.data, type]);
+    }, [chart.data]);
 
-    console.log("customOption", customOption);
+    const pieCustomOption = useMemo(() => {
+        return {
+            title: {
+                text: "Pie Chart Example",
+                left: "center",
+                top: 14,
+                textStyle: {
+                    color: "#ccc",
+                },
+            },
+            legend: {
+                orient: "vertical",
+                left: "left",
+                textStyle: {
+                    color: "#fff",
+                },
+            },
+            tooltip: {
+                trigger: "item",
+                //formatter: "{a} <br/>{b}: {c} ({d}%)",
+            },
+            xAxis: {
+                show: false,
+            },
+            series: [
+                {
+                    radius: "50%",
+                    data: chart.data,
+                    type: "pie",
+                    label: {
+                        show: true,
+                        textBorderWidth: 0,
+                    },
+                    labelLine: {
+                        show: true,
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                        },
+                    },
+                },
+            ],
+        };
+    }, [chart.data]);
+
+    const [option, setOption] = useState<any>(undefined);
+
+    const optionByChartType = useCallback(
+        (type: string) => {
+            switch (type) {
+                case "line":
+                    setOption(customOption);
+                    break;
+                case "bar":
+                    setOption(barCustomOption);
+                    break;
+                case "pie":
+                    setOption(pieCustomOption);
+                    break;
+                default:
+                    setOption(customOption);
+                    return;
+            }
+        },
+        [barCustomOption, customOption, pieCustomOption]
+    );
+
+    useEffect(() => {
+        optionByChartType(type);
+    }, [optionByChartType, type]);
 
     return (
         <>
             {chart.data.length > 0 ? (
                 <ChartBoxWrap background={chart.option?.background}>
-                    <ReactECharts option={customOption} />
+                    {option && <ReactECharts style={{ height: "100%" }} option={option} />}
                 </ChartBoxWrap>
             ) : (
                 <div>no chart</div>

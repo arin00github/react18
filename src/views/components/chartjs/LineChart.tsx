@@ -26,16 +26,20 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>) => {
             plugins: {
                 legend: {
                     position: "top" as const,
+                    labels: {
+                        color: "#fff",
+                    },
                 },
                 title: {
                     display: true,
                     text: option?.title || "No Title",
+                    color: "white",
                 },
             },
             scales: {
                 xAxis: {
                     grid: {
-                        color: "#fff",
+                        color: "#ffffff58",
                     },
                     ticks: {
                         color: "#fff",

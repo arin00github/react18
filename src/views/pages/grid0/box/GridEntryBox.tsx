@@ -26,9 +26,8 @@ export const GridEntryBox = (props: GridEntryProps) => {
 
     const defaultSetting = {
         className: "layout",
-        item: 6,
-        rowHeight: 40,
-        cols: 16,
+        rowHeight: 40, // 높이 1 당 기본 단위
+        cols: 16, // 전체 너비를 16 column으로 나눔
     };
 
     const onLayoutChange = (layout: RGL.Layout[]) => {
@@ -47,7 +46,6 @@ export const GridEntryBox = (props: GridEntryProps) => {
     }
 
     const handleAddNewBox = (layout: Layout[]) => {
-        console.log("layout", layout);
         const ygroup = layout.map((val) => val.y);
         const ySet = removeDuplicates(ygroup);
 
@@ -101,7 +99,8 @@ export const GridEntryBox = (props: GridEntryProps) => {
                 <ReactGridLayout
                     layout={layout}
                     onLayoutChange={onLayoutChange}
-                    {...defaultSetting}
+                    cols={16}
+                    rowHeight={40}
                     compactType="horizontal"
                     verticalCompact={true}
                 >
