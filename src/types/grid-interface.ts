@@ -7,6 +7,20 @@ export type LayoutItem = {
     type: string;
 };
 
+export type BeerDataProps = {
+    id: number;
+    uid: string;
+    brand: string;
+    name: string;
+    style: string;
+    hop: string;
+    yeast: string;
+    malts: string;
+    ibu: string;
+    alcohol: string;
+    big: string;
+};
+
 export type DataType = {
     date: string;
     value: number;

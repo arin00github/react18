@@ -40,16 +40,7 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
                         }}
                     />
                     <YAxis color="#fff" stroke="#ffffffb1" />
-                    {option?.tooltip?.display && (
-                        <Tooltip
-                            content={({ active, payload, label }) => {
-                                if (active) {
-                                    return <StyledTooltip>tooltip</StyledTooltip>;
-                                }
-                                return null;
-                            }}
-                        />
-                    )}
+                    {option?.tooltip?.display && <Tooltip />}
 
                     <Legend />
                     <Line

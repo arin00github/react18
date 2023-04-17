@@ -67,7 +67,7 @@ export const CustomChart = <T extends DataType>(props: AllChartProps<T>) => {
                 axisLabel: {
                     color: "#fff",
                     formatter: (value: number) => {
-                        return (value / 1000000).toFixed(0) + "백만";
+                        return value + "%";
                     },
                 },
             },

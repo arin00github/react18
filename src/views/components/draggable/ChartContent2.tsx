@@ -4,6 +4,7 @@ import { useAppSelector } from "../../../redux/hook";
 import { NewDeplomacyApi } from "../../../service/api/DeplomacyApi";
 import { DataType } from "../../../types/d3-interface";
 import { IDeplomacyList } from "../../../types/deplomacy-interface";
+import { BeerDataProps } from "../../../types/grid-interface";
 import { BarChart } from "../rechart/BarChart";
 import { LineChart } from "../rechart/LineChart";
 import { PieChart } from "../rechart/PieChart";
@@ -39,26 +40,19 @@ export const ChartContent2 = (props: ChartContent2Props): JSX.Element => {
         setData(parsedData);
     };
 
-    const fetchData2 = useCallback(async (): Promise<IDeplomacyList[]> => {
-        const service = NewDeplomacyApi();
-        const index = keyId.replace("box_", "");
-        const response = await service.GetNationInfoList(Number(index));
-        return new Promise((resolve, reject) => {
-            if (response?.resultMsg === "정상") {
-                resolve(response.data);
-            } else {
-                reject(response?.resultMsg);
-            }
-        });
-    }, [keyId]);
+    const fetchData2 = useCallback(async (): Promise<BeerDataProps[]> => {
+        const response = await fetch("https://random-data-api.com/api/v2/beers?size=8");
+        const result = await response.json();
+        return result;
+    }, []);
 
     const updateBarData = useCallback(async () => {
         fetchData2()
             .then((result) => {
-                const reMakeArr = result.map((nation) => {
+                const reMakeArr = result.map((beer) => {
                     return {
-                        name: nation.country_nm,
-                        value: Number(nation.export_amount),
+                        name: beer.brand,
+                        value: Number(beer.alcohol.replace("%", "")),
                         date: "",
                     };
                 });
@@ -92,7 +86,7 @@ export const ChartContent2 = (props: ChartContent2Props): JSX.Element => {
         return <>{data && <BarChart data={data} />}</>;
     }
     if (chartType === "pie") {
-        return <>{data && <PieChart data={data.filter((item) => item.value > 50000000)} />}</>;
+        return <>{data && <PieChart data={data} />}</>;
     }
     return <></>;
 };

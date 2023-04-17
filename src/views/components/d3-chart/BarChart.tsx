@@ -64,7 +64,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
             const xAxisGroup = d3.axisBottom(x_scale);
             x_scale.domain(data.map((d) => d.name));
 
-            //y축 설정
+            //DESC: y축 설정
             const y_scale = d3.scaleLinear().range([height, 0]);
             y_scale.domain([0, d3.max(data, (d) => d.value) || 6800000]);
             const yAxisGroup = d3.axisLeft(y_scale);
@@ -72,7 +72,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
             grid.selectAll(".tick").select("text").attr("fill", "#fff");
             grid.selectAll(".domain").attr("stroke", "#fff");
 
-            // y 축 그리드선 추가
+            //DESC: y 축 그리드선 추가
             grid.append("g")
                 .attr("class", "grid-x")
                 .attr("transform", `translate(0, 0)`)
@@ -84,12 +84,12 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .attr("y1", 0)
                 .attr("x2", width)
                 .attr("y2", 0)
-                .style("stroke-width", "2px")
-                .style("stroke", "white")
+                .style("stroke-width", "1px")
+                .style("stroke", "#fff")
                 //.style("stroke", "#ececec37")
                 .style("stroke-opacity", 0.7);
 
-            //axisBox 안에 x축 추가
+            //DESC: axisBox 안에 x축 추가
             axisBox
                 .append("g")
                 .call(xAxisGroup)
@@ -99,7 +99,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .style("text-anchor", "middle")
                 .attr("dy", "10px");
 
-            //axisBox 안에 y축 추가
+            //DESC: axisBox 안에 y축 추가
             axisBox
                 .append("g")
                 .attr("y", () => 0)
@@ -108,7 +108,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                     yAxisGroup
                         .ticks(8)
                         .tickSizeOuter(0)
-                        .tickFormat((d: NumberValue) => d.valueOf() / 1000000 + "백만")
+                        .tickFormat((d: NumberValue) => d.valueOf() + "%")
                 )
                 .selectAll("text")
                 .style("color", "#fff")
@@ -116,42 +116,45 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                 .selectAll("line")
                 .style("stroke", "transparent");
 
-            overBox
-                .selectAll("rect")
-                .data(data)
-                .join("rect")
-                .attr("x", (d) => x_scale(d.name) || "")
-                .attr("y", () => 0)
-                .attr("fill", "red")
-                .attr("opacity", "5%")
-                .attr("width", x_scale.bandwidth())
-                .attr("height", () => height)
-                .on("mouseover", function (event: MouseEvent, d: T) {
-                    d3.select(this).attr("opacity", "50%");
-                    tooltip
-                        .style("opacity", 1)
-                        .style("position", "absolute")
-                        .style("background", "#fff")
-                        .style("font-size", "12px")
-                        .style("left", event.offsetX + "px")
-                        .style("top", event.offsetY + "px")
-                        .html(`Name: ${d.name}<br/>Value: ${d.value}`);
-                })
-                .on("mousemove", (event: MouseEvent, d: T) => {
-                    tooltip
-                        .style("opacity", 1)
-                        .style("position", "absolute")
-                        .style("background", "#fff")
-                        .style("font-size", "12px")
-                        .style("left", event.offsetX + "px")
-                        .style("top", event.offsetY + "px")
-                        .html(`Name: ${d.name}<br/>Value: ${d.value}`);
-                })
-                .on("mouseout", function () {
-                    d3.select(this).attr("opacity", "5%");
-                    tooltip.style("opacity", 0);
-                });
+            // //DESC: mouseover 이벤트 시각화 설정
+            // overBox
+            //     .selectAll("rect")
+            //     .data(data)
+            //     .join("rect")
+            //     .attr("x", (d) => x_scale(d.name) || "")
+            //     .attr("y", () => 0)
+            //     .attr("fill", "red")
+            //     .attr("opacity", "5%")
+            //     .attr("width", x_scale.bandwidth())
+            //     .attr("height", () => height)
+            //     .on("mouseover", function (event: MouseEvent, d: T) {
+            //         console.log("d3 mouseover");
+            //         d3.select(this).attr("opacity", "50%");
+            //         tooltip
+            //             .style("opacity", 1)
+            //             .style("position", "absolute")
+            //             .style("background", "#fff")
+            //             .style("font-size", "12px")
+            //             .style("left", event.offsetX + "px")
+            //             .style("top", event.offsetY + "px")
+            //             .html(`Name: ${d.name}<br/>Value: ${d.value}`);
+            //     })
+            //     .on("mousemove", (event: MouseEvent, d: T) => {
+            //         tooltip
+            //             .style("opacity", 1)
+            //             .style("position", "absolute")
+            //             .style("background", "#fff")
+            //             .style("font-size", "12px")
+            //             .style("left", event.offsetX + "px")
+            //             .style("top", event.offsetY + "px")
+            //             .html(`Name: ${d.name}<br/>Value: ${d.value}`);
+            //     })
+            //     .on("mouseout", function () {
+            //         d3.select(this).attr("opacity", "5%");
+            //         tooltip.style("opacity", 0);
+            //     });
 
+            //DESC: 막대 요소 시각화 설정
             barBox
                 .selectAll("rect")
                 .data(data)

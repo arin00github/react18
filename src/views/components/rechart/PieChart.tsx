@@ -23,8 +23,10 @@ export const PieChart = <T extends DataType>(props: PieChartProps<T>) => {
     const [activeIndex, setActiveIndex] = useState<number>(0);
 
     const RADIAN = Math.PI / 180;
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: PieLabelRenderProps) => {
-        if (innerRadius && outerRadius && midAngle && percent && cx && cy) {
+    const renderCustomizedLabel = (params: PieLabelRenderProps) => {
+        const { cx, cy, midAngle, innerRadius, outerRadius, percent } = params;
+
+        if (outerRadius && midAngle && percent && cx && cy) {
             const radius = Number(innerRadius) + (Number(outerRadius) - Number(innerRadius)) * 0.5;
             const x = Number(cx) + radius * Math.cos(-midAngle * RADIAN);
             const y = Number(cy) + radius * Math.sin(-midAngle * RADIAN);
@@ -46,26 +48,23 @@ export const PieChart = <T extends DataType>(props: PieChartProps<T>) => {
     return (
         <ChartBoxWrap background={option?.background}>
             {option?.title && <ChartTitle>{option.title}</ChartTitle>}
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
                 <PieChartGraph width={260} height={260}>
                     <Pie
                         activeIndex={activeIndex}
-                        //activeShape={renderActiveShape}
                         data={data}
                         cx="50%"
                         cy="50%"
                         labelLine={false}
                         label={renderCustomizedLabel}
-                        innerRadius={10}
-                        outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
-                        //onMouseEnter={handleChangeActiveIndex}
                     >
                         {data.map((dataItem, index) => (
                             <Cell key={`key-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                     </Pie>
+                    <Tooltip />
                 </PieChartGraph>
             </ResponsiveContainer>
         </ChartBoxWrap>

@@ -126,7 +126,7 @@ export const GridEntryContainer = () => {
 
         dispatchLayout({ type: "ADD_ITEM", payload: newBox });
         dispatch(setStoredGridLayout([...layout, newBox]));
-        setLayout2([...layout, newBox]);
+        //setLayout2([...layout, newBox]);
     };
 
     /**

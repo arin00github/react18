@@ -34,7 +34,7 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>): JSX.Eleme
                         fontSize={10}
                         color="#fff"
                         stroke="#ffffffb1"
-                        tickFormatter={(data: number) => data.toString().replace("0000", "") + "만"}
+                        tickFormatter={(data: number) => data.toString() + "%"}
                     />
                     <Tooltip />
                     <Legend />

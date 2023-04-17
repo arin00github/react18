@@ -26,12 +26,13 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
             //svgRef.current에 값이 있으면 다 지우기
             d3.select(svgRef.current).selectAll("*").remove();
 
+            //DESC: DOM 요소 선택
             const svg = d3.select(svgRef.current);
 
             //grid: x축, y축을 가지고 있는 g 태그
             const grid = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
-            //x축 범위 설정 & 대입 & grid에 도입
+            //DESC: x축 범위 설정 & 대입 & grid에 도입
             const xRange = d3
                 .scaleTime()
                 .domain(d3.extent(data, (d) => new Date(d.date)) as [Date, Date])
@@ -43,7 +44,7 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
                 .selectAll("text")
                 .style("fill", "#fff");
 
-            //y축 범위 설정 & 대입 & grid에 도입
+            //DESC: y축 범위 설정 & 대입 & grid에 도입
             const yRange = d3
                 .scaleLinear()
                 .domain([0, d3.max(data, (d) => d.value) as number])
@@ -54,13 +55,13 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
             grid.selectAll(".tick").select("line").attr("stroke", "#fff");
             grid.selectAll(".domain").attr("stroke", "#fff");
 
-            //line 값 설정하기
+            //DESC: line 값 설정하기
             const lineGraph = d3
                 .line<DataType>()
                 .x((d) => xRange(new Date(d.date)))
                 .y((d) => yRange(d.value));
 
-            //path로 lineGraph 그리기
+            //DESC: path로 lineGraph 그리기
             svg.append("path")
                 .datum(data)
                 .attr("transform", `translate(${margin.left},${margin.top})`)
@@ -84,7 +85,7 @@ export const LineChart = <T extends DataType>(props: LineChartProps<T>): JSX.Ele
             // 마우스 이벤트 처리를 위한 툴팁 생성
             focus.append("text").attr("x", 9).attr("dy", ".35em");
 
-            // 마우스 이벤트 처리
+            //DESC: 마우스 이벤트 처리
             const mousemove = (thisReact: SVGRectElement) => {
                 const x0 = new Date(xRange.invert(d3.pointer(thisReact)[0]));
 

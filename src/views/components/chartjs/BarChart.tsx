@@ -54,16 +54,16 @@ export const BarChart = <T extends DataType>(props: BarChartProps<T>) => {
                     },
                     ticks: {
                         color: "#fff",
-                        callback(tickValue) {
-                            const million = 1000000;
+                        // callback(tickValue) {
+                        //     const million = 1000000;
 
-                            if (typeof tickValue === "number") {
-                                console.log("tickValue / million", tickValue / million);
-                                return (tickValue / million).toLocaleString() + " 만";
-                            } else {
-                                return tickValue;
-                            }
-                        },
+                        //     if (typeof tickValue === "number") {
+                        //         console.log("tickValue / million", tickValue / million);
+                        //         return (tickValue / million).toLocaleString() + " 만";
+                        //     } else {
+                        //         return tickValue;
+                        //     }
+                        // },
                     },
                 },
             },
